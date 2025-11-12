@@ -41,3 +41,9 @@ typedef struct Enemy
 	bool IsAlive;
     float Timer;
 } Enemy;
+
+extern Bullet bullets[BULLET_COUNT];
+extern Enemy enemies[ENEMY_COUNT];
+
+Bullet *SpawnBullet(Vector2 pos, float angle, float speed, float size, bool fromPlayer, int patternID);
+Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int patternID);

@@ -10,12 +10,12 @@ BulletPatternFn bulletPatterns[] = {
     BulletPattern_Sine,
 };
 
-void EnemyPattern_Idle(Enemy *e, Bullet bullets[], float dt)
+void EnemyPattern_Idle(Enemy *e, float dt)
 {
     e->Position.y += e->MovementSpeed * dt * 0.25f;
 }
 
-void EnemyPattern_Spiral(Enemy *e, Bullet bullets[], float dt)
+void EnemyPattern_Spiral(Enemy *e, float dt)
 {
     e->Timer += dt;
     if (fmodf(e->Timer, 1.0f) < dt)

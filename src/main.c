@@ -8,14 +8,6 @@ int main(void)
 
     SetTargetFPS(60);
 
-    Bullet bulletPool[BULLET_COUNT];
-    int bulletIndex = 0;
-    int bulletCount = 0;
-
-    Enemy enemyPool[ENEMY_COUNT];
-    int enemyIndex = 0;
-    int enemyCount = 0;
-
     Player player = {0};
     player.IsAlive = true;
     player.FireTimer = 0;
@@ -49,21 +41,7 @@ int main(void)
                 if (player.FireTimer >= player.FireRate)
                 {
                     player.FireTimer = 0;
-
-                    Bullet *b = &bulletPool[bulletIndex];
-                    b->Position = player.Position;
-                    b->FromPlayer = true;
-                    b->IsAlive = true;
-                    b->MovementSpeed = 2048;
-                    b->Size = 32;
-                    b->Angle = 90;
-                    b->PatternID = 0;
-
-                    bulletCount++;
-                    bulletIndex++;
-
-                    if (bulletIndex >= BULLET_COUNT)
-                        bulletIndex = 0;
+                    SpawnBullet(player.Position, 90, 2048, 32, true, 0);
                 }
             }
             else
@@ -82,19 +60,12 @@ int main(void)
 
         if (IsKeyPressed(KEY_Q))
         {
-            Enemy *testEnemy = &enemyPool[0];
-            testEnemy->Position = (Vector2){VIRTUAL_WIDTH * 0.5, 10};
-            testEnemy->MovementSpeed = 512;
-            testEnemy->HP = 10;
-            testEnemy->Direction = -90;
-            testEnemy->Size = 64;
-            testEnemy->IsAlive = true;
-            testEnemy->PatternID = 0;
+            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 512, 64, 10, 0);
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
         {
-            Bullet *b = &bulletPool[i];
+            Bullet *b = &bullets[i];
             if (!b->IsAlive)
                 continue;
 
@@ -103,7 +74,6 @@ int main(void)
             if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
             {
                 b->IsAlive = false;
-                bulletCount--;
             }
             else
             {
@@ -111,16 +81,14 @@ int main(void)
                 {
                     for (int i = 0; i < ENEMY_COUNT; i++)
                     {
-                        Enemy *e = &enemyPool[i];
+                        Enemy *e = &enemies[i];
                         if (!e->IsAlive)
                             continue;
 
                         if (CheckCollisionCircles(e->Position, e->Size, b->Position, b->Size))
                         {
                             e->HP--;
-
                             b->IsAlive = false;
-                            bulletCount--;
                             break;
                         }
                     }
@@ -130,7 +98,6 @@ int main(void)
                     if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Size))
                     {
                         b->IsAlive = false;
-                        bulletCount--;
                         break;
                     }
                 }
@@ -139,16 +106,15 @@ int main(void)
 
         for (int i = 0; i < ENEMY_COUNT; i++)
         {
-            Enemy *e = &enemyPool[i];
+            Enemy *e = &enemies[i];
             if (!e->IsAlive)
                 continue;
 
-            enemyPatterns[e->PatternID](e, bulletPool, dt);
+            enemyPatterns[e->PatternID](e, dt);
 
             if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
             {
                 e->IsAlive = false;
-                enemyCount--;
                 continue;
             }
         }
@@ -159,7 +125,7 @@ int main(void)
 
             for (int i = 0; i < BULLET_COUNT; i++)
             {
-                Bullet *b = &bulletPool[i];
+                Bullet *b = &bullets[i];
                 if (!b->IsAlive)
                     continue;
 
@@ -168,7 +134,7 @@ int main(void)
 
             for (int i = 0; i < ENEMY_COUNT; i++)
             {
-                Enemy *e = &enemyPool[i];
+                Enemy *e = &enemies[i];
                 if (!e->IsAlive)
                     continue;
 
@@ -183,7 +149,6 @@ int main(void)
             EndScreen();
         }
 
-        DrawText(TextFormat("Bullet index: %d\nBullet count: %d", bulletIndex, bulletCount), 4, 20, 28, RED);
         DrawScreen();
     }
 
