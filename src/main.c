@@ -56,7 +56,8 @@ int main(void)
                     b->IsAlive = true;
                     b->MovementSpeed = 2048;
                     b->Size = 32;
-                    b->Angle = 0;
+                    b->Angle = 90;
+                    b->PatternID = 0;
 
                     bulletCount++;
                     bulletIndex++;
@@ -88,6 +89,7 @@ int main(void)
             testEnemy->Direction = -90;
             testEnemy->Size = 64;
             testEnemy->IsAlive = true;
+            testEnemy->PatternID = 0;
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
@@ -96,7 +98,8 @@ int main(void)
             if (!b->IsAlive)
                 continue;
 
-            b->Position = Vector2Add(b->Position, (Vector2){0, -b->MovementSpeed * dt});
+            bulletPatterns[b->PatternID](b, dt);
+
             if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
             {
                 b->IsAlive = false;
@@ -140,17 +143,14 @@ int main(void)
             if (!e->IsAlive)
                 continue;
 
+            enemyPatterns[e->PatternID](e, bulletPool, dt);
+
             if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
             {
                 e->IsAlive = false;
                 enemyCount--;
                 continue;
             }
-
-            float rad = e->Direction * DEG2RAD;
-            Vector2 to = (Vector2){cosf(rad), -sinf(rad)};
-
-            e->Position = Vector2Add(e->Position, Vector2Scale(to, e->MovementSpeed * dt));
         }
 
         BeginScreen();

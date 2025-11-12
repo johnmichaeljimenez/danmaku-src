@@ -22,8 +22,10 @@ typedef struct Bullet
 	float Angle;
 	float MovementSpeed;
 	float Size;
+    int PatternID;
 
 	bool FromPlayer;
+    float Timer;
 	bool IsAlive;
 } Bullet;
 
@@ -34,6 +36,8 @@ typedef struct Enemy
 	float MovementSpeed;
 	float Size;
 	int HP;
+    int PatternID;
 
 	bool IsAlive;
+    float Timer;
 } Enemy;
