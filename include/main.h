@@ -17,3 +17,4 @@
 
 #include "screen.h"
 #include "data.h"
+#include "patterns.h"
