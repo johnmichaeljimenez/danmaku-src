@@ -2,6 +2,7 @@
 
 #include "main.h"
 #define BULLET_COUNT 64
+#define ENEMY_COUNT 64
 
 typedef struct Player
 {
@@ -25,3 +26,14 @@ typedef struct Bullet
 	bool FromPlayer;
 	bool IsAlive;
 } Bullet;
+
+typedef struct Enemy
+{
+	Vector2 Position;
+	float Direction;
+	float MovementSpeed;
+	float Size;
+	int HP;
+
+	bool IsAlive;
+} Enemy;

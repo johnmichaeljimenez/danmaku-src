@@ -12,6 +12,10 @@ int main(void)
     int bulletIndex = 0;
     int bulletCount = 0;
 
+    Enemy enemyPool[ENEMY_COUNT];
+    int enemyIndex = 0;
+    int enemyCount = 0;
+
     Player player = {0};
     player.IsAlive = true;
     player.FireTimer = 0;
@@ -87,6 +91,41 @@ int main(void)
                 b->IsAlive = false;
                 bulletCount--;
             }
+            else
+            {
+                if (b->FromPlayer)
+                {
+                    for (int i = 0; i < ENEMY_COUNT; i++)
+                    {
+                        Enemy *e = &enemyPool[i];
+                        if (e->IsAlive)
+                            continue;
+
+                        if (CheckCollisionCircles(e->Position, e->Size, b->Position, b->Size))
+                        {
+                            e->HP--;
+                            if (e->HP <= 0)
+                            {
+                                e->IsAlive = false;
+                                enemyCount--;
+                            }
+
+                            b->IsAlive = false;
+                            bulletCount--;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Size))
+                    {
+                        b->IsAlive = false;
+                        bulletCount--;
+                        break;
+                    }
+                }
+            }
         }
 
         BeginScreen();
@@ -100,6 +139,15 @@ int main(void)
                     continue;
 
                 DrawCircleV(b->Position, b->Size, b->FromPlayer ? WHITE : RED);
+            }
+
+            for (int i = 0; i < ENEMY_COUNT; i++)
+            {
+                Enemy *e = &enemyPool[i];
+                if (!e->IsAlive)
+                    continue;
+
+                DrawCircleV(e->Position, e->Size, RED);
             }
 
             DrawCircleV(
