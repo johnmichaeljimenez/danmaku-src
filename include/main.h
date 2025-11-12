@@ -15,3 +15,4 @@
 #include <time.h>
 
 #include "screen.h"
+#include "data.h"
