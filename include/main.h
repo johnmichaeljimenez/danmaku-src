@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <math.h>
 #include <emscripten/emscripten.h>
 #include <time.h>
 

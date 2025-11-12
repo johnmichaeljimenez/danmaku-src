@@ -79,6 +79,17 @@ int main(void)
             player.Position = Vector2Clamp(player.Position, (Vector2){0, 0}, (Vector2){VIRTUAL_WIDTH, VIRTUAL_HEIGHT});
         }
 
+        if (IsKeyPressed(KEY_Q))
+        {
+            Enemy *testEnemy = &enemyPool[0];
+            testEnemy->Position = (Vector2){VIRTUAL_WIDTH * 0.5, 10};
+            testEnemy->MovementSpeed = 512;
+            testEnemy->HP = 10;
+            testEnemy->Direction = -90;
+            testEnemy->Size = 64;
+            testEnemy->IsAlive = true;
+        }
+
         for (int i = 0; i < BULLET_COUNT; i++)
         {
             Bullet *b = &bulletPool[i];
@@ -98,17 +109,12 @@ int main(void)
                     for (int i = 0; i < ENEMY_COUNT; i++)
                     {
                         Enemy *e = &enemyPool[i];
-                        if (e->IsAlive)
+                        if (!e->IsAlive)
                             continue;
 
                         if (CheckCollisionCircles(e->Position, e->Size, b->Position, b->Size))
                         {
                             e->HP--;
-                            if (e->HP <= 0)
-                            {
-                                e->IsAlive = false;
-                                enemyCount--;
-                            }
 
                             b->IsAlive = false;
                             bulletCount--;
@@ -126,6 +132,25 @@ int main(void)
                     }
                 }
             }
+        }
+
+        for (int i = 0; i < ENEMY_COUNT; i++)
+        {
+            Enemy *e = &enemyPool[i];
+            if (!e->IsAlive)
+                continue;
+
+            if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
+            {
+                e->IsAlive = false;
+                enemyCount--;
+                continue;
+            }
+
+            float rad = e->Direction * DEG2RAD;
+            Vector2 to = (Vector2){cosf(rad), -sinf(rad)};
+
+            e->Position = Vector2Add(e->Position, Vector2Scale(to, e->MovementSpeed * dt));
         }
 
         BeginScreen();
