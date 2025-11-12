@@ -1,11 +1,12 @@
 #pragma once
 
 #include "main.h"
+#define BULLET_COUNT 64
 
 typedef struct Player
 {
 	Vector2 Position;
-	Vector2 HurtboxSize;
+	float HurtboxSize;
 	
 	float MovementSpeed;
 	float FireRate;
