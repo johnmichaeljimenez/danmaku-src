@@ -60,7 +60,7 @@ int main(void)
 
         if (IsKeyPressed(KEY_Q))
         {
-            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 512, 64, 10, 0);
+            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 512, 64, 10, 0, 0);
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
@@ -110,7 +110,10 @@ int main(void)
             if (!e->IsAlive)
                 continue;
 
-            enemyPatterns[e->PatternID](e, dt);
+            enemyMovementPatterns[e->MovementPatternID](e, dt);
+
+            if (e->AttackPatternID >= 0)
+                enemyAttackPatterns[e->AttackPatternID](e, dt);
 
             if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
             {

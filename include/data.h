@@ -1,7 +1,7 @@
 #pragma once
 
 #include "main.h"
-#define BULLET_COUNT 64
+#define BULLET_COUNT 2048
 #define ENEMY_COUNT 64
 
 typedef struct Player
@@ -36,7 +36,8 @@ typedef struct Enemy
 	float MovementSpeed;
 	float Size;
 	int HP;
-    int PatternID;
+    int MovementPatternID;
+    int AttackPatternID;
 
 	bool IsAlive;
     float Timer;
@@ -46,4 +47,4 @@ extern Bullet bullets[BULLET_COUNT];
 extern Enemy enemies[ENEMY_COUNT];
 
 Bullet *SpawnBullet(Vector2 pos, float angle, float speed, float size, bool fromPlayer, int patternID);
-Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int patternID);
+Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int movementPatternID, int attackPatternID);

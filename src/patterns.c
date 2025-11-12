@@ -1,8 +1,11 @@
 #include "patterns.h"
 
-EnemyPatternFn enemyPatterns[] = {
-    EnemyPattern_Idle,
-    EnemyPattern_Spiral,
+EnemyPatternFn enemyMovementPatterns[] = {
+    EnemyMovementPattern_Idle,
+};
+
+EnemyPatternFn enemyAttackPatterns[] = {
+    EnemyAttackPattern_Spiral,
 };
 
 BulletPatternFn bulletPatterns[] = {
@@ -10,29 +13,21 @@ BulletPatternFn bulletPatterns[] = {
     BulletPattern_Sine,
 };
 
-void EnemyPattern_Idle(Enemy *e, float dt)
+void EnemyMovementPattern_Idle(Enemy *e, float dt)
 {
     e->Position.y += e->MovementSpeed * dt * 0.25f;
 }
 
-void EnemyPattern_Spiral(Enemy *e, float dt)
+void EnemyAttackPattern_Spiral(Enemy *e, float dt)
 {
     e->Timer += dt;
-    if (fmodf(e->Timer, 1.0f) < dt)
+    if (fmodf(e->Timer, 0.1f) < dt)
     {
-        for (int i = 0; i < BULLET_COUNT; i++)
+        float baseAngle = e->Timer * 180;
+        for (int i = 0; i < 10; i++)
         {
-            if (!bullets[i].IsAlive)
-            {
-                bullets[i].IsAlive = true;
-                bullets[i].FromPlayer = false;
-                bullets[i].Position = e->Position;
-                bullets[i].Angle = e->Timer * 240;
-                bullets[i].MovementSpeed = 512;
-                bullets[i].Size = 12;
-                bullets[i].PatternID = 0;
-                break;
-            }
+            float angle = baseAngle + (360.0f / 10) * i;
+            SpawnBullet(e->Position, angle, 400, 12, false, 0);
         }
     }
 }

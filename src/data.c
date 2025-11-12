@@ -25,7 +25,7 @@ Bullet *SpawnBullet(Vector2 pos, float angle, float speed, float size, bool from
 	return NULL;
 }
 
-Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int patternID)
+Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int movementPatternID, int attackPatternID)
 {
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -38,7 +38,8 @@ Enemy *SpawnEnemy(Vector2 pos, float dir, float speed, float size, int hp, int p
             e->MovementSpeed = speed;
             e->Size = size;
             e->HP = hp;
-            e->PatternID = patternID;
+            e->MovementPatternID = movementPatternID;
+            e->AttackPatternID = attackPatternID;
             e->Timer = 0;
             return e;
         }
