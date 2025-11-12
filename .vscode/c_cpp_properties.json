@@ -1,0 +1,18 @@
+{
+	"version": 4,
+	"configurations": [
+		{
+			"name": "Emscripten",
+			"includePath": [
+				"${workspaceFolder}/include",
+				"${workspaceFolder}/src",
+				"E:/Projects/raylib-src/src",
+				"E:/Programs/emsdk/upstream/emscripten/system/include"
+			],
+			"defines": [],
+			"compilerPath": "emcc",
+			"cStandard": "c11",
+			"intelliSenseMode": "gcc-x64"
+		}
+	]
+}
