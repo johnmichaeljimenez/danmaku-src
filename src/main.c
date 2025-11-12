@@ -8,14 +8,6 @@ int main(void)
 
     SetTargetFPS(60);
 
-    Player player = {0};
-    player.IsAlive = true;
-    player.FireTimer = 0;
-    player.FireRate = 0.1f;
-    player.HurtboxSize = 48;
-    player.MovementSpeed = 512;
-    player.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100};
-
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();
@@ -41,7 +33,7 @@ int main(void)
                 if (player.FireTimer >= player.FireRate)
                 {
                     player.FireTimer = 0;
-                    SpawnBullet(player.Position, 90, 2048, 32, true, 0);
+                    SpawnBullet(player.Position, 90, 2048, 32, true, BulletPattern_Straight);
                 }
             }
             else
@@ -60,7 +52,7 @@ int main(void)
 
         if (IsKeyPressed(KEY_Q))
         {
-            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 512, 64, 10, 0, 0);
+            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 128, 64, 10, EnemyMovementPattern_StraightDown, EnemyAttackPattern_Aimed);
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
@@ -69,7 +61,7 @@ int main(void)
             if (!b->IsAlive)
                 continue;
 
-            bulletPatterns[b->PatternID](b, dt);
+            b->Pattern(b, dt);
 
             if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
             {
@@ -110,10 +102,10 @@ int main(void)
             if (!e->IsAlive)
                 continue;
 
-            enemyMovementPatterns[e->MovementPatternID](e, dt);
+            e->MovementPattern(e, dt);
 
-            if (e->AttackPatternID >= 0)
-                enemyAttackPatterns[e->AttackPatternID](e, dt);
+            if (e->AttackPattern != NULL)
+                e->AttackPattern(e, dt);
 
             if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
             {

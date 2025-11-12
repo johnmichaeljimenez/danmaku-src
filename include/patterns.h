@@ -12,8 +12,8 @@ extern EnemyPatternFn enemyMovementPatterns[];
 extern EnemyPatternFn enemyAttackPatterns[];
 extern BulletPatternFn bulletPatterns[];
 
-void EnemyMovementPattern_Idle(Enemy *e, float dt);
-void EnemyAttackPattern_Spiral(Enemy *e, float dt);
+void EnemyMovementPattern_StraightDown(Enemy *e, float dt);
+
+void EnemyAttackPattern_Aimed(Enemy *e, float dt);
 
 void BulletPattern_Straight(Bullet *b, float dt);
-void BulletPattern_Sine(Bullet *b, float dt);
