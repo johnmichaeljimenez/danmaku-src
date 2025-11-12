@@ -23,7 +23,7 @@ int main(void)
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();
-        
+
         if (player.IsAlive)
         {
             Vector2 inputMovement = Vector2Zero();
@@ -56,6 +56,9 @@ int main(void)
 
                     bulletCount++;
                     bulletIndex++;
+
+                    if (bulletIndex >= BULLET_COUNT)
+                        bulletIndex = 0;
                 }
             }
             else
@@ -70,20 +73,19 @@ int main(void)
             player.Position.y += inputMovement.y * dt * player.MovementSpeed;
 
             player.Position = Vector2Clamp(player.Position, (Vector2){0, 0}, (Vector2){VIRTUAL_WIDTH, VIRTUAL_HEIGHT});
+        }
 
-            for (int i = 0; i < BULLET_COUNT; i++)
+        for (int i = 0; i < BULLET_COUNT; i++)
+        {
+            Bullet *b = &bulletPool[i];
+            if (!b->IsAlive)
+                continue;
+
+            b->Position = Vector2Add(b->Position, (Vector2){0, -b->MovementSpeed * dt});
+            if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
             {
-                Bullet *b = &bulletPool[i];
-                if (!b->IsAlive)
-                    continue;
-
-                b->Position = Vector2Add(b->Position, (Vector2){0, -b->MovementSpeed * dt});
-                if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
-                {
-                    b->IsAlive = false;
-                    bulletIndex = i;
-                    bulletCount--;
-                }
+                b->IsAlive = false;
+                bulletCount--;
             }
         }
 
