@@ -2,3 +2,4 @@
 dist/*.*
 *.zip
 deploy.py
+settings.json
