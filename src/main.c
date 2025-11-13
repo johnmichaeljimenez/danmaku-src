@@ -33,7 +33,7 @@ int main(void)
                 if (player.FireTimer >= player.FireRate)
                 {
                     player.FireTimer = 0;
-                    SpawnBullet(player.Position, 90, 2048, 32, true, BulletPattern_Straight);
+                    SpawnBullet(player.Position, 90, true, &BT_PLAYER);
                 }
             }
             else
@@ -52,7 +52,7 @@ int main(void)
 
         if (IsKeyPressed(KEY_Q))
         {
-            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, 128, 64, 10, EnemyMovementPattern_StraightDown, EnemyAttackPattern_Aimed);
+            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, &ET_TEST);
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
@@ -61,7 +61,7 @@ int main(void)
             if (!b->IsAlive)
                 continue;
 
-            b->Pattern(b, dt);
+            b->Type->Pattern(b, dt);
 
             if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
             {
@@ -77,7 +77,7 @@ int main(void)
                         if (!e->IsAlive)
                             continue;
 
-                        if (CheckCollisionCircles(e->Position, e->Size, b->Position, b->Size))
+                        if (CheckCollisionCircles(e->Position, e->Type->Size, b->Position, b->Type->Size))
                         {
                             e->HP--;
                             b->IsAlive = false;
@@ -87,7 +87,7 @@ int main(void)
                 }
                 else
                 {
-                    if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Size))
+                    if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Type->Size))
                     {
                         b->IsAlive = false;
                         break;
@@ -102,10 +102,10 @@ int main(void)
             if (!e->IsAlive)
                 continue;
 
-            e->MovementPattern(e, dt);
+            e->Type->MovementPattern(e, dt);
 
-            if (e->AttackPattern != NULL)
-                e->AttackPattern(e, dt);
+            if (e->Type->AttackPattern != NULL)
+                e->Type->AttackPattern(e, dt);
 
             if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
             {
@@ -124,7 +124,7 @@ int main(void)
                 if (!b->IsAlive)
                     continue;
 
-                DrawCircleV(b->Position, b->Size, b->FromPlayer ? WHITE : RED);
+                DrawCircleV(b->Position, b->Type->Size, b->FromPlayer ? WHITE : RED);
             }
 
             for (int i = 0; i < ENEMY_COUNT; i++)
@@ -133,7 +133,7 @@ int main(void)
                 if (!e->IsAlive)
                     continue;
 
-                DrawCircleV(e->Position, e->Size, RED);
+                DrawCircleV(e->Position, e->Type->Size, RED);
             }
 
             DrawCircleV(
