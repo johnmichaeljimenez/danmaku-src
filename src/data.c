@@ -63,7 +63,6 @@ BulletType BT_ENEMY_GENERIC = (BulletType){
 };
 
 EnemyType ET_TEST = (EnemyType){
-    .AttackPattern = NULL,
     .HP = 10,
     .MovementPattern = EnemyMovementPattern_StraightDown,
     .AttackPattern = EnemyAttackPattern_Aimed,

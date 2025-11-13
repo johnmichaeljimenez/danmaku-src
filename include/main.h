@@ -2,6 +2,7 @@
 
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #define max(a, b) ((a) > (b) ? (a) : (b))
+#define arraySize(a) (sizeof(a) / sizeof *(a))
 #define wrappedIndex(start, offset, count, direction) (start + offset * direction + count) % count
 
 #include <raylib.h>
@@ -18,3 +19,4 @@
 #include "screen.h"
 #include "data.h"
 #include "patterns.h"
+#include "levels.h"
