@@ -44,6 +44,9 @@ void SetLevel(int index)
 
 void UpdateLevel(float dt)
 {
+	if (!player.IsAlive || IsCutscene)
+		return;
+
 	levelTimer += dt;
 	for (int i = 0; i < CurrentLevel->Count; i++)
 	{

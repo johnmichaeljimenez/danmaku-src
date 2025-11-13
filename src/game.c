@@ -1,5 +1,8 @@
 #include "game.h"
 
+bool IsCutscene;
+Vector2 lastPointerPos;
+
 void GameStart(int level)
 {
 	memset(bullets, 0, sizeof(bullets));
@@ -15,6 +18,7 @@ void GameStart(int level)
 		.MovementSpeed = 512,
 		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}};
 
+	lastPointerPos = player.Position;
 	SetLevel(level);
 }
 
@@ -39,6 +43,16 @@ void GameUpdate(float dt)
 			inputMovement.y = -1;
 		else if (IsKeyDown(KEY_S))
 			inputMovement.y = 1;
+
+		if (IsPointerDown())
+		{
+			Vector2 p = GetVirtualPointer();
+			Vector2 dir = Vector2Subtract(p, lastPointerPos);
+			if (Vector2Length(dir) > 0)
+				inputMovement = dir;
+
+			lastPointerPos = p;
+		}
 
 		if (isShooting)
 		{
@@ -150,7 +164,8 @@ void GameRender(float dt)
 	DrawCircleV(
 		player.Position,
 		player.HurtboxSize,
-		player.ImmuneTime > 0? BLUE : player.IsAlive?  GREEN : RED);
+		player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
+													  : RED);
 }
 
 void GameQuit()
