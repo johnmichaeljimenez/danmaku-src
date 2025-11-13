@@ -8,9 +8,12 @@ int main(void)
 
     SetTargetFPS(60);
 
+    SetLevel(0);
+
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();
+        UpdateLevel(dt);
 
         if (player.IsAlive)
         {
@@ -48,11 +51,6 @@ int main(void)
             player.Position.y += inputMovement.y * dt * player.MovementSpeed;
 
             player.Position = Vector2Clamp(player.Position, (Vector2){0, 0}, (Vector2){VIRTUAL_WIDTH, VIRTUAL_HEIGHT});
-        }
-
-        if (IsKeyPressed(KEY_Q))
-        {
-            SpawnEnemy((Vector2){VIRTUAL_WIDTH * 0.5, 10}, -90, &ET_TEST);
         }
 
         for (int i = 0; i < BULLET_COUNT; i++)
