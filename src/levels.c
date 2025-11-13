@@ -1,9 +1,9 @@
 #include "levels.h"
 
-#define AddSequence(_ts, _intv, _amt, _posX, _posY, _dir, _type)   \
+#define AddSequence(_ts, _intv, _amt, _posX, _posY, _dir, _type)           \
 	(Sequence) { .Timestamp = (_ts), .Interval = (_intv), .Count = (_amt), \
 				 .Position = (Vector2){.x = (_posX), .y = (_posY)},        \
-				 .Direction = _dir,       \
+				 .Direction = _dir,                                        \
 				 .Type = (_type), .IsDone = false }
 
 static const Sequence level0_items[] = {
@@ -30,6 +30,16 @@ void SetLevel(int index)
 	levelTimer = 0;
 	spawnCount = 0;
 	intervalTimer = 0;
+
+	for (int i = 0; i < LEVEL_COUNT; i++)
+	{
+		Level *lvl = &Levels[i];
+		for (int j = 0; j < lvl->Count; j++)
+		{
+			Sequence *sq = &lvl->Items[j];
+			sq->IsDone = false;
+		}
+	}
 }
 
 void UpdateLevel(float dt)
