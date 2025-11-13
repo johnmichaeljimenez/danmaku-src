@@ -6,13 +6,14 @@ void GameStart(int level)
 	memset(enemies, 0, sizeof(enemies));
 
 	player = (Player){
+		.Lives = 3,
+		.ImmuneTime = 0,
 		.FireRate = 0.1f,
 		.FireTimer = 0,
 		.HurtboxSize = 48,
 		.IsAlive = true,
 		.MovementSpeed = 512,
-		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}
-	};
+		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}};
 
 	SetLevel(level);
 }
@@ -23,6 +24,9 @@ void GameUpdate(float dt)
 
 	if (player.IsAlive)
 	{
+		if (player.ImmuneTime > 0)
+			player.ImmuneTime -= dt;
+
 		Vector2 inputMovement = Vector2Zero();
 		bool isShooting = IsKeyDown(KEY_SPACE);
 
@@ -73,7 +77,7 @@ void GameUpdate(float dt)
 		}
 		else
 		{
-			if (b->FromPlayer)
+			if (b->FromPlayer && player.IsAlive)
 			{
 				for (int i = 0; i < ENEMY_COUNT; i++)
 				{
@@ -89,10 +93,11 @@ void GameUpdate(float dt)
 					}
 				}
 			}
-			else
+			else if (player.ImmuneTime <= 0 && player.IsAlive)
 			{
 				if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Type->Size))
 				{
+					HitPlayer();
 					b->IsAlive = false;
 					break;
 				}
@@ -145,7 +150,7 @@ void GameRender(float dt)
 	DrawCircleV(
 		player.Position,
 		player.HurtboxSize,
-		GREEN);
+		player.ImmuneTime > 0? BLUE : player.IsAlive?  GREEN : RED);
 }
 
 void GameQuit()

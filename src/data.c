@@ -5,6 +5,18 @@ Enemy enemies[ENEMY_COUNT] = {0};
 
 Player player;
 
+bool HitPlayer()
+{
+    player.Lives -= 1;
+
+    if (player.Lives <= 0)
+        player.IsAlive = false;
+    else
+        player.ImmuneTime = 1.0f;
+
+    return player.IsAlive;
+}
+
 Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType)
 {
     for (int i = 0; i < BULLET_COUNT; i++)
@@ -47,14 +59,12 @@ Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType)
 BulletType BT_PLAYER = (BulletType){
     .MovementSpeed = 2048,
     .Pattern = BulletPattern_Straight,
-    .Size = 64
-};
+    .Size = 64};
 
 BulletType BT_ENEMY_GENERIC = (BulletType){
     .MovementSpeed = 512,
     .Pattern = BulletPattern_Straight,
-    .Size = 32
-};
+    .Size = 32};
 
 EnemyType ET_TEST = (EnemyType){
     .HP = 10,
@@ -62,5 +72,4 @@ EnemyType ET_TEST = (EnemyType){
     .AttackPattern = EnemyAttackPattern_Aimed,
     .MovementSpeed = 256,
     .Size = 48,
-    .BulletTypes = { &BT_ENEMY_GENERIC }
-};
+    .BulletTypes = {&BT_ENEMY_GENERIC}};

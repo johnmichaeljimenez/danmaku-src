@@ -36,6 +36,8 @@ typedef struct Player
 	float FireRate;
 	float FireTimer;
 
+	int Lives;
+	float ImmuneTime;
 	bool IsAlive;
 } Player;
 
@@ -67,6 +69,8 @@ extern Player player;
 
 extern BulletType BT_PLAYER;
 extern EnemyType ET_TEST;
+
+bool HitPlayer();
 
 Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType);
 Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType);
