@@ -2,14 +2,8 @@
 
 Bullet bullets[BULLET_COUNT] = {0};
 Enemy enemies[ENEMY_COUNT] = {0};
-Player player = (Player){
-    .FireRate = 0.1f,
-    .FireTimer = 0,
-    .HurtboxSize = 48,
-    .IsAlive = true,
-    .MovementSpeed = 512,
-    .Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}
-};
+
+Player player;
 
 Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType)
 {

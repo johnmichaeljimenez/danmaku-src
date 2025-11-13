@@ -4,12 +4,13 @@ void MenuStart()
 {
 }
 
-void MenuUpdate()
+void MenuUpdate(float dt)
 {
-	
+	if (IsKeyPressed(KEY_SPACE))
+		GoToGame(0);
 }
 
-void MenuRender()
+void MenuRender(float dt)
 {
 	DrawText("Press [SPACE] to start", 30, VIRTUAL_HEIGHT * 0.4, 30, RED);
 }

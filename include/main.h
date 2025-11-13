@@ -20,3 +20,8 @@
 #include "data.h"
 #include "patterns.h"
 #include "levels.h"
+#include "menu.h"
+#include "game.h"
+
+void GoToGame(int level);
+void GoToMenu();

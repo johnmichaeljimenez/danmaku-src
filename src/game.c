@@ -2,6 +2,18 @@
 
 void GameStart(int level)
 {
+	memset(bullets, 0, sizeof(bullets));
+	memset(enemies, 0, sizeof(enemies));
+
+	player = (Player){
+		.FireRate = 0.1f,
+		.FireTimer = 0,
+		.HurtboxSize = 48,
+		.IsAlive = true,
+		.MovementSpeed = 512,
+		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}
+	};
+
 	SetLevel(level);
 }
 
@@ -105,6 +117,9 @@ void GameUpdate(float dt)
 			continue;
 		}
 	}
+
+	if (IsKeyPressed(KEY_ESCAPE))
+		GoToMenu();
 }
 
 void GameRender(float dt)
