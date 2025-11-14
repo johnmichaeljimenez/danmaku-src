@@ -1,7 +1,7 @@
 #include "main.h"
 
-bool IsIngame;
 TweenManager gTweenManager;
+GameState gameState = GAMESTATE_MENU;
 
 int main(void)
 {
@@ -20,20 +20,36 @@ int main(void)
     {
         float dt = GetFrameTime();
 
-        if (IsIngame)
-            GameUpdate(dt);
-        else
+        switch (gameState)
+        {
+        case GAMESTATE_MENU:
             MenuUpdate(dt);
+            break;
+        case GAMESTATE_INGAME:
+            GameUpdate(dt);
+            break;
+
+        default:
+            break;
+        }
 
         TweenManager_Update(dt);
         BeginScreen();
         {
             ClearBackground(BLACK);
 
-            if (IsIngame)
-                GameRender(dt);
-            else
-                MenuRender(dt);
+            switch (gameState)
+            {
+                case GAMESTATE_MENU:
+                    MenuRender(dt);
+                    break;
+                case GAMESTATE_INGAME:
+                    GameRender(dt);
+                    break;
+
+                default:
+                    break;
+            }
 
             EndScreen();
         }
@@ -52,7 +68,7 @@ int main(void)
 
 void GoToMenu()
 {
-    IsIngame = false;
+    gameState = GAMESTATE_MENU;
     TweenManager_Clear();
     GameQuit();
     MenuStart();
@@ -60,7 +76,7 @@ void GoToMenu()
 
 void GoToGame(int level)
 {
-    IsIngame = true;
+    gameState = GAMESTATE_INGAME;
     TweenManager_Clear();
     MenuCleanup();
     GameStart(level);

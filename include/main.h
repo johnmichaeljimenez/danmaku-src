@@ -29,3 +29,11 @@
 
 void GoToGame(int level);
 void GoToMenu();
+
+typedef enum GameState
+{
+	GAMESTATE_MENU,
+	GAMESTATE_INGAME,
+	GAMESTATE_PAUSE,
+	GAMESTATE_GAME_END
+} GameState;
