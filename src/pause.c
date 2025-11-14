@@ -2,13 +2,13 @@
 
 bool IsGamePaused;
 
-void PauseUpdate()
+void PauseUpdate(float dt)
 {
 	if (IsKeyReleased(KEY_ESCAPE))
 		UnpauseGame();
 }
 
-void PauseRender()
+void PauseRender(float dt)
 {
 	DrawText("GAME PAUSED", 4, 4, 30, WHITE);
 }

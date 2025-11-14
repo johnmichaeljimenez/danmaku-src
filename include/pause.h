@@ -3,5 +3,5 @@
 
 extern bool IsGamePaused;
 
-void PauseUpdate();
-void PauseRender();
+void PauseUpdate(float dt);
+void PauseRender(float dt);
