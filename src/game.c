@@ -24,12 +24,13 @@ void GameStart(int level)
 		.HurtboxSize = 48,
 		.IsAlive = true,
 		.MovementSpeed = 512,
-		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}};
+		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT + 100}};
 
 	lastPointerPos = player.Position;
 	SetLevel(level);
 
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 1, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
+	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerStartPosition", NULL);
 }
 
 void GameUpdate(float dt)
