@@ -3,8 +3,16 @@
 bool IsCutscene;
 Vector2 lastPointerPos;
 
+static float cutsceneTimer;
+
+void OnCutsceneTimerDone(const char *id)
+{
+	IsCutscene = false;
+}
+
 void GameStart(int level)
 {
+	IsCutscene = true;
 	memset(bullets, 0, sizeof(bullets));
 	memset(enemies, 0, sizeof(enemies));
 
@@ -20,6 +28,8 @@ void GameStart(int level)
 
 	lastPointerPos = player.Position;
 	SetLevel(level);
+
+	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 1, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
 }
 
 void GameUpdate(float dt)
@@ -32,44 +42,48 @@ void GameUpdate(float dt)
 			player.ImmuneTime -= dt;
 
 		Vector2 inputMovement = Vector2Zero();
-		bool isShooting = IsKeyDown(KEY_SPACE);
 
-		if (IsKeyDown(KEY_A))
-			inputMovement.x = -1;
-		else if (IsKeyDown(KEY_D))
-			inputMovement.x = 1;
-
-		if (IsKeyDown(KEY_W))
-			inputMovement.y = -1;
-		else if (IsKeyDown(KEY_S))
-			inputMovement.y = 1;
-
-		if (IsPointerDown())
+		if (!IsCutscene)
 		{
-			Vector2 p = GetVirtualPointer();
-			Vector2 dir = Vector2Subtract(p, lastPointerPos);
-			if (Vector2Length(dir) > 0)
-				inputMovement = dir;
+			bool isShooting = IsKeyDown(KEY_SPACE);
 
-			lastPointerPos = p;
-		}
+			if (IsKeyDown(KEY_A))
+				inputMovement.x = -1;
+			else if (IsKeyDown(KEY_D))
+				inputMovement.x = 1;
 
-		if (isShooting)
-		{
-			player.FireTimer += dt;
-			if (player.FireTimer >= player.FireRate)
+			if (IsKeyDown(KEY_W))
+				inputMovement.y = -1;
+			else if (IsKeyDown(KEY_S))
+				inputMovement.y = 1;
+
+			if (IsPointerDown())
+			{
+				Vector2 p = GetVirtualPointer();
+				Vector2 dir = Vector2Subtract(p, lastPointerPos);
+				if (Vector2Length(dir) > 0)
+					inputMovement = dir;
+
+				lastPointerPos = p;
+			}
+
+			if (isShooting)
+			{
+				player.FireTimer += dt;
+				if (player.FireTimer >= player.FireRate)
+				{
+					player.FireTimer = 0;
+					SpawnBullet(player.Position, 90, true, &BT_PLAYER);
+				}
+			}
+			else
 			{
 				player.FireTimer = 0;
-				SpawnBullet(player.Position, 90, true, &BT_PLAYER);
 			}
-		}
-		else
-		{
-			player.FireTimer = 0;
-		}
 
-		if (Vector2LengthSqr(inputMovement) > 0)
-			inputMovement = Vector2Normalize(inputMovement);
+			if (Vector2LengthSqr(inputMovement) > 0)
+				inputMovement = Vector2Normalize(inputMovement);
+		}
 
 		player.Position.x += inputMovement.x * dt * player.MovementSpeed;
 		player.Position.y += inputMovement.y * dt * player.MovementSpeed;
@@ -174,7 +188,7 @@ void GameRender(float dt)
 			player.Position,
 			player.HurtboxSize,
 			player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
-														 : RED);
+														  : RED);
 	}
 }
 
