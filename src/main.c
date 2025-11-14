@@ -50,6 +50,7 @@ int main(void)
                 GameRender(dt);
                 break;
             case GAMESTATE_PAUSE:
+                GameRender(dt);
                 PauseRender(dt);
                 break;
 

@@ -10,5 +10,6 @@ void PauseUpdate(float dt)
 
 void PauseRender(float dt)
 {
+	DrawRectangle(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, (Color){0,0,0, 100});
 	DrawText("GAME PAUSED", 4, 4, 30, WHITE);
 }
