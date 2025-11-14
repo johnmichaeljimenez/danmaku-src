@@ -161,11 +161,21 @@ void GameRender(float dt)
 		DrawCircleV(e->Position, e->Type->Size, RED);
 	}
 
-	DrawCircleV(
-		player.Position,
-		player.HurtboxSize,
-		player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
-													  : RED);
+	if (player.TweenHitTimer > 0)
+	{
+		DrawCircleV(
+			player.Position,
+			player.HurtboxSize,
+			ColorLerp(GREEN, RED, player.TweenHitTimer));
+	}
+	else
+	{
+		DrawCircleV(
+			player.Position,
+			player.HurtboxSize,
+			player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
+														 : RED);
+	}
 }
 
 void GameQuit()
