@@ -137,8 +137,8 @@ void GameUpdate(float dt)
 		}
 	}
 
-	if (IsKeyPressed(KEY_ESCAPE))
-		GoToMenu();
+	if (IsKeyReleased(KEY_ESCAPE))
+		PauseGame();
 }
 
 void GameRender(float dt)

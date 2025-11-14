@@ -24,11 +24,15 @@
 #include "data.h"
 #include "patterns.h"
 #include "levels.h"
+
 #include "menu.h"
 #include "game.h"
+#include "pause.h"
 
 void GoToGame(int level);
 void GoToMenu();
+void PauseGame();
+void UnpauseGame();
 
 typedef enum GameState
 {

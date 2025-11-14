@@ -28,6 +28,9 @@ int main(void)
         case GAMESTATE_INGAME:
             GameUpdate(dt);
             break;
+        case GAMESTATE_PAUSE:
+            PauseUpdate(dt);
+            break;
 
         default:
             break;
@@ -40,15 +43,18 @@ int main(void)
 
             switch (gameState)
             {
-                case GAMESTATE_MENU:
-                    MenuRender(dt);
-                    break;
-                case GAMESTATE_INGAME:
-                    GameRender(dt);
-                    break;
+            case GAMESTATE_MENU:
+                MenuRender(dt);
+                break;
+            case GAMESTATE_INGAME:
+                GameRender(dt);
+                break;
+            case GAMESTATE_PAUSE:
+                PauseRender();
+                break;
 
-                default:
-                    break;
+            default:
+                break;
             }
 
             EndScreen();
@@ -80,4 +86,16 @@ void GoToGame(int level)
     TweenManager_Clear();
     MenuCleanup();
     GameStart(level);
+}
+
+void PauseGame()
+{
+    gameState = GAMESTATE_PAUSE;
+    IsGamePaused = true;
+}
+
+void UnpauseGame()
+{
+    gameState = GAMESTATE_INGAME;
+    IsGamePaused = false;
 }
