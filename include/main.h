@@ -15,7 +15,11 @@
 #include <math.h>
 #include <emscripten/emscripten.h>
 #include <time.h>
+#include <dirent.h>
+#include <sys/stat.h>
 
+#include "tween.h"
+#include "assets.h"
 #include "screen.h"
 #include "data.h"
 #include "patterns.h"

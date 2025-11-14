@@ -1,6 +1,7 @@
 #include "main.h"
 
 bool IsIngame;
+TweenManager gTweenManager;
 
 int main(void)
 {
@@ -9,7 +10,10 @@ int main(void)
     InitScreen();
 
     SetTargetFPS(60);
-    
+
+    TweenManager_Init();
+    LoadAllSprites();
+
     MenuStart();
 
     while (!WindowShouldClose())
@@ -21,6 +25,7 @@ int main(void)
         else
             MenuUpdate(dt);
 
+        TweenManager_Update(dt);
         BeginScreen();
         {
             ClearBackground(BLACK);
@@ -36,7 +41,10 @@ int main(void)
         DrawScreen();
     }
 
+    TweenManager_Clear();
+    UnloadAllSprites();
     DisposeScreen();
+
     CloseWindow();
 
     return 0;
@@ -45,6 +53,7 @@ int main(void)
 void GoToMenu()
 {
     IsIngame = false;
+    TweenManager_Clear();
     GameQuit();
     MenuStart();
 }
@@ -52,6 +61,7 @@ void GoToMenu()
 void GoToGame(int level)
 {
     IsIngame = true;
+    TweenManager_Clear();
     MenuCleanup();
     GameStart(level);
 }
