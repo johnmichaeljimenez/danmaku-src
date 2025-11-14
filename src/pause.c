@@ -2,6 +2,16 @@
 
 bool IsGamePaused;
 
+void PauseShow()
+{
+
+}
+
+void PauseHide()
+{
+
+}
+
 void PauseUpdate(float dt)
 {
 	if (IsKeyReleased(KEY_ESCAPE))

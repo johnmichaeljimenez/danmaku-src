@@ -93,10 +93,12 @@ void PauseGame()
 {
     gameState = GAMESTATE_PAUSE;
     IsGamePaused = true;
+    PauseShow();
 }
 
 void UnpauseGame()
 {
+    PauseHide();
     gameState = GAMESTATE_INGAME;
     IsGamePaused = false;
 }
