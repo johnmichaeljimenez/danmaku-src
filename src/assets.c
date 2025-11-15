@@ -81,6 +81,8 @@ Texture2D GetSprite(const char *name)
 		if (strcmp(spriteManager.entries[i].key, name) == 0)
 			return spriteManager.entries[i].texture;
 	}
+
+	TraceLog(LOG_ERROR, TextFormat("CANNOT FIND SPRITE: %s", name));
 }
 
 void UnloadAllSprites()

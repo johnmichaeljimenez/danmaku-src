@@ -13,6 +13,7 @@ int main(void)
 
     TweenManager_Init();
     LoadAllSprites();
+    SetupAnimationClips();
 
     MenuStart();
 

@@ -6,12 +6,18 @@ AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 static int lastAnimationIndex;
 static int lastAnimationClipIndex;
 
-void AddAnimationClip(const char *id, SpriteEntry *frames, int frameCount, bool loop)
+void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop)
 {
 	AnimationClip *clip = &AnimationClips[lastAnimationClipIndex];
 	clip->IsValid = true;
 	clip->FrameCount = frameCount;
-	clip->Frames = frames;
+
+	for (int i = 0; i < frameCount; i++)
+	{
+		TraceLog(LOG_INFO, "%s #%d", frameIDs[i], i + 1);
+	}
+
+	clip->Frames = frameIDs;
 	clip->ID = id;
 	clip->Loop = loop;
 
@@ -31,11 +37,19 @@ Animation *CreateAnimation(const char *id)
 		if (c->IsValid && TextIsEqual(id, c->ID))
 		{
 			a->Clip = c;
+
+			for (int j = 0; j < c->FrameCount; j++)
+			{
+				a->Frames[j] = GetSprite(c->Frames[j]);
+				TraceLog(LOG_INFO, "%d x %d", a->Frames[j].width, a->Frames[j].height);
+			}
+
 			break;
 		}
 	}
 
 	lastAnimationIndex++;
+	TraceLog(LOG_INFO, "CREATED ANIMATION: %s FROM CLIP %s %d %d x %d", id, a->Clip->ID, a->Clip->FrameCount, a->Frames[0].width, a->Frames[0].height);
 	return a;
 }
 
@@ -53,18 +67,18 @@ void UpdateAnimations(float dt)
 			continue;
 
 		a->Timer += dt;
+
 		if (a->Timer >= ANIMATION_FPS)
 		{
 			a->Timer = 0;
+			a->FrameIndex++;
 
 			if (a->FrameIndex >= a->Clip->FrameCount)
 			{
 				if (a->Clip->Loop)
 					a->FrameIndex = 0;
-			}
-			else
-			{
-				a->FrameIndex++;
+				else
+					a->FrameIndex = a->Clip->FrameCount - 1;
 			}
 		}
 	}
@@ -73,4 +87,19 @@ void UpdateAnimations(float dt)
 void ClearAnimations()
 {
 	memset(Animations, 0, sizeof(Animations));
+}
+
+static const char *playerIdle[] = {
+	"character/character-idle (1)",
+	"character/character-idle (2)",
+	"character/character-idle (3)",
+	"character/character-idle (4)",
+	"character/character-idle (5)",
+	"character/character-idle (6)",
+	"character/character-idle (7)",
+	"character/character-idle (8)"};
+
+void SetupAnimationClips()
+{
+	AddAnimationClip("PlayerIdle", playerIdle, 8, true);
 }

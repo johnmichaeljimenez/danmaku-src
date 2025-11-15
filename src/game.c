@@ -4,6 +4,7 @@ bool IsCutscene;
 Vector2 lastPointerPos;
 
 static float cutsceneTimer;
+static Animation *playerAnimation;
 
 void OnCutsceneTimerDone(const char *id)
 {
@@ -17,6 +18,8 @@ void GameStart(int level)
 	IsCutscene = true;
 	memset(bullets, 0, sizeof(bullets));
 	memset(enemies, 0, sizeof(enemies));
+
+	playerAnimation = CreateAnimation("PlayerIdle");
 
 	player = (Player){
 		.Lives = 3,
@@ -32,7 +35,7 @@ void GameStart(int level)
 	SetLevel(level);
 
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 1, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
-	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH/2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerStartPosition", NULL);
+	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerStartPosition", NULL);
 }
 
 void GameUpdate(float dt)
@@ -180,21 +183,23 @@ void GameRender(float dt)
 		DrawCircleV(e->Position, e->Type->Size, RED);
 	}
 
-	if (player.TweenHitTimer > 0)
-	{
-		DrawCircleV(
-			player.Position,
-			player.HurtboxSize,
-			ColorLerp(GREEN, RED, player.TweenHitTimer));
-	}
-	else
-	{
-		DrawCircleV(
-			player.Position,
-			player.HurtboxSize,
-			player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
-														  : RED);
-	}
+	// if (player.TweenHitTimer > 0)
+	// {
+	// 	DrawCircleV(
+	// 		player.Position,
+	// 		player.HurtboxSize,
+	// 		ColorLerp(GREEN, RED, player.TweenHitTimer));
+	// }
+	// else
+	// {
+	// 	DrawCircleV(
+	// 		player.Position,
+	// 		player.HurtboxSize,
+	// 		player.ImmuneTime > 0 ? BLUE : player.IsAlive ? GREEN
+	// 													  : RED);
+	// }
+
+	DrawSprite(playerAnimation->Frames[playerAnimation->FrameIndex], player.Position);
 }
 
 void GameQuit()
