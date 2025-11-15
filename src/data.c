@@ -126,7 +126,7 @@ EnemyType ET_TEST = (EnemyType){
 
 EnemyType ET_BOSS1 = (EnemyType){
     .AnimationName = "EnemyGeneric",
-    .HP = 50,
+    .HP = 200,
     .MovementPattern = EnemyMovementPattern_Boss1,
     .AttackPattern = EnemyAttackPattern_Boss1,
     .MovementSpeed = 256,

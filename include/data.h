@@ -94,6 +94,7 @@ extern Player player;
 
 extern BulletType BT_PLAYER;
 extern EnemyType ET_TEST;
+extern EnemyType ET_BOSS1;
 
 bool HitPlayer();
 

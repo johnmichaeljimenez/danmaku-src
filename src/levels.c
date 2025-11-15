@@ -7,6 +7,10 @@
 				 .Type = (_type), .IsDone = false, .AttackOverride = _atk, .MovementOverride = _mv }
 
 static const Sequence level0_items[] = {
+	
+	// AddSequence(0.0f, 1, 1, VIRTUAL_WIDTH * 0.5f, 0, VIRTUAL_WIDTH * 0.5f, 0, &ET_BOSS1, NULL, NULL),
+
+
 	AddSequence(0.0f, 0.5f, 2, VIRTUAL_WIDTH * 0.5, 0, VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 	AddSequence(5.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.2, 0, VIRTUAL_WIDTH * 0.2, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 	AddSequence(8.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.8, 0, VIRTUAL_WIDTH * 0.8, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
@@ -19,6 +23,8 @@ static const Sequence level0_items[] = {
 	
 	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.1f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.1f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
 	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.9f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.9f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
+	
+	AddSequence(35.0f, 1, 1, VIRTUAL_WIDTH * 0.5f, 0, VIRTUAL_WIDTH * 0.5f, 0, &ET_BOSS1, NULL, NULL),
 };
 
 const Level level0 = {
