@@ -72,7 +72,7 @@ void GameUpdate(float dt)
 				Vector2 p = GetVirtualPointer();
 				Vector2 dir = Vector2Subtract(p, lastPointerPos);
 				if (Vector2Length(dir) > 0)
-					inputMovement = dir;
+					inputMovement = Vector2Normalize(dir);
 
 				lastPointerPos = p;
 			}
@@ -83,7 +83,8 @@ void GameUpdate(float dt)
 				if (player.FireTimer >= player.FireRate)
 				{
 					player.FireTimer = 0;
-					SpawnBullet(player.Position, 90, true, &BT_PLAYER);
+					SpawnBullet((Vector2){player.Position.x - 24, player.Position.y}, 90, true, &BT_PLAYER);
+					SpawnBullet((Vector2){player.Position.x + 24, player.Position.y}, 90, true, &BT_PLAYER);
 				}
 			}
 			else

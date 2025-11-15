@@ -40,7 +40,7 @@ int main(void)
         TweenManager_Update(dt);
         BeginScreen();
         {
-            ClearBackground(BLACK);
+            ClearBackground(DARKGRAY);
 
             switch (gameState)
             {

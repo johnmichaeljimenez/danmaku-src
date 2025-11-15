@@ -7,13 +7,17 @@ Player player;
 
 bool HitPlayer()
 {
-    TweenManager_AddFloatFrom(&player.TweenHitTimer, 0, 1, 0.2f, EASING_PINGPONG, "PlayerHit", NULL);
     player.Lives -= 1;
 
     if (player.Lives <= 0)
+    {
         player.IsAlive = false;
+    }
     else
+    {
         player.ImmuneTime = 1.0f;
+        TweenManager_AddFloatFrom(&player.TweenHitTimer, 0, 1, player.ImmuneTime, EASING_PINGPONG, "PlayerHit", NULL);
+    }
 
     return player.IsAlive;
 }
