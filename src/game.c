@@ -267,8 +267,8 @@ void GameRender(float dt)
 
 	if (player.IsAlive)
 	{
-		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, player.ImmuneTime > 0? RED : WHITE);
-		DrawCircleV(player.Position, player.HurtboxSize, player.ImmuneTime > 0? RED : WHITE);
+		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, player.ImmuneTime > 0 ? (Color){255, 0, 0, 255} : WHITE);
+		DrawCircleV(player.Position, player.HurtboxSize, player.ImmuneTime > 0 ? (Color){255, 0, 0, 255} : WHITE);
 	}
 
 	for (int i = 0; i < VFX_COUNT; i++)
