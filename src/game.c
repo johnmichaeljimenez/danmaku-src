@@ -5,6 +5,7 @@ Vector2 lastPointerPos;
 
 static float cutsceneTimer;
 static Animation *playerAnimation;
+static int playerMovementState;
 
 void OnCutsceneTimerDone(const char *id)
 {
@@ -89,6 +90,31 @@ void GameUpdate(float dt)
 
 			if (Vector2LengthSqr(inputMovement) > 0)
 				inputMovement = Vector2Normalize(inputMovement);
+
+			if (inputMovement.x > 0)
+			{
+				if (playerMovementState != 1)
+				{
+					playerMovementState = 1;
+					ReuseAnimation(playerAnimation, "PlayerRight");
+				}
+			}
+			else if (inputMovement.x < 0)
+			{
+				if (playerMovementState != -1)
+				{
+					playerMovementState = -1;
+					ReuseAnimation(playerAnimation, "PlayerLeft");
+				}
+			}
+			else
+			{
+				if (playerMovementState != 0)
+				{
+					playerMovementState = 0;
+					ReuseAnimation(playerAnimation, "PlayerIdle");
+				}
+			}
 		}
 
 		player.Position.x += inputMovement.x * dt * player.MovementSpeed;

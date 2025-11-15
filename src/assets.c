@@ -71,7 +71,7 @@ void DrawSprite(Texture2D sprite, Vector2 pos)
 {
 	pos.x -= sprite.width * 0.5;
 	pos.y -= sprite.height * 0.5;
-	DrawTexture(sprite, pos.x, pos.y, WHITE);
+	DrawTextureEx(sprite, pos, 0, 2, WHITE);
 }
 
 Texture2D GetSprite(const char *name)
