@@ -24,7 +24,6 @@ bool HitPlayer()
     else
     {
         player.ImmuneTime = 1.0f;
-        TweenManager_AddFloatFrom(&player.TweenHitTimer, 0, 1, player.ImmuneTime, EASING_PINGPONG, "PlayerHit", NULL);
 
         TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", NULL);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);

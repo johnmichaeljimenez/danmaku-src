@@ -56,7 +56,7 @@ void GameUpdate(float dt)
 
 		if (!IsCutscene)
 		{
-			bool isShooting = player.TweenHitTimer <= 0 && player.ImmuneTime <= 0; // IsKeyDown(KEY_SPACE);
+			bool isShooting = player.ImmuneTime <= 0; // IsKeyDown(KEY_SPACE);
 
 			if (IsKeyDown(KEY_A))
 				inputMovement.x = -1;
@@ -267,13 +267,8 @@ void GameRender(float dt)
 
 	if (player.IsAlive)
 	{
-		Color playerTint = WHITE;
-
-		if (player.TweenHitTimer > 0)
-			playerTint = ColorLerp(WHITE, RED, player.TweenHitTimer);
-
-		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, playerTint);
-		DrawCircleV(player.Position, player.HurtboxSize, WHITE);
+		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, player.ImmuneTime > 0? RED : WHITE);
+		DrawCircleV(player.Position, player.HurtboxSize, player.ImmuneTime > 0? RED : WHITE);
 	}
 
 	for (int i = 0; i < VFX_COUNT; i++)

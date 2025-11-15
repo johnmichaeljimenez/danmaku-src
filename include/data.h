@@ -40,8 +40,6 @@ typedef struct Player
 	float FireRate;
 	float FireTimer;
 
-	float TweenHitTimer;
-
 	int Lives;
 	float ImmuneTime;
 	bool IsAlive;
