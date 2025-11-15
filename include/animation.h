@@ -7,7 +7,8 @@ typedef struct AnimationClip
 {
 	const char *ID;
 	int FrameCount;
-	const char **Frames;
+	const char **FrameIDs;
+	Texture2D Frames[64];
 	bool Loop;
 	bool IsValid;
 } AnimationClip;
@@ -16,7 +17,6 @@ typedef struct Animation
 {
 	float Timer;
 	int FrameIndex;
-	Texture Frames[64];
 	AnimationClip *Clip;
 	bool IsValid;
 } Animation;

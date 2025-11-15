@@ -14,10 +14,10 @@ void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, boo
 
 	for (int i = 0; i < frameCount; i++)
 	{
-		TraceLog(LOG_INFO, "%s #%d", frameIDs[i], i + 1);
+		clip->Frames[i] = GetSprite(frameIDs[i]);
 	}
 
-	clip->Frames = frameIDs;
+	clip->FrameIDs = frameIDs;
 	clip->ID = id;
 	clip->Loop = loop;
 
@@ -37,19 +37,12 @@ Animation *CreateAnimation(const char *id)
 		if (c->IsValid && TextIsEqual(id, c->ID))
 		{
 			a->Clip = c;
-
-			for (int j = 0; j < c->FrameCount; j++)
-			{
-				a->Frames[j] = GetSprite(c->Frames[j]);
-				TraceLog(LOG_INFO, "%d x %d", a->Frames[j].width, a->Frames[j].height);
-			}
-
 			break;
 		}
 	}
 
 	lastAnimationIndex++;
-	TraceLog(LOG_INFO, "CREATED ANIMATION: %s FROM CLIP %s %d %d x %d", id, a->Clip->ID, a->Clip->FrameCount, a->Frames[0].width, a->Frames[0].height);
+	// TraceLog(LOG_INFO, "CREATED ANIMATION: %s FROM CLIP %s %d %d x %d", id, a->Clip->ID, a->Clip->FrameCount, a->Frames[0].width, a->Frames[0].height);
 	return a;
 }
 

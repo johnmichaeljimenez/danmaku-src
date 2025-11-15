@@ -199,7 +199,7 @@ void GameRender(float dt)
 	// 													  : RED);
 	// }
 
-	DrawSprite(playerAnimation->Frames[playerAnimation->FrameIndex], player.Position);
+	DrawSprite(playerAnimation->Clip->Frames[playerAnimation->FrameIndex], player.Position);
 }
 
 void GameQuit()
