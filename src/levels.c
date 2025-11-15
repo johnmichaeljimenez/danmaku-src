@@ -7,9 +7,13 @@
 				 .Type = (_type), .IsDone = false, .AttackOverride = _atk, .MovementOverride = _mv }
 
 static const Sequence level0_items[] = {
-	AddSequence(0.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.5, 0, VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
-	AddSequence(5.0f, 0.5f, 5, VIRTUAL_WIDTH * 0.2, 0, VIRTUAL_WIDTH * 0.2, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
-	AddSequence(8.0f, 0.5f, 2, VIRTUAL_WIDTH * 0.8, 0, VIRTUAL_WIDTH * 0.8, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
+	AddSequence(0.0f, 0.5f, 2, VIRTUAL_WIDTH * 0.5, 0, VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+	AddSequence(5.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.2, 0, VIRTUAL_WIDTH * 0.2, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+	AddSequence(8.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.8, 0, VIRTUAL_WIDTH * 0.8, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+
+	AddSequence(15.0f, 0.5f, 5, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+	
+	AddSequence(20.0f, 0.5f, 5, VIRTUAL_WIDTH, 0, 0, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 };
 
 const Level level0 = {
@@ -64,7 +68,14 @@ void UpdateLevel(float dt)
 		else
 		{
 			intervalTimer = 0;
-			SpawnEnemy(sq->Position, sq->Target, sq->Type);
+			Enemy *e = SpawnEnemy(sq->Position, sq->Target, sq->Type);
+			
+			if (sq->MovementOverride != NULL)
+				e->MovementPattern = sq->MovementOverride;
+				
+			if (sq->AttackOverride != NULL)
+				e->AttackPattern = sq->AttackOverride;
+
 			spawnCount++;
 		}
 
