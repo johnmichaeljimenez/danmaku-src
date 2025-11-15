@@ -194,9 +194,12 @@ void GameUpdate(float dt)
 			continue;
 
 		e->MovementPattern(e, dt);
+		e->MovementTimer += dt;
 
 		if (e->AttackPattern != NULL)
 			e->AttackPattern(e, dt);
+
+		e->AttackTimer += dt;
 
 		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
 		{

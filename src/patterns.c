@@ -6,15 +6,24 @@ void EnemyMovementPattern_Straight(Enemy *e, float dt)
     e->Position = Vector2Add(e->Position, Vector2Scale(to, dt * e->Type->MovementSpeed));
 }
 
+void EnemyMovementPattern_Boss1(Enemy *e, float dt)
+{
+    
+}
+
 void EnemyAttackPattern_Aimed(Enemy *e, float dt)
 {
-    e->Timer += dt;
-    if (fmodf(e->Timer, 0.8f) < dt)
+    if (fmodf(e->AttackTimer, 0.8f) < dt)
     {
         Vector2 playerPos = player.Position;
         float angle = atan2f(e->Position.y - playerPos.y, playerPos.x - e->Position.x) * RAD2DEG;
         SpawnBullet(e->Position, angle, false, e->Type->BulletTypes[0]);
     }
+}
+
+void EnemyAttackPattern_Boss1(Enemy *e, float dt)
+{
+
 }
 
 void BulletPattern_Straight(Bullet *b, float dt)

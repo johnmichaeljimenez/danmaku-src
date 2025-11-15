@@ -67,7 +67,8 @@ typedef struct Enemy
 	Vector2 Target;
 	int HP;
 	bool IsAlive;
-	float Timer;
+	float MovementTimer;
+	float AttackTimer;
 } Enemy;
 
 typedef struct VFX

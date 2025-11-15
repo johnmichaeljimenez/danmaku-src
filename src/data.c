@@ -64,7 +64,8 @@ Enemy *SpawnEnemy(Vector2 pos, Vector2 to, EnemyType *enemyType)
             e->Target = to;
             e->Type = enemyType;
             e->HP = e->Type->HP;
-            e->Timer = 0;
+            e->MovementTimer = 0;
+            e->AttackTimer = 0;
             e->Animation = CreateAnimation(e->Type->AnimationName);
             e->MovementPattern = e->Type->MovementPattern;
             e->AttackPattern = e->Type->AttackPattern;
@@ -122,3 +123,13 @@ EnemyType ET_TEST = (EnemyType){
     .MovementSpeed = 256,
     .Size = 16,
     .BulletTypes = {&BT_ENEMY_GENERIC}};
+
+EnemyType ET_BOSS1 = (EnemyType){
+    .AnimationName = "EnemyGeneric",
+    .HP = 50,
+    .MovementPattern = EnemyMovementPattern_Boss1,
+    .AttackPattern = EnemyAttackPattern_Boss1,
+    .MovementSpeed = 256,
+    .Size = 32,
+    .BulletTypes = {&BT_ENEMY_GENERIC}
+};
