@@ -12,6 +12,6 @@ typedef struct SpriteManager {
 } SpriteManager;
 
 void LoadAllSprites();
-void DrawSprite(Texture2D sprite, Vector2 pos);
+void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint);
 Texture2D GetSprite(const char *name);
 void UnloadAllSprites();

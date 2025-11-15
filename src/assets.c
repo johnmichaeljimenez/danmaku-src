@@ -67,13 +67,24 @@ void LoadAllSprites()
 	ScanFolderRecursive("assets", "");
 }
 
-void DrawSprite(Texture2D sprite, Vector2 pos)
+void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint)
 {
-	float scale = 2;
+    float scale = 2.0f;
 
-	pos.x -= sprite.width * 0.5f * scale;
-	pos.y -= sprite.height * 0.5f * scale;
-	DrawTextureEx(sprite, pos, 0, scale, WHITE);
+    Rectangle src = { 0, 0, sprite.width, sprite.height };
+    Rectangle dst = {
+        pos.x,
+        pos.y,
+        sprite.width  * scale,
+        sprite.height * scale
+    };
+
+    Vector2 origin = {
+        dst.width  * 0.5f,
+        dst.height * 0.5f
+    };
+
+    DrawTexturePro(sprite, src, dst, origin, -angle, tint);
 }
 
 Texture2D GetSprite(const char *name)
