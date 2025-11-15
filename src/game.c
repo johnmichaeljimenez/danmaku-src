@@ -164,6 +164,13 @@ void GameUpdate(float dt)
 					{
 						e->HP--;
 						b->IsAlive = false;
+
+						VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 0.2f);
+						vfx->Additive = true;
+
+						TweenManager_AddFloatFrom(&vfx->Alpha, 0.2, 0, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-1", vfx->ID), NULL);
+						TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-2", vfx->ID), NULL);
+
 						break;
 					}
 				}
