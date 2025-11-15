@@ -23,13 +23,14 @@ typedef struct Animation
 
 #define ANIMATION_COUNT 1024
 #define ANIMATIONCLIP_COUNT 2048
-#define ANIMATION_FPS 1.0f / 8.0f
+#define ANIMATION_FPS 1.0f / 30.0f
 
 extern Animation Animations[ANIMATION_COUNT];
 extern AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 
 void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop);
 Animation *CreateAnimation(const char *id);
+void *ReuseAnimation(Animation *a, const char *id);
 void RemoveAnimation(Animation *a);
 
 void UpdateAnimations(float dt);

@@ -46,6 +46,22 @@ Animation *CreateAnimation(const char *id)
 	return a;
 }
 
+void *ReuseAnimation(Animation* a, const char* id)
+{
+	a->Timer = 0;
+	a->FrameIndex = 0;
+
+	for (int i = 0; i < ANIMATIONCLIP_COUNT; i++)
+	{
+		AnimationClip *c = &AnimationClips[i];
+		if (c->IsValid && TextIsEqual(id, c->ID))
+		{
+			a->Clip = c;
+			break;
+		}
+	}
+}
+
 void RemoveAnimation(Animation *a)
 {
 	a->IsValid = false;
@@ -92,7 +108,29 @@ static const char *playerIdle[] = {
 	"character/character-idle (7)",
 	"character/character-idle (8)"};
 
+static const char *playerLeft[] = {
+	"character/character-left (1)",
+	"character/character-left (2)",
+	"character/character-left (3)",
+	"character/character-left (4)",
+	"character/character-left (5)",
+	"character/character-left (6)",
+	"character/character-left (7)",
+	"character/character-left (8)"};
+
+static const char *playerRight[] = {
+	"character/character-right (1)",
+	"character/character-right (2)",
+	"character/character-right (3)",
+	"character/character-right (4)",
+	"character/character-right (5)",
+	"character/character-right (6)",
+	"character/character-right (7)",
+	"character/character-right (8)"};
+
 void SetupAnimationClips()
 {
 	AddAnimationClip("PlayerIdle", playerIdle, 8, true);
+	AddAnimationClip("PlayerLeft", playerLeft, 8, true);
+	AddAnimationClip("PlayerRight", playerRight, 8, true);
 }
