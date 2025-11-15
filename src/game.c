@@ -12,6 +12,8 @@ void OnCutsceneTimerDone(const char *id)
 
 void GameStart(int level)
 {
+	ClearAnimations();
+
 	IsCutscene = true;
 	memset(bullets, 0, sizeof(bullets));
 	memset(enemies, 0, sizeof(enemies));
@@ -152,6 +154,8 @@ void GameUpdate(float dt)
 		}
 	}
 
+	UpdateAnimations(dt);
+
 	if (IsKeyReleased(KEY_ESCAPE))
 		PauseGame();
 }
@@ -195,4 +199,5 @@ void GameRender(float dt)
 
 void GameQuit()
 {
+	ClearAnimations();
 }

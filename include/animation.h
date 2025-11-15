@@ -1,11 +1,13 @@
 #pragma once
 #include "main.h"
 
+typedef struct SpriteEntry SpriteEntry;
+
 typedef struct AnimationClip
 {
 	const char *ID;
 	int FrameCount;
-	Texture2D *Frames;
+	SpriteEntry *Frames;
 	bool Loop;
 	bool IsValid;
 } AnimationClip;
@@ -25,6 +27,9 @@ typedef struct Animation
 extern Animation Animations[ANIMATION_COUNT];
 extern AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 
-void AddAnimationClip(const char *id, Texture2D *frames, int frameCount, bool loop);
+void AddAnimationClip(const char *id, SpriteEntry *frames, int frameCount, bool loop);
 Animation *CreateAnimation(const char *id);
 void RemoveAnimation(Animation *a);
+
+void UpdateAnimations(float dt);
+void ClearAnimations();

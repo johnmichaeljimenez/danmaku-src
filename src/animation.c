@@ -6,7 +6,7 @@ AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 static int lastAnimationIndex;
 static int lastAnimationClipIndex;
 
-void AddAnimationClip(const char *id, Texture2D *frames, int frameCount, bool loop)
+void AddAnimationClip(const char *id, SpriteEntry *frames, int frameCount, bool loop)
 {
 	AnimationClip *clip = &AnimationClips[lastAnimationClipIndex];
 	clip->IsValid = true;
