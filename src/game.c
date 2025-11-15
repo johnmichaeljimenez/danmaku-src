@@ -27,7 +27,7 @@ void GameStart(int level)
 		.ImmuneTime = 0,
 		.FireRate = 0.1f,
 		.FireTimer = 0,
-		.HurtboxSize = 48,
+		.HurtboxSize = 16,
 		.IsAlive = true,
 		.MovementSpeed = 512,
 		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT + 100}};
@@ -226,6 +226,7 @@ void GameRender(float dt)
 	// }
 
 	DrawSprite(playerAnimation->Clip->Frames[playerAnimation->FrameIndex], player.Position);
+	DrawCircleV(player.Position, player.HurtboxSize, WHITE);
 }
 
 void GameQuit()

@@ -131,6 +131,6 @@ static const char *playerRight[] = {
 void SetupAnimationClips()
 {
 	AddAnimationClip("PlayerIdle", playerIdle, 8, true);
-	AddAnimationClip("PlayerLeft", playerLeft, 8, true);
-	AddAnimationClip("PlayerRight", playerRight, 8, true);
+	AddAnimationClip("PlayerLeft", playerLeft, 8, false);
+	AddAnimationClip("PlayerRight", playerRight, 8, false);
 }
