@@ -21,6 +21,7 @@ typedef struct BulletType
 
 typedef struct EnemyType
 {
+	char *AnimationName;
 	BulletType *BulletTypes[4];
 	float MovementSpeed;
 	float Size;
@@ -31,7 +32,7 @@ typedef struct EnemyType
 
 typedef struct Player
 {
-	Animation* animation;
+	Animation *animation;
 	Vector2 Position;
 	float HurtboxSize;
 
@@ -59,6 +60,7 @@ typedef struct Bullet
 
 typedef struct Enemy
 {
+	Animation *Animation;
 	EnemyType *Type;
 
 	Vector2 Position;

@@ -1,7 +1,9 @@
 #include "game.h"
 
 bool IsCutscene;
+
 Vector2 lastPointerPos;
+bool lastPointerSet;
 
 static float cutsceneTimer;
 static int playerMovementState;
@@ -68,12 +70,22 @@ void GameUpdate(float dt)
 
 			if (IsPointerDown())
 			{
+				if (!lastPointerSet)
+				{
+					lastPointerPos = GetVirtualPointer();
+					lastPointerSet = true;
+				}
+
 				Vector2 p = GetVirtualPointer();
 				Vector2 dir = Vector2Subtract(p, lastPointerPos);
 				if (Vector2Length(dir) > 0)
 					inputMovement = Vector2Normalize(dir);
 
-				lastPointerPos = p;
+				// lastPointerPos = p;
+			}
+			else
+			{
+				lastPointerSet = false;
 			}
 
 			if (isShooting)
@@ -182,6 +194,7 @@ void GameUpdate(float dt)
 		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
 		{
 			e->IsAlive = false;
+			RemoveAnimation(e->Animation);
 			continue;
 		}
 	}
@@ -226,7 +239,7 @@ void GameRender(float dt)
 		if (!e->IsAlive)
 			continue;
 
-		DrawCircleV(e->Position, e->Type->Size, RED);
+		DrawSprite(e->Animation->Clip->Frames[e->Animation->FrameIndex], e->Position, 0, WHITE);
 	}
 
 	// if (player.TweenHitTimer > 0)
@@ -285,6 +298,16 @@ void GameRender(float dt)
 		if (vfx->Additive)
 		{
 			EndBlendMode();
+		}
+	}
+
+	if (lastPointerSet)
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			float n = (float)i / 5.0f;
+			Vector2 p = Vector2Lerp(lastPointerPos, GetVirtualPointer(), n);
+			DrawCircleV(p, Lerp(4, 32, n), (Color){255, 255, 255, 100});
 		}
 	}
 }

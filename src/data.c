@@ -66,6 +66,7 @@ Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType)
             e->Type = enemyType;
             e->HP = e->Type->HP;
             e->Timer = 0;
+            e->Animation = CreateAnimation(e->Type->AnimationName);
             return e;
         }
     }
@@ -108,12 +109,13 @@ BulletType BT_PLAYER = (BulletType){
 BulletType BT_ENEMY_GENERIC = (BulletType){
     .MovementSpeed = 512,
     .Pattern = BulletPattern_Straight,
-    .Size = 32};
+    .Size = 8};
 
 EnemyType ET_TEST = (EnemyType){
+    .AnimationName = "EnemyGeneric",
     .HP = 10,
     .MovementPattern = EnemyMovementPattern_StraightDown,
     .AttackPattern = EnemyAttackPattern_Aimed,
     .MovementSpeed = 256,
-    .Size = 48,
+    .Size = 16,
     .BulletTypes = {&BT_ENEMY_GENERIC}};
