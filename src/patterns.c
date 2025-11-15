@@ -1,10 +1,9 @@
 #include "patterns.h"
 
-void EnemyMovementPattern_StraightDown(Enemy *e, float dt)
+void EnemyMovementPattern_Straight(Enemy *e, float dt)
 {
-    float rad = e->Direction * DEG2RAD;
-    e->Position.x += cosf(rad) * e->Type->MovementSpeed * dt;
-    e->Position.y += -sinf(rad) * e->Type->MovementSpeed * dt;
+    Vector2 to = Vector2Normalize(Vector2Subtract(e->Target, e->Position));
+    e->Position = Vector2Add(e->Position, Vector2Scale(to, dt * e->Type->MovementSpeed));
 }
 
 void EnemyAttackPattern_Aimed(Enemy *e, float dt)

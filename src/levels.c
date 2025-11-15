@@ -1,15 +1,15 @@
 #include "levels.h"
 
-#define AddSequence(_ts, _intv, _amt, _posX, _posY, _dir, _type)           \
-	(Sequence) { .Timestamp = (_ts), .Interval = (_intv), .Count = (_amt), \
-				 .Position = (Vector2){.x = (_posX), .y = (_posY)},        \
-				 .Direction = _dir,                                        \
-				 .Type = (_type), .IsDone = false }
+#define AddSequence(_ts, _intv, _amt, _posX, _posY, _toX, _toY, _type, _mv, _atk) \
+	(Sequence) { .Timestamp = (_ts), .Interval = (_intv), .Count = (_amt),              \
+				 .Position = (Vector2){.x = (_posX), .y = (_posY)},                     \
+				 .Target = (Vector2){.x = (_toX), .y = (_toY)},                         \
+				 .Type = (_type), .IsDone = false, .AttackOverride = _atk, .MovementOverride = _mv }
 
 static const Sequence level0_items[] = {
-	AddSequence(0.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.5, 50.0f, -90, &ET_TEST),
-	AddSequence(10.0f, 0.5f, 5, VIRTUAL_WIDTH * 0.5, 50.0f, -90, &ET_TEST),
-	AddSequence(20.0f, 0.5f, 2, VIRTUAL_WIDTH * 0.5, 50.0f, -90, &ET_TEST),
+	AddSequence(0.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.5, 0, VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
+	AddSequence(5.0f, 0.5f, 5, VIRTUAL_WIDTH * 0.2, 0, VIRTUAL_WIDTH * 0.2, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
+	AddSequence(8.0f, 0.5f, 2, VIRTUAL_WIDTH * 0.8, 0, VIRTUAL_WIDTH * 0.8, VIRTUAL_HEIGHT, &ET_TEST, NULL, NULL),
 };
 
 const Level level0 = {
@@ -64,7 +64,7 @@ void UpdateLevel(float dt)
 		else
 		{
 			intervalTimer = 0;
-			SpawnEnemy(sq->Position, sq->Direction, sq->Type);
+			SpawnEnemy(sq->Position, sq->Target, sq->Type);
 			spawnCount++;
 		}
 

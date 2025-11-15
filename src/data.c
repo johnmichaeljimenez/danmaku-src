@@ -52,7 +52,7 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulle
     return NULL;
 }
 
-Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType)
+Enemy *SpawnEnemy(Vector2 pos, Vector2 to, EnemyType *enemyType)
 {
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
@@ -61,7 +61,7 @@ Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType)
         {
             e->IsAlive = true;
             e->Position = pos;
-            e->Direction = dir;
+            e->Target = to;
             e->Type = enemyType;
             e->HP = e->Type->HP;
             e->Timer = 0;
@@ -114,7 +114,7 @@ BulletType BT_ENEMY_GENERIC = (BulletType){
 EnemyType ET_TEST = (EnemyType){
     .AnimationName = "EnemyGeneric",
     .HP = 10,
-    .MovementPattern = EnemyMovementPattern_StraightDown,
+    .MovementPattern = EnemyMovementPattern_Straight,
     .AttackPattern = EnemyAttackPattern_Aimed,
     .MovementSpeed = 256,
     .Size = 16,

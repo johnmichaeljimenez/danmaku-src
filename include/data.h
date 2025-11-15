@@ -62,7 +62,7 @@ typedef struct Enemy
 	EnemyType *Type;
 
 	Vector2 Position;
-	float Direction;
+	Vector2 Target;
 	int HP;
 	bool IsAlive;
 	float Timer;
@@ -95,5 +95,5 @@ extern EnemyType ET_TEST;
 bool HitPlayer();
 
 Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType);
-Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType);
+Enemy *SpawnEnemy(Vector2 pos, Vector2 to, EnemyType *enemyType);
 VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime);

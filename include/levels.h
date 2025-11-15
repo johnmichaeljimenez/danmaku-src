@@ -2,6 +2,8 @@
 #include "main.h"
 
 typedef struct EnemyType EnemyType;
+typedef void (*EnemyMovementFn)(Enemy *e, float dt);
+typedef void (*EnemyAttackFn)(Enemy *e, float dt);
 
 typedef struct Sequence
 {
@@ -10,8 +12,11 @@ typedef struct Sequence
 	int Count;
 
 	Vector2 Position;
-	float Direction;
+	Vector2 Target;
 	EnemyType *Type;
+
+	EnemyAttackFn MovementOverride;
+	EnemyMovementFn AttackOverride;
 
 	bool IsDone;
 } Sequence;
