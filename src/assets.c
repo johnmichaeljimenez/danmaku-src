@@ -75,8 +75,8 @@ void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint)
     Rectangle dst = {
         pos.x,
         pos.y,
-        sprite.width  * scale,
-        sprite.height * scale
+        src.width  * scale,
+        src.height * scale
     };
 
     Vector2 origin = {

@@ -4,7 +4,6 @@ bool IsCutscene;
 Vector2 lastPointerPos;
 
 static float cutsceneTimer;
-static Animation *playerAnimation;
 static int playerMovementState;
 
 Texture2D playerDefaultBullet;
@@ -23,8 +22,6 @@ void GameStart(int level)
 	memset(bullets, 0, sizeof(bullets));
 	memset(enemies, 0, sizeof(enemies));
 
-	playerAnimation = CreateAnimation("PlayerIdle");
-
 	player = (Player){
 		.Lives = 3,
 		.ImmuneTime = 0,
@@ -34,6 +31,8 @@ void GameStart(int level)
 		.IsAlive = true,
 		.MovementSpeed = 512,
 		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT + 100}};
+
+	player.animation = CreateAnimation("PlayerIdle");
 
 	lastPointerPos = player.Position;
 	SetLevel(level);
@@ -100,7 +99,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != 1)
 				{
 					playerMovementState = 1;
-					ReuseAnimation(playerAnimation, "PlayerRight");
+					ReuseAnimation(player.animation, "PlayerRight");
 				}
 			}
 			else if (inputMovement.x < 0)
@@ -108,7 +107,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != -1)
 				{
 					playerMovementState = -1;
-					ReuseAnimation(playerAnimation, "PlayerLeft");
+					ReuseAnimation(player.animation, "PlayerLeft");
 				}
 			}
 			else
@@ -116,7 +115,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != 0)
 				{
 					playerMovementState = 0;
-					ReuseAnimation(playerAnimation, "PlayerIdle");
+					ReuseAnimation(player.animation, "PlayerIdle");
 				}
 			}
 		}
@@ -189,6 +188,17 @@ void GameUpdate(float dt)
 
 	UpdateAnimations(dt);
 
+	for (int i = 0; i < VFX_COUNT; i++)
+	{
+		VFX *vfx = &vfxPool[i];
+		if (!vfx->IsAlive)
+			continue;
+
+		vfx->Timer += dt;
+		if (vfx->Timer >= vfx->Lifetime)
+			vfx->IsAlive = false;
+	}
+
 	if (IsKeyReleased(KEY_ESCAPE))
 		PauseGame();
 }
@@ -235,15 +245,48 @@ void GameRender(float dt)
 	// 													  : RED);
 	// }
 
-	Color playerTint = WHITE;
+	if (player.IsAlive)
+	{
+		Color playerTint = WHITE;
 
-	if (player.TweenHitTimer > 0)
-		playerTint = ColorLerp(WHITE, RED, player.TweenHitTimer);
-	else if (!player.IsAlive)
-		playerTint = RED;
+		if (player.TweenHitTimer > 0)
+			playerTint = ColorLerp(WHITE, RED, player.TweenHitTimer);
 
-	DrawSprite(playerAnimation->Clip->Frames[playerAnimation->FrameIndex], player.Position, 0, playerTint);
-	DrawCircleV(player.Position, player.HurtboxSize, WHITE);
+		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, playerTint);
+		DrawCircleV(player.Position, player.HurtboxSize, WHITE);
+	}
+
+	for (int i = 0; i < VFX_COUNT; i++)
+	{
+		VFX *vfx = &vfxPool[i];
+		if (!vfx->IsAlive)
+			continue;
+
+		float scale = 2.0f * vfx->Scale;
+
+		Rectangle src = {0, 0, vfx->Sprite.width, vfx->Sprite.height};
+		Rectangle dst = {
+			vfx->Position.x,
+			vfx->Position.y,
+			src.width * scale,
+			src.height * scale};
+
+		Vector2 origin = {
+			dst.width * 0.5f,
+			dst.height * 0.5f};
+
+		if (vfx->Additive)
+		{
+			BeginBlendMode(BLEND_ADDITIVE);
+		}
+
+		DrawTexturePro(vfx->Sprite, src, dst, origin, -vfx->Direction, (Color){vfx->Tint.r, vfx->Tint.g, vfx->Tint.b, vfx->Tint.a * vfx->Alpha});
+
+		if (vfx->Additive)
+		{
+			EndBlendMode();
+		}
+	}
 }
 
 void GameQuit()
