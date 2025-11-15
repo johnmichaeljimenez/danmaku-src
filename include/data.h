@@ -60,6 +60,8 @@ typedef struct Enemy
 {
 	Animation *Animation;
 	EnemyType *Type;
+	EnemyMovementFn MovementPattern;
+	EnemyAttackFn AttackPattern;
 
 	Vector2 Position;
 	Vector2 Target;

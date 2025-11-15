@@ -193,10 +193,10 @@ void GameUpdate(float dt)
 		if (!e->IsAlive)
 			continue;
 
-		e->Type->MovementPattern(e, dt);
+		e->MovementPattern(e, dt);
 
-		if (e->Type->AttackPattern != NULL)
-			e->Type->AttackPattern(e, dt);
+		if (e->AttackPattern != NULL)
+			e->AttackPattern(e, dt);
 
 		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
 		{
