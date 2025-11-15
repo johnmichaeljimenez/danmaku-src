@@ -19,6 +19,8 @@ typedef struct Sequence
 	EnemyMovementFn AttackOverride;
 
 	bool IsDone;
+	int SpawnCount;
+	float IntervalTimer;
 } Sequence;
 
 typedef struct Level

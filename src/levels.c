@@ -1,9 +1,9 @@
 #include "levels.h"
 
 #define AddSequence(_ts, _intv, _amt, _posX, _posY, _toX, _toY, _type, _mv, _atk) \
-	(Sequence) { .Timestamp = (_ts), .Interval = (_intv), .Count = (_amt),              \
-				 .Position = (Vector2){.x = (_posX), .y = (_posY)},                     \
-				 .Target = (Vector2){.x = (_toX), .y = (_toY)},                         \
+	(Sequence) { .Timestamp = (_ts), .Interval = (_intv), .Count = (_amt),        \
+				 .Position = (Vector2){.x = (_posX), .y = (_posY)},               \
+				 .Target = (Vector2){.x = (_toX), .y = (_toY)},                   \
 				 .Type = (_type), .IsDone = false, .AttackOverride = _atk, .MovementOverride = _mv }
 
 static const Sequence level0_items[] = {
@@ -12,8 +12,13 @@ static const Sequence level0_items[] = {
 	AddSequence(8.0f, 0.5f, 3, VIRTUAL_WIDTH * 0.8, 0, VIRTUAL_WIDTH * 0.8, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 
 	AddSequence(15.0f, 0.5f, 5, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+	AddSequence(15.0f, 0.5f, 5, VIRTUAL_WIDTH, 0, 0, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+
+	AddSequence(20.0f, 1, 2, VIRTUAL_WIDTH * 0.2f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
+	AddSequence(20.0f, 1, 2, VIRTUAL_WIDTH * 0.8f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
 	
-	AddSequence(20.0f, 0.5f, 5, VIRTUAL_WIDTH, 0, 0, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
+	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.1f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.1f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
+	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.9f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.9f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
 };
 
 const Level level0 = {
@@ -25,15 +30,11 @@ Level Levels[LEVEL_COUNT] = {
 
 Level *CurrentLevel = &Levels[0];
 float levelTimer;
-float intervalTimer;
-int spawnCount;
 
 void SetLevel(int index)
 {
 	CurrentLevel = &Levels[index];
 	levelTimer = 0;
-	spawnCount = 0;
-	intervalTimer = 0;
 
 	for (int i = 0; i < LEVEL_COUNT; i++)
 	{
@@ -42,6 +43,8 @@ void SetLevel(int index)
 		{
 			Sequence *sq = &lvl->Items[j];
 			sq->IsDone = false;
+			sq->IntervalTimer = 0;
+			sq->SpawnCount = 0;
 		}
 	}
 }
@@ -61,29 +64,29 @@ void UpdateLevel(float dt)
 		if (sq->Timestamp > levelTimer)
 			continue;
 
-		if (sq->Interval > intervalTimer)
+		if (sq->Interval > sq->IntervalTimer)
 		{
-			intervalTimer += dt;
+			sq->IntervalTimer += dt;
 		}
 		else
 		{
-			intervalTimer = 0;
+			sq->IntervalTimer = 0;
 			Enemy *e = SpawnEnemy(sq->Position, sq->Target, sq->Type);
-			
+
 			if (sq->MovementOverride != NULL)
 				e->MovementPattern = sq->MovementOverride;
-				
+
 			if (sq->AttackOverride != NULL)
 				e->AttackPattern = sq->AttackOverride;
 
-			spawnCount++;
+			sq->SpawnCount++;
 		}
 
-		if (spawnCount >= sq->Count)
+		if (sq->SpawnCount >= sq->Count)
 		{
 			sq->IsDone = true;
-			spawnCount = 0;
-			intervalTimer = 0;
+			sq->SpawnCount = 0;
+			sq->IntervalTimer = 0;
 		}
 	}
 }
