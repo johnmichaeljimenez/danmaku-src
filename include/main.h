@@ -24,6 +24,7 @@
 #include "data.h"
 #include "patterns.h"
 #include "levels.h"
+#include "animation.h"
 
 #include "menu.h"
 #include "game.h"

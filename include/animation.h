@@ -1,0 +1,30 @@
+#pragma once
+#include "main.h"
+
+typedef struct AnimationClip
+{
+	const char *ID;
+	int FrameCount;
+	Texture2D *Frames;
+	bool Loop;
+	bool IsValid;
+} AnimationClip;
+
+typedef struct Animation
+{
+	float Timer;
+	int FrameIndex;
+	AnimationClip *Clip;
+	bool IsValid;
+} Animation;
+
+#define ANIMATION_COUNT 1024
+#define ANIMATIONCLIP_COUNT 2048
+#define ANIMATION_FPS 1.0f / 8.0f
+
+extern Animation Animations[ANIMATION_COUNT];
+extern AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
+
+void AddAnimationClip(const char *id, Texture2D *frames, int frameCount, bool loop);
+Animation *CreateAnimation(const char *id);
+void RemoveAnimation(Animation *a);
