@@ -7,6 +7,8 @@ static float cutsceneTimer;
 static Animation *playerAnimation;
 static int playerMovementState;
 
+Texture2D playerDefaultBullet;
+
 void OnCutsceneTimerDone(const char *id)
 {
 	IsCutscene = false;
@@ -14,6 +16,7 @@ void OnCutsceneTimerDone(const char *id)
 
 void GameStart(int level)
 {
+	playerDefaultBullet = GetSprite("bullet/player-default");
 	ClearAnimations();
 
 	IsCutscene = true;
@@ -27,7 +30,7 @@ void GameStart(int level)
 		.ImmuneTime = 0,
 		.FireRate = 0.1f,
 		.FireTimer = 0,
-		.HurtboxSize = 16,
+		.HurtboxSize = 8,
 		.IsAlive = true,
 		.MovementSpeed = 512,
 		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT + 100}};
@@ -52,7 +55,7 @@ void GameUpdate(float dt)
 
 		if (!IsCutscene)
 		{
-			bool isShooting = IsKeyDown(KEY_SPACE);
+			bool isShooting = player.TweenHitTimer <= 0 && player.ImmuneTime <= 0; // IsKeyDown(KEY_SPACE);
 
 			if (IsKeyDown(KEY_A))
 				inputMovement.x = -1;
@@ -197,6 +200,12 @@ void GameRender(float dt)
 		if (!b->IsAlive)
 			continue;
 
+		if (b->FromPlayer)
+		{
+			DrawSprite(playerDefaultBullet, b->Position, b->Angle, WHITE);
+			continue;
+		}
+
 		DrawCircleV(b->Position, b->Type->Size, b->FromPlayer ? WHITE : RED);
 	}
 
@@ -225,7 +234,14 @@ void GameRender(float dt)
 	// 													  : RED);
 	// }
 
-	DrawSprite(playerAnimation->Clip->Frames[playerAnimation->FrameIndex], player.Position);
+	Color playerTint = WHITE;
+
+	if (player.TweenHitTimer > 0)
+		playerTint = ColorLerp(WHITE, RED, player.TweenHitTimer);
+	else if (!player.IsAlive)
+		playerTint = RED;
+
+	DrawSprite(playerAnimation->Clip->Frames[playerAnimation->FrameIndex], player.Position, 0, playerTint);
 	DrawCircleV(player.Position, player.HurtboxSize, WHITE);
 }
 

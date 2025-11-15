@@ -6,7 +6,7 @@ void MenuStart()
 
 void MenuUpdate(float dt)
 {
-	if (IsKeyPressed(KEY_SPACE))
+	if (IsKeyPressed(KEY_SPACE) || IsPointerDown())
 		GoToGame(0);
 }
 

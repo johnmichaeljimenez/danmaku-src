@@ -58,9 +58,9 @@ Enemy *SpawnEnemy(Vector2 pos, float dir, EnemyType *enemyType)
 }
 
 BulletType BT_PLAYER = (BulletType){
-    .MovementSpeed = 2048,
+    .MovementSpeed = 1024,
     .Pattern = BulletPattern_Straight,
-    .Size = 64};
+    .Size = 16};
 
 BulletType BT_ENEMY_GENERIC = (BulletType){
     .MovementSpeed = 512,
