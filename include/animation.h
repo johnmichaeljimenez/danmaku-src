@@ -7,6 +7,7 @@ typedef struct AnimationClip
 {
 	const char *ID;
 	int FrameCount;
+	int LoopFrame;
 	const char **FrameIDs;
 	Texture2D Frames[64];
 	bool Loop;
@@ -28,7 +29,7 @@ typedef struct Animation
 extern Animation Animations[ANIMATION_COUNT];
 extern AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 
-void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop);
+void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop, int loopFrame);
 Animation *CreateAnimation(const char *id);
 void *ReuseAnimation(Animation *a, const char *id);
 void RemoveAnimation(Animation *a);

@@ -6,11 +6,12 @@ AnimationClip AnimationClips[ANIMATIONCLIP_COUNT];
 static int lastAnimationIndex;
 static int lastAnimationClipIndex;
 
-void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop)
+void AddAnimationClip(const char *id, const char **frameIDs, int frameCount, bool loop, int loopFrame)
 {
 	AnimationClip *clip = &AnimationClips[lastAnimationClipIndex];
 	clip->IsValid = true;
 	clip->FrameCount = frameCount;
+	clip->LoopFrame = loopFrame;
 
 	for (int i = 0; i < frameCount; i++)
 	{
@@ -85,7 +86,7 @@ void UpdateAnimations(float dt)
 			if (a->FrameIndex >= a->Clip->FrameCount)
 			{
 				if (a->Clip->Loop)
-					a->FrameIndex = 0;
+					a->FrameIndex = a->Clip->LoopFrame;
 				else
 					a->FrameIndex = a->Clip->FrameCount - 1;
 			}
@@ -130,7 +131,7 @@ static const char *playerRight[] = {
 
 void SetupAnimationClips()
 {
-	AddAnimationClip("PlayerIdle", playerIdle, 8, true);
-	AddAnimationClip("PlayerLeft", playerLeft, 8, false);
-	AddAnimationClip("PlayerRight", playerRight, 8, false);
+	AddAnimationClip("PlayerIdle", playerIdle, 8, true, 0);
+	AddAnimationClip("PlayerLeft", playerLeft, 8, true, 3);
+	AddAnimationClip("PlayerRight", playerRight, 8, true, 3);
 }
