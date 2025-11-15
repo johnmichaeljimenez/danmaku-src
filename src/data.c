@@ -111,7 +111,7 @@ BulletType BT_PLAYER = (BulletType){
     .Size = 16};
 
 BulletType BT_ENEMY_GENERIC = (BulletType){
-    .MovementSpeed = 512,
+    .MovementSpeed = 400,
     .Pattern = BulletPattern_Straight,
     .Size = 8};
 
@@ -127,6 +127,7 @@ EnemyType ET_TEST = (EnemyType){
 EnemyType ET_BOSS1 = (EnemyType){
     .AnimationName = "EnemyGeneric",
     .HP = 200,
+    .IsBoss = true,
     .MovementPattern = EnemyMovementPattern_Boss1,
     .AttackPattern = EnemyAttackPattern_Boss1,
     .MovementSpeed = 256,

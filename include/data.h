@@ -27,6 +27,7 @@ typedef struct EnemyType
 	float Size;
 	EnemyMovementFn MovementPattern;
 	EnemyAttackFn AttackPattern;
+	bool IsBoss;
 	int HP;
 } EnemyType;
 

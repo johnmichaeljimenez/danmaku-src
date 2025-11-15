@@ -40,7 +40,7 @@ void GameStart(int level)
 	SetLevel(level);
 
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 1, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
-	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerStartPosition", NULL);
+	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerTweenPosition", NULL);
 }
 
 void GameUpdate(float dt)
@@ -175,7 +175,7 @@ void GameUpdate(float dt)
 					}
 				}
 			}
-			else if (player.ImmuneTime <= 0 && player.IsAlive)
+			else if (player.ImmuneTime <= 0 && player.IsAlive && !IsCutscene)
 			{
 				if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Type->Size))
 				{
@@ -205,6 +205,14 @@ void GameUpdate(float dt)
 		{
 			e->IsAlive = false;
 			RemoveAnimation(e->Animation);
+
+			if (e->Type->IsBoss)
+			{
+				IsCutscene = true;
+				TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 5, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
+				TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 5, EASING_EASEINOUTQUAD, "PlayerTweenPosition", NULL);
+			}
+
 			continue;
 		}
 	}
