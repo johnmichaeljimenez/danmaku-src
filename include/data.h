@@ -72,6 +72,7 @@ typedef struct Enemy
 
 typedef struct VFX
 {
+	int ID;
 	Texture2D Sprite;
 	Vector2 Position;
 	float Direction;

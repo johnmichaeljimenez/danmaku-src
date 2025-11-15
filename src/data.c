@@ -81,6 +81,7 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
         VFX *v = &vfxPool[i];
         if (!v->IsAlive)
         {
+            v->ID = i;
             v->IsAlive = true;
             v->Position = pos;
             v->Sprite = sprite;
