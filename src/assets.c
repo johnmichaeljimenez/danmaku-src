@@ -70,7 +70,13 @@ void LoadAllSprites()
 
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint)
 {
-    float scale = 2.0f;
+	DrawSpriteScaled(sprite, pos, angle, 1, tint);
+}
+
+void DrawSpriteScaled(Texture2D sprite, Vector2 pos, float angle, float scale, Color tint)
+{
+    float defScale = 2.0f;
+	scale *= defScale;
 
     Rectangle src = { 0, 0, sprite.width, sprite.height };
     Rectangle dst = {

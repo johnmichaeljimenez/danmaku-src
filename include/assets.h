@@ -15,5 +15,6 @@ extern Font DefaultFont;
 
 void LoadAllSprites();
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint);
+void DrawSpriteScaled(Texture2D sprite, Vector2 pos, float angle, float scale, Color tint);
 Texture2D GetSprite(const char *name);
 void UnloadAllSprites();
