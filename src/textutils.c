@@ -1,5 +1,26 @@
 #include "textutils.h"
 
+void GetTypedText(const char *src, float t,
+				  char *out, size_t outSize)
+{
+	if (!src || !out || outSize == 0)
+		return;
+
+	size_t fullLen = strlen(src);
+
+	t = Clamp(t, 0.0f, 1.0f);
+
+	size_t visible = (size_t)(fullLen * t);
+	if (visible > fullLen)
+		visible = fullLen;
+
+	if (visible >= outSize)
+		visible = outSize - 1;
+
+	memcpy(out, src, visible);
+	out[visible] = '\0';
+}
+
 /* From Raylib examples website */
 
 void DrawTextStyled(Font font, const char *text, Vector2 position, float fontSize, float spacing, Color color)

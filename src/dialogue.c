@@ -4,11 +4,16 @@ bool IsDialogueActive;
 DialogueSet *currentDialogue;
 int dialogueIndex;
 int displayCharacter;
+
+float dialogueTypeProgress;
+float dialogueTypeSpeed = 0.2f;
+int dialogueMessageLength;
+
 const char *displayMessage;
 float dialogueTween;
 static void (*endFunction)(void);
 
-void OnDialogueHide(const char *id)
+void OnDialogueHide(void)
 {
 	IsDialogueActive = false;
 	currentDialogue = NULL;
@@ -19,6 +24,19 @@ void OnDialogueHide(const char *id)
 		endFunction();
 		endFunction = NULL;
 	}
+}
+
+static void UpdateDialogue()
+{
+	const int minText = 1;
+	const int maxText = 100;
+
+	dialogueTypeProgress = 0.0f;
+	displayCharacter = currentDialogue->Lines[dialogueIndex].CharacterID;
+	displayMessage = currentDialogue->Lines[dialogueIndex].Message;
+	dialogueMessageLength = strlen(displayMessage);
+	dialogueTypeSpeed = Remap(Clamp(dialogueMessageLength, minText, maxText), minText, maxText, 0.95f, 0.5f);
+	TraceLog(LOG_INFO, "%d %f", dialogueMessageLength, dialogueTypeSpeed);
 }
 
 void DialogueShow(const char *dialogueID, void (*onEnd)(void))
@@ -34,10 +52,7 @@ void DialogueShow(const char *dialogueID, void (*onEnd)(void))
 		if (TextIsEqual(st->ID, dialogueID))
 		{
 			currentDialogue = st;
-
-			displayCharacter = currentDialogue->Lines[dialogueIndex].CharacterID;
-			displayMessage = currentDialogue->Lines[dialogueIndex].Message;
-
+			UpdateDialogue();
 			break;
 		}
 	}
@@ -57,17 +72,30 @@ void DialogueUpdate(float dt)
 	if (dialogueTween < 1 || dialogueIndex >= currentDialogue->Count)
 		return;
 
+	if (dialogueTypeProgress < 1.0f)
+	{
+		dialogueTypeProgress += dialogueTypeSpeed * dt;
+		if (dialogueTypeProgress > 1.0f)
+			dialogueTypeProgress = 1.0f;
+	}
+
 	if (IsPointerPressed())
 	{
-		dialogueIndex++;
-		if (dialogueIndex >= currentDialogue->Count)
+		if (dialogueTypeProgress >= 0.95f)
 		{
-			TweenManager_AddFloatFrom(&dialogueTween, 1, 0, 0.5f, EASING_EASEINQUAD, "Dialogue", OnDialogueHide);
+			dialogueIndex++;
+			if (dialogueIndex >= currentDialogue->Count)
+			{
+				TweenManager_AddFloatFrom(&dialogueTween, 1, 0, 0.5f, EASING_EASEINQUAD, "Dialogue", OnDialogueHide);
+			}
+			else
+			{
+				UpdateDialogue();
+			}
 		}
 		else
 		{
-			displayCharacter = currentDialogue->Lines[dialogueIndex].CharacterID;
-			displayMessage = currentDialogue->Lines[dialogueIndex].Message;
+			dialogueTypeProgress = 5.0f;
 		}
 	}
 }
@@ -76,7 +104,10 @@ void DialogueRender(float dt)
 {
 	DrawRectangle(0, 0, VIRTUAL_WIDTH, 120, (Color){10, 10, 10, 150 * dialogueTween});
 
-	const char *dis = TextFormat("[c00FF00FF](%s)[r] %s", Characters[displayCharacter].ShortName, displayMessage);
+	char typed[1024];
+	GetTypedText(displayMessage, dialogueTypeProgress, typed, sizeof(typed));
+
+	const char *dis = TextFormat("[c00FF00FF](%s)[r] %s", Characters[displayCharacter].ShortName, typed);
 	DrawTextStyled(DefaultFont, dis, (Vector2){12, 12}, 35, 0, (Color){255, 255, 255, 255 * dialogueTween});
 }
 
@@ -102,7 +133,6 @@ static const Dialogue tutorial_start_lines[] = {
 	{.CharacterID = 1, .Message = "Hype level, good!"},
 	{.CharacterID = 1, .Message = "Then... Hanabisaki: Flowerburst tutorial...\nSTART!"}};
 
-	
 static const Dialogue tutorial_end_lines[] = {
 	{.CharacterID = 0, .Message = "Haa... haa..."},
 	{.CharacterID = 0, .Message = "This might be... more manageable than I\nthought... maybe."},
@@ -113,7 +143,7 @@ static const Dialogue tutorial_end_lines[] = {
 	{.CharacterID = 0, .Message = "...Don't say something scary all of a sudden."},
 	{.CharacterID = 0, .Message = "But... now that I've come this far,\nI'll see it through."},
 };
-	
+
 static const Dialogue tutorial_retry_1[] = {
 	{.CharacterID = 1, .Message = "Welcome back, Hibiki. Right this way to\nthe 'Courage to Try Again' lane~."},
 	{.CharacterID = 0, .Message = "Don't give it weird names...\nBut, well, it's not over yet anyway."},
@@ -143,5 +173,4 @@ DialogueSet Dialogues[DIALOGUE_COUNT] =
 		 .Count = arraySize(tutorial_retry_1)},
 		{.ID = "tutorial-retry-2",
 		 .Lines = (Dialogue *)tutorial_retry_2,
-		 .Count = arraySize(tutorial_retry_2)}
-	};
+		 .Count = arraySize(tutorial_retry_2)}};
