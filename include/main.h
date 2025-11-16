@@ -18,6 +18,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#include "textutils.h"
 #include "tween.h"
 #include "assets.h"
 #include "screen.h"
