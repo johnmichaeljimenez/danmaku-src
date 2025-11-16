@@ -12,6 +12,8 @@ int main(void)
 
     SetTargetFPS(60);
 
+    DefaultFont = LoadFontEx("assets/font-default.ttf", 48, NULL, 0);
+
     TweenManager_Init();
     LoadAllSprites();
     SetupAnimationClips();
@@ -80,6 +82,7 @@ int main(void)
     UnloadAllSprites();
     DisposeScreen();
 
+    UnloadFont(DefaultFont);
     CloseWindow();
 
     return 0;

@@ -1,5 +1,6 @@
 #include "assets.h"
 
+Font DefaultFont;
 static SpriteManager spriteManager = {0};
 
 static int EndsWithPNG(const char *filename)

@@ -11,6 +11,8 @@ typedef struct SpriteManager {
     int count;
 } SpriteManager;
 
+extern Font DefaultFont;
+
 void LoadAllSprites();
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint);
 Texture2D GetSprite(const char *name);

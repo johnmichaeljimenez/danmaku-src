@@ -17,7 +17,7 @@ static void GetRenderScaleAndOffset(int *offsetX, int *offsetY, float *scale)
 void InitScreen(void)
 {
     screenRT = LoadRenderTexture(VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
-    SetTextureFilter(screenRT.texture, TEXTURE_FILTER_POINT);
+    SetTextureFilter(screenRT.texture, TEXTURE_FILTER_BILINEAR);
 }
 
 void BeginScreen(void)
