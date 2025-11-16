@@ -90,6 +90,7 @@ int main(void)
 
 void GoToMenu()
 {
+    RetryCount = 0;
     gameState = GAMESTATE_MENU;
     TweenManager_Clear();
     GameQuit();
@@ -98,6 +99,7 @@ void GoToMenu()
 
 void GoToGame(int level)
 {
+    RetryCount = 0;
     currentLevel = level;
     gameState = GAMESTATE_INGAME;
     TweenManager_Clear();
@@ -121,6 +123,9 @@ void UnpauseGame()
 
 void EndGame(bool win)
 {
+    if (win)
+        RetryCount = 0;
+
     gameState = GAMESTATE_GAME_END;
     IsGamePaused = false;
     GameEndShow(win);

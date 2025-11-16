@@ -108,7 +108,7 @@ bool IsPointerHold(float dt)
     if (holdTimer >= 0.5f)
     {
         firedHold = true;
-        TraceLog(LOG_INFO, "%.2f", holdTimer);
+        // TraceLog(LOG_INFO, "%.2f", holdTimer);
         holdTimer = 0;
         return true;
     }

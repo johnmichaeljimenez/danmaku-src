@@ -18,6 +18,7 @@ void GameEndUpdate(float dt)
 		}
 		else
 		{
+			RetryCount++;
 			RestartGame();
 		}
 	}

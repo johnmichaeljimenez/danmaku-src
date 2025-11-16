@@ -106,6 +106,22 @@ static const Dialogue tutorial_end_lines[] = {
 	{.CharacterID = -1, .Message = "[Hibiki] ...Don't say something scary all of a sudden."},
 	{.CharacterID = -1, .Message = "[Hibiki] But... now that I've come this far,\nI'll see it through."},
 };
+	
+static const Dialogue tutorial_retry_1[] = {
+	{.CharacterID = -1, .Message = "[Riko] Welcome back, Hibiki. Right this way to\nthe 'Courage to Try Again' lane~."},
+	{.CharacterID = -1, .Message = "[Hibiki] Don't give it weird names...\nBut, well, it's not over yet anyway."},
+	{.CharacterID = -1, .Message = "[Riko] Yep, that's the spirit. You can fall as many times\nas you like in practice!"},
+	{.CharacterID = -1, .Message = "[Riko] If you nail it on festival day, it all gets wiped\nclean!"},
+	{.CharacterID = -1, .Message = "[Hibiki] Then I'll just make up for every fall when the\nfestival comes."},
+	{.CharacterID = -1, .Message = "[Hibiki] ...All right. One more round, please."},
+	{.CharacterID = -1, .Message = "[Riko] Roger! Fireworks, ready to launch! Dodgeball\nreflexes, ready too?"},
+	{.CharacterID = -1, .Message = "[Hibiki] ...Probably."},
+};
+
+static const Dialogue tutorial_retry_2[] = {
+	{.CharacterID = -1, .Message = "[Riko] All right, one retry coming up~. This time,\nlet's go for no mistakes, okay?"},
+	{.CharacterID = -1, .Message = "[Hibiki] Easy for you to say... I'll do it though."},
+};
 
 DialogueSet Dialogues[DIALOGUE_COUNT] =
 	{
@@ -114,5 +130,11 @@ DialogueSet Dialogues[DIALOGUE_COUNT] =
 		 .Count = arraySize(tutorial_start_lines)},
 		{.ID = "tutorial-end",
 		 .Lines = (Dialogue *)tutorial_end_lines,
-		 .Count = arraySize(tutorial_end_lines)}
+		 .Count = arraySize(tutorial_end_lines)},
+		{.ID = "tutorial-retry-1",
+		 .Lines = (Dialogue *)tutorial_retry_1,
+		 .Count = arraySize(tutorial_retry_1)},
+		{.ID = "tutorial-retry-2",
+		 .Lines = (Dialogue *)tutorial_retry_2,
+		 .Count = arraySize(tutorial_retry_2)}
 	};

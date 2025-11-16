@@ -56,7 +56,22 @@ void SetLevel(int index)
 	}
 
 	if (CurrentLevel->StartDialogue != NULL)
+	{
+		if (index == 0)
+		{
+			// TraceLog(LOG_INFO, "%d", RetryCount);
+			if (RetryCount > 0)
+			{
+				if (RetryCount >= 3)
+					return;
+
+				DialogueShow(TextFormat("tutorial-retry-%d", RetryCount), NULL);
+				return;
+			}
+		}
+
 		DialogueShow(CurrentLevel->StartDialogue, NULL);
+	}
 }
 
 void UpdateLevel(float dt)

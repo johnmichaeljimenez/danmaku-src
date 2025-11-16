@@ -1,6 +1,7 @@
 #include "game.h"
 
 bool IsCutscene;
+int RetryCount;
 
 Vector2 lastPointerPos;
 bool lastPointerSet;
@@ -99,7 +100,7 @@ void GameUpdate(float dt)
 
 	if (IsKeyPressed(KEY_B))
 	{
-		DialogueShow("tutorial-end", NULL);
+		DialogueShow("tutorial-retry-2", NULL);
 		return;
 	}
 
@@ -240,7 +241,7 @@ void GameUpdate(float dt)
 					}
 				}
 			}
-			else if (player.ImmuneTime <= 0 && player.IsAlive && !IsCutscene)
+			else if (player.ImmuneTime <= 0 && player.IsAlive)
 			{
 				if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Type->Size))
 				{

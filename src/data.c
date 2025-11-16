@@ -8,7 +8,7 @@ Player player;
 
 bool HitPlayer()
 {
-    if (!player.IsAlive || player.ImmuneTime > 0)
+    if (!player.IsAlive || player.ImmuneTime > 0 || IsCutscene || IsDialogueActive)
     {
         return false;
     }
