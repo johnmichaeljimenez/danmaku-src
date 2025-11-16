@@ -123,7 +123,7 @@ bool IsPointerDown(void)
 
 bool IsPointerPressed(void)
 {
-    return IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
+    return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 }
 
 Vector3 Vector3Snap(Vector3 input)

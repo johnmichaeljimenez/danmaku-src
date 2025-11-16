@@ -27,6 +27,8 @@ typedef struct Level
 {
 	int Count;
 	Sequence *Items;
+	const char* StartDialogue;
+	const char* EndDialogue;
 } Level;
 
 #define LEVEL_COUNT 1
