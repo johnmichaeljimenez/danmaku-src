@@ -24,7 +24,7 @@ void EnemyMovementPattern_Boss1(Enemy *e, float dt)
 
 void EnemyAttackPattern_Aimed(Enemy *e, float dt)
 {
-    if (fmodf(e->AttackTimer, 0.8f) < dt)
+    if (fmodf(e->AttackTimer, 1.5f) < dt)
     {
         Vector2 playerPos = player.Position;
         float angle = atan2f(e->Position.y - playerPos.y, playerPos.x - e->Position.x) * RAD2DEG;

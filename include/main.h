@@ -29,11 +29,14 @@
 #include "menu.h"
 #include "game.h"
 #include "pause.h"
+#include "end.h"
 
 void GoToGame(int level);
 void GoToMenu();
 void PauseGame();
 void UnpauseGame();
+void EndGame(bool win);
+void RestartGame();
 
 typedef enum GameState
 {

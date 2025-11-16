@@ -15,14 +15,35 @@ void OnCutsceneTimerDone(const char *id)
 	IsCutscene = false;
 }
 
+void OnEndLevel(const char *id)
+{
+	EndGame(player.IsAlive);
+}
+
+static void EndLevel()
+{
+	IsCutscene = true;
+	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 5, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
+	TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 5, EASING_EASEINOUTQUAD, "PlayerTweenPosition", OnEndLevel);
+
+	ReuseAnimation(player.animation, "PlayerIdle");
+	lastPointerSet = false;
+}
+
+void ClearGameplayData()
+{
+	memset(bullets, 0, sizeof(bullets));
+	memset(enemies, 0, sizeof(enemies));
+	memset(vfxPool, 0, sizeof(vfxPool));
+	memset(Animations, 0, sizeof(Animations));
+}
+
 void GameStart(int level)
 {
 	playerDefaultBullet = GetSprite("bullet/player-default");
-	ClearAnimations();
+	ClearGameplayData();
 
 	IsCutscene = true;
-	memset(bullets, 0, sizeof(bullets));
-	memset(enemies, 0, sizeof(enemies));
 
 	player = (Player){
 		.Lives = 3,
@@ -45,6 +66,20 @@ void GameStart(int level)
 
 void GameUpdate(float dt)
 {
+	if (IsKeyPressed(KEY_M))
+	{
+		EndLevel();
+		return;
+	}
+	
+	if (IsKeyPressed(KEY_N))
+	{
+		HitPlayer();
+		return;
+	}
+
+	bool endedLevel = false;
+
 	UpdateLevel(dt);
 
 	if (player.IsAlive)
@@ -208,13 +243,16 @@ void GameUpdate(float dt)
 
 			if (e->Type->IsBoss)
 			{
-				IsCutscene = true;
-				TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 5, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
-				TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 5, EASING_EASEINOUTQUAD, "PlayerTweenPosition", NULL);
+				endedLevel = true;
 			}
 
 			continue;
 		}
+	}
+
+	if (endedLevel)
+	{
+		EndLevel();
 	}
 
 	UpdateAnimations(dt);
@@ -327,5 +365,5 @@ void GameRender(float dt)
 
 void GameQuit()
 {
-	ClearAnimations();
+	ClearGameplayData();
 }

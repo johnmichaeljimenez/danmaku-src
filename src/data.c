@@ -18,7 +18,7 @@ bool HitPlayer()
     {
         player.IsAlive = false;
 
-        TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", NULL);
+        TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", OnEndLevel);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);
     }
     else

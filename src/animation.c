@@ -94,11 +94,6 @@ void UpdateAnimations(float dt)
 	}
 }
 
-void ClearAnimations()
-{
-	memset(Animations, 0, sizeof(Animations));
-}
-
 static const char *playerIdle[] = {
 	"character/character-idle (1)",
 	"character/character-idle (2)",

@@ -11,7 +11,7 @@ void PauseShow()
 
 void PauseHide()
 {
-	TweenManager_AddFloat(&pauseFadeBG, 0, 0.2, EASING_EASEINQUAD, "PauseBG", NULL);
+	
 }
 
 void PauseUpdate(float dt)

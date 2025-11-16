@@ -35,5 +35,4 @@ void *ReuseAnimation(Animation *a, const char *id);
 void RemoveAnimation(Animation *a);
 
 void UpdateAnimations(float dt);
-void ClearAnimations();
 void SetupAnimationClips();

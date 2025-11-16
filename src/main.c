@@ -2,6 +2,7 @@
 
 TweenManager gTweenManager;
 GameState gameState = GAMESTATE_MENU;
+int currentLevel;
 
 int main(void)
 {
@@ -32,6 +33,9 @@ int main(void)
         case GAMESTATE_PAUSE:
             PauseUpdate(dt);
             break;
+        case GAMESTATE_GAME_END:
+            GameEndUpdate(dt);
+            break;
 
         default:
             break;
@@ -54,7 +58,10 @@ int main(void)
                 GameRender(dt);
                 PauseRender(dt);
                 break;
-
+            case GAMESTATE_GAME_END:
+                GameRender(dt);
+                GameEndRender(dt);
+                break;
             default:
                 break;
             }
@@ -84,6 +91,7 @@ void GoToMenu()
 
 void GoToGame(int level)
 {
+    currentLevel = level;
     gameState = GAMESTATE_INGAME;
     TweenManager_Clear();
     MenuCleanup();
@@ -102,4 +110,18 @@ void UnpauseGame()
     PauseHide();
     gameState = GAMESTATE_INGAME;
     IsGamePaused = false;
+}
+
+void EndGame(bool win)
+{
+    gameState = GAMESTATE_GAME_END;
+    IsGamePaused = false;
+    GameEndShow(win);
+}
+
+void RestartGame()
+{
+    gameState = GAMESTATE_INGAME;
+    TweenManager_Clear();
+    GameStart(currentLevel);
 }
