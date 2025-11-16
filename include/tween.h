@@ -28,7 +28,7 @@ typedef enum
     EASING_SHAKE
 } EasingType;
 
-typedef void (*TweenCallback)(const char *id);
+typedef void (*TweenCallback)(void);
 
 typedef struct Tween
 {
@@ -189,7 +189,7 @@ static void TweenManager_Update(float dt)
                 break;
             }
             if (t->onComplete)
-                t->onComplete(t->id);
+                t->onComplete();
             t->active = false;
         }
     }

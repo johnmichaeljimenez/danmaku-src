@@ -11,12 +11,12 @@ static int playerMovementState;
 
 Texture2D playerDefaultBullet;
 
-void OnCutsceneTimerDone(const char *id)
+static void OnCutsceneTimerDone(void)
 {
 	IsCutscene = false;
 }
 
-void OnEndLevel(const char *id)
+void OnEndLevel(void)
 {
 	EndGame(player.IsAlive);
 }

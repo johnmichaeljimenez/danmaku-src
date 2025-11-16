@@ -9,4 +9,4 @@ void GameUpdate(float dt);
 void GameRender(float dt);
 void GameQuit();
 
-void OnEndLevel(const char *id);
+void OnEndLevel(void);
