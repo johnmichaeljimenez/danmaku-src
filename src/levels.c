@@ -18,8 +18,8 @@ static const Sequence level0_items[] = {
 	AddSequence(15.0f, 0.5f, 5, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 	AddSequence(15.0f, 0.5f, 5, VIRTUAL_WIDTH, 0, 0, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, NULL),
 
-	AddSequence(20.0f, 1, 2, VIRTUAL_WIDTH * 0.2f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
-	AddSequence(20.0f, 1, 2, VIRTUAL_WIDTH * 0.8f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
+	AddSequence(20.0f, 1, 1, VIRTUAL_WIDTH * 0.2f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
+	AddSequence(20.0f, 1, 1, VIRTUAL_WIDTH * 0.8f, 0, VIRTUAL_WIDTH * 0.5f, VIRTUAL_HEIGHT + 100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
 	
 	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.1f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.1f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),
 	AddSequence(25.0f, 1, 1, VIRTUAL_WIDTH * 0.9f, VIRTUAL_HEIGHT, VIRTUAL_WIDTH * 0.9f, -100, &ET_TEST, NULL, EnemyAttackPattern_Aimed),

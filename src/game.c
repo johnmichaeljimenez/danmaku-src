@@ -22,11 +22,20 @@ void OnEndLevel(const char *id)
 
 static void EndLevel()
 {
+	for (int i = 0; i < BULLET_COUNT; i++)
+	{
+		if (!bullets[i].IsAlive)
+			continue;
+
+		if (!bullets[i].FromPlayer)
+			bullets[i].IsAlive = false;
+	}
+
 	IsCutscene = true;
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 5, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
 	TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 5, EASING_EASEINOUTQUAD, "PlayerTweenPosition", OnEndLevel);
 
-	ReuseAnimation(player.animation, "PlayerIdle");
+	ReuseAnimation(player.Animation, "PlayerIdle");
 	lastPointerSet = false;
 }
 
@@ -52,10 +61,10 @@ void GameStart(int level)
 		.FireTimer = 0,
 		.HurtboxSize = 8,
 		.IsAlive = true,
-		.MovementSpeed = 512,
+		.MovementSpeed = 400,
 		.Position = (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT + 100}};
 
-	player.animation = CreateAnimation("PlayerIdle");
+	player.Animation = CreateAnimation("PlayerIdle");
 
 	lastPointerPos = player.Position;
 	SetLevel(level);
@@ -71,7 +80,7 @@ void GameUpdate(float dt)
 		EndLevel();
 		return;
 	}
-	
+
 	if (IsKeyPressed(KEY_N))
 	{
 		HitPlayer();
@@ -146,7 +155,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != 1)
 				{
 					playerMovementState = 1;
-					ReuseAnimation(player.animation, "PlayerRight");
+					ReuseAnimation(player.Animation, "PlayerRight");
 				}
 			}
 			else if (inputMovement.x < 0)
@@ -154,7 +163,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != -1)
 				{
 					playerMovementState = -1;
-					ReuseAnimation(player.animation, "PlayerLeft");
+					ReuseAnimation(player.Animation, "PlayerLeft");
 				}
 			}
 			else
@@ -162,7 +171,7 @@ void GameUpdate(float dt)
 				if (playerMovementState != 0)
 				{
 					playerMovementState = 0;
-					ReuseAnimation(player.animation, "PlayerIdle");
+					ReuseAnimation(player.Animation, "PlayerIdle");
 				}
 			}
 		}
@@ -228,6 +237,25 @@ void GameUpdate(float dt)
 		if (!e->IsAlive)
 			continue;
 
+		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
+		{
+			e->IsAlive = false;
+			RemoveAnimation(e->Animation);
+
+			if (e->Type->IsBoss)
+			{
+				VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 1.0);
+				vfx->Additive = true;
+
+				TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
+				TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-BossDeath2", NULL);
+
+				endedLevel = true;
+			}
+
+			continue;
+		}
+
 		e->MovementPattern(e, dt);
 		e->MovementTimer += dt;
 
@@ -236,17 +264,9 @@ void GameUpdate(float dt)
 
 		e->AttackTimer += dt;
 
-		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
+		if (CheckCollisionCircles(e->Position, e->Type->Size, player.Position, player.HurtboxSize))
 		{
-			e->IsAlive = false;
-			RemoveAnimation(e->Animation);
-
-			if (e->Type->IsBoss)
-			{
-				endedLevel = true;
-			}
-
-			continue;
+			HitPlayer();
 		}
 	}
 
@@ -316,7 +336,7 @@ void GameRender(float dt)
 
 	if (player.IsAlive)
 	{
-		DrawSprite(player.animation->Clip->Frames[player.animation->FrameIndex], player.Position, 0, player.ImmuneTime > 0 ? (Color){255, 0, 0, 255} : WHITE);
+		DrawSprite(player.Animation->Clip->Frames[player.Animation->FrameIndex], player.Position, 0, player.ImmuneTime > 0 ? (Color){255, 0, 0, 255} : WHITE);
 		DrawCircleV(player.Position, player.HurtboxSize, player.ImmuneTime > 0 ? (Color){255, 0, 0, 255} : WHITE);
 	}
 

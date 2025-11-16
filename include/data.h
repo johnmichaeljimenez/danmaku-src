@@ -33,7 +33,7 @@ typedef struct EnemyType
 
 typedef struct Player
 {
-	Animation *animation;
+	Animation *Animation;
 	Vector2 Position;
 	float HurtboxSize;
 

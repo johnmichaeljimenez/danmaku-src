@@ -8,9 +8,14 @@ Player player;
 
 bool HitPlayer()
 {
+    if (!player.IsAlive || player.ImmuneTime > 0)
+    {
+        return false;
+    }
+
     player.Lives -= 1;
 
-    VFX *vfx = SpawnVFX(player.Position, player.animation->Clip->Frames[player.animation->FrameIndex], 0, 1.0);
+    VFX *vfx = SpawnVFX(player.Position, player.Animation->Clip->Frames[player.Animation->FrameIndex], 0, 1.0);
     vfx->Additive = true;
     vfx->Tint = (Color){255, 0, 0, 255};
 
@@ -23,7 +28,7 @@ bool HitPlayer()
     }
     else
     {
-        player.ImmuneTime = 1.0f;
+        player.ImmuneTime = 1.1f;
 
         TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", NULL);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);
@@ -132,5 +137,4 @@ EnemyType ET_BOSS1 = (EnemyType){
     .AttackPattern = EnemyAttackPattern_Boss1,
     .MovementSpeed = 256,
     .Size = 32,
-    .BulletTypes = {&BT_ENEMY_GENERIC}
-};
+    .BulletTypes = {&BT_ENEMY_GENERIC}};
