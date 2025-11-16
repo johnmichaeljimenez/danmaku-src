@@ -89,7 +89,7 @@ void GameUpdate(float dt)
 
 	if (IsKeyPressed(KEY_B))
 	{
-		DialogueShow("test");
+		DialogueShow("tutorial-end", NULL);
 		return;
 	}
 
@@ -187,6 +187,10 @@ void GameUpdate(float dt)
 
 		player.Position = Vector2Clamp(player.Position, (Vector2){0, 0}, (Vector2){VIRTUAL_WIDTH, VIRTUAL_HEIGHT});
 	}
+	else
+	{
+		lastPointerSet = false;
+	}
 
 	for (int i = 0; i < BULLET_COUNT; i++)
 	{
@@ -278,7 +282,10 @@ void GameUpdate(float dt)
 
 	if (endedLevel)
 	{
-		EndLevel();
+		if (CurrentLevel->EndDialogue != NULL)
+			DialogueShow(CurrentLevel->EndDialogue, EndLevel);
+		else
+			EndLevel();
 	}
 
 	UpdateAnimations(dt);

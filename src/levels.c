@@ -29,7 +29,8 @@ static const Sequence level0_items[] = {
 const Level level0 = {
 	.Count = arraySize(level0_items),
 	.Items = (Sequence *)level0_items,
-	.StartDialogue = "tutorial-start"};
+	.StartDialogue = "tutorial-start",
+	.EndDialogue = "tutorial-end"};
 
 Level Levels[LEVEL_COUNT] = {
 	level0};
@@ -55,7 +56,7 @@ void SetLevel(int index)
 	}
 
 	if (CurrentLevel->StartDialogue != NULL)
-		DialogueShow(CurrentLevel->StartDialogue);
+		DialogueShow(CurrentLevel->StartDialogue, NULL);
 }
 
 void UpdateLevel(float dt)
