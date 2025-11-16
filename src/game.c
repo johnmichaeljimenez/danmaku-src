@@ -32,8 +32,8 @@ static void EndLevel()
 	}
 
 	IsCutscene = true;
-	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 5, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
-	TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 5, EASING_EASEINOUTQUAD, "PlayerTweenPosition", OnEndLevel);
+	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 2, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
+	TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 2, EASING_EASEINOUTQUAD, "PlayerTweenPosition", OnEndLevel);
 
 	ReuseAnimation(player.Animation, "PlayerIdle");
 	lastPointerSet = false;

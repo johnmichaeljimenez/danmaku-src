@@ -13,6 +13,7 @@ void DisposeScreen(void);
 
 Vector2 GetVirtualPointer(void);
 Vector2 GetRealPointerFromVirtual(Vector2 virtualPos);
+bool IsPointerHold(float dt);
 bool IsPointerDown(void);
 bool IsPointerPressed(void);
 

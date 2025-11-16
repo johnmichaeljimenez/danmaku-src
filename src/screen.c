@@ -1,6 +1,8 @@
 #include "screen.h"
 
 static RenderTexture2D screenRT;
+static float holdTimer;
+static bool firedHold;
 
 static void GetRenderScaleAndOffset(int *offsetX, int *offsetY, float *scale)
 {
@@ -88,6 +90,32 @@ Vector2 GetRealPointerFromVirtual(Vector2 virtualPos)
         virtualPos.y * scale + offsetY};
 }
 
+bool IsPointerHold(float dt)
+{
+    bool hold = IsMouseButtonDown(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
+    if (!hold)
+    {
+        firedHold = false;
+        holdTimer = 0;
+        return false;
+    }
+
+    if (firedHold)
+        return false;
+
+    holdTimer += dt;
+
+    if (holdTimer >= 0.5f)
+    {
+        firedHold = true;
+        TraceLog(LOG_INFO, "%.2f", holdTimer);
+        holdTimer = 0;
+        return true;
+    }
+
+    return false;
+}
+
 bool IsPointerDown(void)
 {
     return IsMouseButtonDown(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
@@ -95,7 +123,7 @@ bool IsPointerDown(void)
 
 bool IsPointerPressed(void)
 {
-    return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
+    return IsMouseButtonPressed(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
 }
 
 Vector3 Vector3Snap(Vector3 input)

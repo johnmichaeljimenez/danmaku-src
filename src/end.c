@@ -9,7 +9,7 @@ void GameEndShow(bool win)
 
 void GameEndUpdate(float dt)
 {
-	if (IsPointerDown() || IsKeyPressed(KEY_SPACE))
+	if (IsPointerHold(dt) || IsKeyPressed(KEY_SPACE))
 	{
 		GameEndHide();
 		if (isWinState)
