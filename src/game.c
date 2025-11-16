@@ -20,6 +20,17 @@ void OnEndLevel(const char *id)
 	EndGame(player.IsAlive);
 }
 
+void ClearInput()
+{
+	if (playerMovementState != 0)
+	{
+		playerMovementState = 0;
+		ReuseAnimation(player.Animation, "PlayerIdle");
+	}
+
+	lastPointerSet = false;
+}
+
 static void EndLevel()
 {
 	for (int i = 0; i < BULLET_COUNT; i++)
@@ -35,8 +46,7 @@ static void EndLevel()
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 2, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
 	TweenManager_AddVector2(&player.Position, (Vector2){player.Position.x, -100}, 2, EASING_EASEINOUTQUAD, "PlayerTweenPosition", OnEndLevel);
 
-	ReuseAnimation(player.Animation, "PlayerIdle");
-	lastPointerSet = false;
+	ClearInput();
 }
 
 void ClearGameplayData()
@@ -94,6 +104,11 @@ void GameUpdate(float dt)
 	}
 
 	bool endedLevel = false;
+
+	if (IsCutscene || IsDialogueActive)
+	{
+		ClearInput();
+	}
 
 	UpdateLevel(dt);
 
@@ -186,10 +201,6 @@ void GameUpdate(float dt)
 		player.Position.y += inputMovement.y * dt * player.MovementSpeed;
 
 		player.Position = Vector2Clamp(player.Position, (Vector2){0, 0}, (Vector2){VIRTUAL_WIDTH, VIRTUAL_HEIGHT});
-	}
-	else
-	{
-		lastPointerSet = false;
 	}
 
 	for (int i = 0; i < BULLET_COUNT; i++)
