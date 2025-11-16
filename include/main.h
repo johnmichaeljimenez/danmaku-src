@@ -40,6 +40,11 @@ void UnpauseGame();
 void EndGame(bool win);
 void RestartGame();
 
+bool IsFading();
+void FadeScreen(float to, bool white, void (*onFadeEnd)(void));
+
+extern bool IsFadeScreen;
+
 typedef enum GameState
 {
 	GAMESTATE_MENU,

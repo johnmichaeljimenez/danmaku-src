@@ -92,6 +92,9 @@ Vector2 GetRealPointerFromVirtual(Vector2 virtualPos)
 
 bool IsPointerHold(float dt)
 {
+    if (IsFading())
+        return false;
+
     bool hold = IsMouseButtonDown(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
     if (!hold)
     {
@@ -118,11 +121,17 @@ bool IsPointerHold(float dt)
 
 bool IsPointerDown(void)
 {
+    if (IsFading())
+        return false;
+
     return IsMouseButtonDown(MOUSE_BUTTON_LEFT) || GetTouchPointCount() > 0;
 }
 
 bool IsPointerPressed(void)
 {
+    if (IsFading())
+        return false;
+
     return IsMouseButtonPressed(MOUSE_BUTTON_LEFT);
 }
 

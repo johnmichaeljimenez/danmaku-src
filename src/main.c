@@ -4,6 +4,11 @@ TweenManager gTweenManager;
 GameState gameState = GAMESTATE_MENU;
 int currentLevel;
 
+bool IsFadeScreen;
+
+static float fadeAmount;
+static Color fadeColor;
+
 int main(void)
 {
     SetConfigFlags(FLAG_WINDOW_HIDDEN | FLAG_WINDOW_RESIZABLE | FLAG_WINDOW_MAXIMIZED | FLAG_VSYNC_HINT);
@@ -17,6 +22,8 @@ int main(void)
     TweenManager_Init();
     LoadAllSprites();
     SetupAnimationClips();
+
+    FadeScreen(0, false, NULL);
 
     MenuStart();
 
@@ -70,6 +77,11 @@ int main(void)
                 break;
             default:
                 break;
+            }
+
+            if (fadeAmount > 0)
+            {
+                DrawRectangle(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, (Color){fadeColor.r, fadeColor.g, fadeColor.b, 255 * fadeAmount});
             }
 
             EndScreen();
@@ -136,4 +148,15 @@ void RestartGame()
     gameState = GAMESTATE_INGAME;
     TweenManager_Clear();
     GameStart(currentLevel);
+}
+
+bool IsFading()
+{
+    return fadeAmount > 0;
+}
+
+void FadeScreen(float to, bool white, void (*onFadeEnd)(void))
+{
+    fadeColor = white ? WHITE : BLACK;
+    TweenManager_AddFloatFrom(&fadeAmount, fadeAmount > 0 ? 0 : 1, to, 0.5f, EASING_EASEINQUAD, "Fade", onFadeEnd);
 }
