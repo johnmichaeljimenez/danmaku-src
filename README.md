@@ -3,6 +3,9 @@
 # Hanabisaki: Flowerburst Festival
 
 Basic WebGL Bullet hell game inspired by Touhou Project. Currently in development, expect a lot of bugs and placeholder stuff for now.
+__Playable both on PC and Android mobile browser (Tested in Google Chrome and Edge)__
+
+
 [Play here](https://rateater93.itch.io/danmaku)
 
 > A village is famous for its magical fireworks competition, except this year, the event merged with the town’s flower show and sports day (by mistake).
