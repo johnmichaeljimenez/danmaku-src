@@ -57,7 +57,7 @@ void SetLevel(int index)
 
 void UpdateLevel(float dt)
 {
-	if (!player.IsAlive || IsCutscene)
+	if (!player.IsAlive || IsCutscene || IsDialogueActive)
 		return;
 
 	levelTimer += dt;

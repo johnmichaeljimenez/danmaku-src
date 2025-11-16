@@ -28,6 +28,7 @@
 
 #include "menu.h"
 #include "game.h"
+#include "dialogue.h"
 #include "pause.h"
 #include "end.h"
 

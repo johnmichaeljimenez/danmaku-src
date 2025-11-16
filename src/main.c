@@ -29,6 +29,8 @@ int main(void)
             break;
         case GAMESTATE_INGAME:
             GameUpdate(dt);
+            if (IsDialogueActive)
+                DialogueUpdate(dt);
             break;
         case GAMESTATE_PAUSE:
             PauseUpdate(dt);
@@ -53,6 +55,8 @@ int main(void)
                 break;
             case GAMESTATE_INGAME:
                 GameRender(dt);
+                if (IsDialogueActive)
+                    DialogueRender(dt);
                 break;
             case GAMESTATE_PAUSE:
                 GameRender(dt);

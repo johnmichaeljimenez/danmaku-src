@@ -87,6 +87,12 @@ void GameUpdate(float dt)
 		return;
 	}
 
+	if (IsKeyPressed(KEY_B))
+	{
+		DialogueShow("test");
+		return;
+	}
+
 	bool endedLevel = false;
 
 	UpdateLevel(dt);
@@ -98,7 +104,7 @@ void GameUpdate(float dt)
 
 		Vector2 inputMovement = Vector2Zero();
 
-		if (!IsCutscene)
+		if (!IsCutscene && !IsDialogueActive)
 		{
 			bool isShooting = player.ImmuneTime <= 0; // IsKeyDown(KEY_SPACE);
 
