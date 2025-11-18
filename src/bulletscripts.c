@@ -30,9 +30,16 @@ void UpdateBullet(Bullet *b, float dt)
         case OP_ADD_VEL:
             b->Velocity = Vector2Add(b->Velocity, Vector2Scale((Vector2){ins.arg1, ins.arg2}, dt));
             break;
+
         case OP_DESPAWN:
             DespawnBullet(b);
             return;
+
+        case OP_SET_DIR:
+            b->Angle = ins.arg1;
+
+        case OP_ADD_DIR:
+            b->Angle += ins.arg1;
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT)
