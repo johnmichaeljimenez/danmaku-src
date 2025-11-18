@@ -40,7 +40,7 @@ static void EndLevel()
 			continue;
 
 		if (!bullets[i].FromPlayer)
-			bullets[i].IsAlive = false;
+			DespawnBullet(&bullets[i]);
 	}
 
 	IsCutscene = true;
@@ -53,7 +53,6 @@ static void EndLevel()
 void ClearGameplayData()
 {
 	memset(bullets, 0, sizeof(bullets));
-	memset(enemies, 0, sizeof(enemies));
 	memset(vfxPool, 0, sizeof(vfxPool));
 	memset(Animations, 0, sizeof(Animations));
 }
@@ -160,8 +159,8 @@ void GameUpdate(float dt)
 				if (player.FireTimer >= player.FireRate)
 				{
 					player.FireTimer = 0;
-					SpawnBullet((Vector2){player.Position.x - 24, player.Position.y}, 90, true, &BT_PLAYER);
-					SpawnBullet((Vector2){player.Position.x + 24, player.Position.y}, 90, true, &BT_PLAYER);
+					SpawnBullet((Vector2){player.Position.x - 24, player.Position.y}, 90, true, &BT_PLAYER, NULL);
+					SpawnBullet((Vector2){player.Position.x + 24, player.Position.y}, 90, true, &BT_PLAYER, NULL);
 				}
 			}
 			else
@@ -210,32 +209,56 @@ void GameUpdate(float dt)
 		if (!b->IsAlive)
 			continue;
 
-		b->Type->Pattern(b, dt);
+		// b->Type->Pattern(b, dt);
+		UpdateBullet(b, dt);
 
 		if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
 		{
-			b->IsAlive = false;
+			DespawnBullet(b);
 		}
 		else
 		{
 			if (b->FromPlayer && player.IsAlive)
 			{
-				for (int i = 0; i < ENEMY_COUNT; i++)
+				for (int i = 0; i < BULLET_COUNT; i++)
 				{
-					Enemy *e = &enemies[i];
-					if (!e->IsAlive)
+					Bullet *e = &bullets[i];
+					if (!e->IsAlive || e->Type->HP == 0 || e->HP == 0)
 						continue;
 
 					if (CheckCollisionCircles(e->Position, e->Type->Size, b->Position, b->Type->Size))
 					{
 						e->HP--;
-						b->IsAlive = false;
+						DespawnBullet(b);
 
 						VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 0.2f);
 						vfx->Additive = true;
 
-						TweenManager_AddFloatFrom(&vfx->Alpha, 0.2, 0, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-1", vfx->ID), NULL);
-						TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-2", vfx->ID), NULL);
+						if (e->HP == 0)
+						{
+							DespawnBullet(e);
+
+							if (e->Type->IsBoss)
+							{
+								VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 1.0);
+								vfx->Additive = true;
+
+								TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
+								TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-BossDeath2", NULL);
+
+								endedLevel = true;
+							}
+							else
+							{
+								TweenManager_AddFloatFrom(&vfx->Alpha, 0.2, 0, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-1", vfx->ID), NULL);
+								TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-2", vfx->ID), NULL);
+							}
+						}
+						else
+						{
+							TweenManager_AddFloatFrom(&vfx->Alpha, 0.2, 0, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-1", vfx->ID), NULL);
+							TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-2", vfx->ID), NULL);
+						}
 
 						break;
 					}
@@ -246,49 +269,13 @@ void GameUpdate(float dt)
 				if (CheckCollisionCircles(player.Position, player.HurtboxSize, b->Position, b->Type->Size))
 				{
 					HitPlayer();
-					b->IsAlive = false;
+
+					if (b->Type->HP == 0)
+						DespawnBullet(b);
+
 					break;
 				}
 			}
-		}
-	}
-
-	for (int i = 0; i < ENEMY_COUNT; i++)
-	{
-		Enemy *e = &enemies[i];
-		if (!e->IsAlive)
-			continue;
-
-		if (e->HP <= 0 || e->Position.x < -100 || e->Position.x > VIRTUAL_WIDTH + 100 || e->Position.y < -100 || e->Position.y > VIRTUAL_HEIGHT + 100)
-		{
-			e->IsAlive = false;
-			RemoveAnimation(e->Animation);
-
-			if (e->Type->IsBoss)
-			{
-				VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 1.0);
-				vfx->Additive = true;
-
-				TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
-				TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-BossDeath2", NULL);
-
-				endedLevel = true;
-			}
-
-			continue;
-		}
-
-		e->MovementPattern(e, dt);
-		e->MovementTimer += dt;
-
-		if (e->AttackPattern != NULL)
-			e->AttackPattern(e, dt);
-
-		e->AttackTimer += dt;
-
-		if (CheckCollisionCircles(e->Position, e->Type->Size, player.Position, player.HurtboxSize))
-		{
-			HitPlayer();
 		}
 	}
 
@@ -325,22 +312,7 @@ void GameRender(float dt)
 		if (!b->IsAlive)
 			continue;
 
-		if (b->FromPlayer)
-		{
-			DrawSprite(playerDefaultBullet, b->Position, b->Angle, WHITE);
-			continue;
-		}
-
-		DrawCircleV(b->Position, b->Type->Size, b->FromPlayer ? WHITE : RED);
-	}
-
-	for (int i = 0; i < ENEMY_COUNT; i++)
-	{
-		Enemy *e = &enemies[i];
-		if (!e->IsAlive)
-			continue;
-
-		DrawSprite(e->Animation->Clip->Frames[e->Animation->FrameIndex], e->Position, 0, WHITE);
+		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Angle, WHITE);
 	}
 
 	// if (player.TweenHitTimer > 0)

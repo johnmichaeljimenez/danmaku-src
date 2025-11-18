@@ -1,7 +1,6 @@
 #include "data.h"
 
 Bullet bullets[BULLET_COUNT] = {0};
-Enemy enemies[ENEMY_COUNT] = {0};
 VFX vfxPool[VFX_COUNT] = {0};
 
 Player player;
@@ -37,7 +36,13 @@ bool HitPlayer()
     return player.IsAlive;
 }
 
-Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType)
+void DespawnBullet(Bullet* b)
+{
+    b->IsAlive = false;
+    RemoveAnimation(b->Animation);
+}
+
+Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType, const char *scriptOverride)
 {
     for (int i = 0; i < BULLET_COUNT; i++)
     {
@@ -49,33 +54,25 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulle
             b->Position = pos;
             b->Angle = angle;
             b->Type = bulletType;
+
+            b->OpIndex = 0;
+            b->WaitCounter = 0;
+            b->Animation = CreateAnimation(b->Type->AnimationName);
+
+            const char *scriptID = scriptOverride == NULL? b->Type->ScriptName : scriptOverride;
+            for (int j = 0; j < BULLET_SCRIPT_COUNT; j++)
+            {
+                BulletScript *b2 = &BulletScripts[j];
+                if (TextIsEqual(b2->ID, scriptID))
+                {
+                    b->Script = b2;
+                    break;
+                }
+            }
+            
             b->Timer = 0;
+
             return b;
-        }
-    }
-
-    return NULL;
-}
-
-Enemy *SpawnEnemy(Vector2 pos, Vector2 to, EnemyType *enemyType)
-{
-    for (int i = 0; i < ENEMY_COUNT; i++)
-    {
-        Enemy *e = &enemies[i];
-        if (!e->IsAlive)
-        {
-            e->IsAlive = true;
-            e->Position = pos;
-            e->Target = to;
-            e->Type = enemyType;
-            e->HP = e->Type->HP;
-            e->MovementTimer = 0;
-            e->AttackTimer = 0;
-            e->Animation = CreateAnimation(e->Type->AnimationName);
-            e->MovementPattern = e->Type->MovementPattern;
-            e->AttackPattern = e->Type->AttackPattern;
-
-            return e;
         }
     }
 
@@ -112,29 +109,12 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
 
 BulletType BT_PLAYER = (BulletType){
     .MovementSpeed = 1024,
-    .Pattern = BulletPattern_Straight,
+    .ScriptName = "player_basic",
+    .AnimationName = "PlayerBulletDefault",
+    // .Pattern = BulletPattern_Straight,
     .Size = 16};
 
 BulletType BT_ENEMY_GENERIC = (BulletType){
     .MovementSpeed = 400,
-    .Pattern = BulletPattern_Straight,
+    // .Pattern = BulletPattern_Straight,
     .Size = 8};
-
-EnemyType ET_TEST = (EnemyType){
-    .AnimationName = "EnemyGeneric",
-    .HP = 10,
-    .MovementPattern = EnemyMovementPattern_Straight,
-    .AttackPattern = NULL,
-    .MovementSpeed = 256,
-    .Size = 16,
-    .BulletTypes = {&BT_ENEMY_GENERIC}};
-
-EnemyType ET_BOSS1 = (EnemyType){
-    .AnimationName = "EnemyGeneric",
-    .HP = 200,
-    .IsBoss = true,
-    .MovementPattern = EnemyMovementPattern_Boss1,
-    .AttackPattern = EnemyAttackPattern_Boss1,
-    .MovementSpeed = 256,
-    .Size = 32,
-    .BulletTypes = {&BT_ENEMY_GENERIC}};

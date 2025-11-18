@@ -1,35 +1,42 @@
 #pragma once
 
 #include "main.h"
-#define BULLET_COUNT 2048
-#define ENEMY_COUNT 64
+#define BULLET_COUNT 4096
 #define VFX_COUNT 2048
 
-typedef struct Enemy Enemy;
 typedef struct Bullet Bullet;
-typedef void (*EnemyMovementFn)(Enemy *e, float dt);
-typedef void (*EnemyAttackFn)(Enemy *e, float dt);
-typedef void (*BulletFn)(Bullet *b, float dt);
+typedef struct BulletScript BulletScript;
 typedef struct Animation Animation;
 
 typedef struct BulletType
 {
-	float MovementSpeed;
-	float Size;
-	BulletFn Pattern;
-} BulletType;
-
-typedef struct EnemyType
-{
-	char *AnimationName;
-	BulletType *BulletTypes[4];
-	float MovementSpeed;
-	float Size;
-	EnemyMovementFn MovementPattern;
-	EnemyAttackFn AttackPattern;
 	bool IsBoss;
 	int HP;
-} EnemyType;
+	float MovementSpeed;
+	float Size;
+
+	const char *ScriptName;
+	const char *AnimationName;
+} BulletType;
+
+typedef struct Bullet
+{
+	BulletType *Type;
+	Animation *Animation;
+	BulletScript *Script;
+
+	int HP;
+	Vector2 Position;
+	Vector2 Velocity;
+	float Size;
+	float Angle;
+	float WaitCounter;
+	int OpIndex;
+
+	bool FromPlayer;
+	float Timer;
+	bool IsAlive;
+} Bullet;
 
 typedef struct Player
 {
@@ -45,32 +52,6 @@ typedef struct Player
 	float ImmuneTime;
 	bool IsAlive;
 } Player;
-
-typedef struct Bullet
-{
-	BulletType *Type;
-
-	Vector2 Position;
-	float Angle;
-	bool FromPlayer;
-	float Timer;
-	bool IsAlive;
-} Bullet;
-
-typedef struct Enemy
-{
-	Animation *Animation;
-	EnemyType *Type;
-	EnemyMovementFn MovementPattern;
-	EnemyAttackFn AttackPattern;
-
-	Vector2 Position;
-	Vector2 Target;
-	int HP;
-	bool IsAlive;
-	float MovementTimer;
-	float AttackTimer;
-} Enemy;
 
 typedef struct VFX
 {
@@ -89,16 +70,16 @@ typedef struct VFX
 } VFX;
 
 extern Bullet bullets[BULLET_COUNT];
-extern Enemy enemies[ENEMY_COUNT];
 extern VFX vfxPool[VFX_COUNT];
 extern Player player;
 
 extern BulletType BT_PLAYER;
-extern EnemyType ET_TEST;
-extern EnemyType ET_BOSS1;
+// extern EnemyType ET_TEST;
+// extern EnemyType ET_BOSS1;
 
 bool HitPlayer();
 
-Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType);
-Enemy *SpawnEnemy(Vector2 pos, Vector2 to, EnemyType *enemyType);
+void DespawnBullet(Bullet *b);
+
+Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType, const char *scriptOverride);
 VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime);

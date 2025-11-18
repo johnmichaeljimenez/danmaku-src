@@ -23,7 +23,7 @@
 #include "assets.h"
 #include "screen.h"
 #include "data.h"
-#include "patterns.h"
+#include "bulletscripts.h"
 #include "levels.h"
 #include "animation.h"
 

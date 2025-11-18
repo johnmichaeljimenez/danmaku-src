@@ -47,7 +47,7 @@ Animation *CreateAnimation(const char *id)
 	return a;
 }
 
-void *ReuseAnimation(Animation* a, const char* id)
+void *ReuseAnimation(Animation *a, const char *id)
 {
 	a->Timer = 0;
 	a->FrameIndex = 0;
@@ -93,6 +93,9 @@ void UpdateAnimations(float dt)
 		}
 	}
 }
+static const char *playerBullet[] = {
+	"bullet/player-default",
+};
 
 static const char *playerIdle[] = {
 	"character/character-idle (1)",
@@ -123,16 +126,17 @@ static const char *playerRight[] = {
 	"character/character-right (6)",
 	"character/character-right (7)",
 	"character/character-right (8)"};
-	
 
 static const char *enemyGeneric[] = {
 	"enemy/enemy-generic (1)",
 	"enemy/enemy-generic (2)",
 	"enemy/enemy-generic (3)",
-	"enemy/enemy-generic (4)",};
+	"enemy/enemy-generic (4)",
+};
 
 void SetupAnimationClips()
 {
+	AddAnimationClip("PlayerBulletDefault", playerBullet, 1, true, 0);
 	AddAnimationClip("PlayerIdle", playerIdle, 8, true, 0);
 	AddAnimationClip("PlayerLeft", playerLeft, 8, true, 3);
 	AddAnimationClip("PlayerRight", playerRight, 8, true, 3);

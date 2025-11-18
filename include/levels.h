@@ -1,10 +1,6 @@
 #pragma once
 #include "main.h"
 
-typedef struct EnemyType EnemyType;
-typedef void (*EnemyMovementFn)(Enemy *e, float dt);
-typedef void (*EnemyAttackFn)(Enemy *e, float dt);
-
 typedef struct Sequence
 {
 	float Timestamp;
@@ -13,11 +9,8 @@ typedef struct Sequence
 
 	Vector2 Position;
 	Vector2 Target;
-	EnemyType *Type;
 
-	EnemyAttackFn MovementOverride;
-	EnemyMovementFn AttackOverride;
-
+	
 	bool IsDone;
 	int SpawnCount;
 	float IntervalTimer;
