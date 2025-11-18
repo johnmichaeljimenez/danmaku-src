@@ -31,8 +31,7 @@ void UpdateBullet(Bullet *b, float dt)
             b->Velocity = Vector2Add(b->Velocity, Vector2Scale((Vector2){ins.arg1, ins.arg2}, dt));
             break;
         case OP_DESPAWN:
-            b->IsAlive = false;
-            // RemoveAnimation(b->Animation);
+            DespawnBullet(b);
             return;
         }
 
