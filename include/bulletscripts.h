@@ -8,7 +8,7 @@ typedef enum OpType
 {
 	OP_WAIT, //1 - frame (20 frames = 1 second wait)
 	OP_JUMP, //1 - zero-based index to jump
-	OP_SPAWN, //1 - bullet id, 
+	OP_SPAWN, //1 - bullet id, 2 - x, 3 - y
 	OP_DESPAWN,
 	OP_MOVE, //1 - x, 2 - y, 3 - speed
 	OP_SET_VEL, //1 - xvel, 2 - yvel

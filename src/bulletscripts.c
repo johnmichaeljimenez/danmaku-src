@@ -89,12 +89,9 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
 
     // #include "gen_scripts.inc"
     {
-        .ID = "player_basic",
-        .Count = 4,
+        .ID = "bullet_player_basic",
+        .Count = 1,
         .Instr = {
             [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
-            [1] = {.OPCODE = OP_WAIT, .arg1 = 5},
-            [2] = {.OPCODE = OP_ROT_VEL, .arg1 = 10},
-            [3] = {.OPCODE = OP_JUMP, .arg1 = 1},
         }},
-    {.ID = "enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}}};
+    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}}};

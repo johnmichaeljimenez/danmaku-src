@@ -2,6 +2,7 @@
 
 #include "main.h"
 #define BULLET_COUNT 4096
+#define BULLET_TYPE_COUNT 512
 #define VFX_COUNT 2048
 
 typedef struct Bullet Bullet;
@@ -12,9 +13,9 @@ typedef struct BulletType
 {
 	bool IsBoss;
 	int HP;
-	float MovementSpeed;
 	float Size;
 
+	const char *ID;
 	const char *ScriptName;
 	const char *AnimationName;
 } BulletType;
@@ -73,13 +74,11 @@ extern Bullet bullets[BULLET_COUNT];
 extern VFX vfxPool[VFX_COUNT];
 extern Player player;
 
-extern BulletType BT_PLAYER;
-// extern EnemyType ET_TEST;
-// extern EnemyType ET_BOSS1;
+extern BulletType bulletTypes[BULLET_TYPE_COUNT];
 
 bool HitPlayer();
 
 void DespawnBullet(Bullet *b);
 
-Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType, const char *scriptOverride);
+Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulletType, const char *scriptOverride);
 VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime);

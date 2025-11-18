@@ -36,13 +36,13 @@ bool HitPlayer()
     return player.IsAlive;
 }
 
-void DespawnBullet(Bullet* b)
+void DespawnBullet(Bullet *b)
 {
     b->IsAlive = false;
     RemoveAnimation(b->Animation);
 }
 
-Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulletType, const char *scriptOverride)
+Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulletType, const char *scriptOverride)
 {
     for (int i = 0; i < BULLET_COUNT; i++)
     {
@@ -53,13 +53,22 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulle
             b->FromPlayer = fromPlayer;
             b->Position = pos;
             b->Angle = angle;
-            b->Type = bulletType;
+
+            for (int j = 0; j < BULLET_TYPE_COUNT; j++)
+            {
+                BulletType *b2 = &bulletTypes[j];
+                if (TextIsEqual(b2->ID, bulletType))
+                {
+                    b->Type = b2;
+                    break;
+                }
+            }
 
             b->OpIndex = 0;
             b->WaitCounter = 0;
             b->Animation = CreateAnimation(b->Type->AnimationName);
 
-            const char *scriptID = scriptOverride == NULL? b->Type->ScriptName : scriptOverride;
+            const char *scriptID = scriptOverride == NULL ? b->Type->ScriptName : scriptOverride;
             for (int j = 0; j < BULLET_SCRIPT_COUNT; j++)
             {
                 BulletScript *b2 = &BulletScripts[j];
@@ -69,7 +78,7 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, BulletType *bulle
                     break;
                 }
             }
-            
+
             b->Timer = 0;
 
             return b;
@@ -107,14 +116,20 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
     return NULL;
 }
 
-BulletType BT_PLAYER = (BulletType){
-    .MovementSpeed = 1024,
-    .ScriptName = "player_basic",
-    .AnimationName = "PlayerBulletDefault",
-    // .Pattern = BulletPattern_Straight,
-    .Size = 16};
-
-BulletType BT_ENEMY_GENERIC = (BulletType){
-    .MovementSpeed = 400,
-    // .Pattern = BulletPattern_Straight,
-    .Size = 8};
+BulletType bulletTypes[BULLET_TYPE_COUNT] =
+    {
+        [0] = {
+            .ID = "bullet_player_basic",
+            .ScriptName = "bullet_player_basic",
+            .AnimationName = "PlayerBulletDefault",
+            .Size = 16},
+        [1] = {
+            .ID = "enemy_test", 
+            .ScriptName = "enemy_test", 
+            .AnimationName = "EnemyGeneric",
+            .Size = 48},
+        [2] = {
+            .ID = "bullet_enemy_basic", 
+            .ScriptName = "bullet_enemy_basic", 
+            .AnimationName = "PlayerBulletDefault",
+            .Size = 8}};
