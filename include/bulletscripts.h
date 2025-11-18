@@ -27,6 +27,10 @@ typedef struct BulletScriptInstruction
 	int arg2;
 	int arg3;
 	int arg4;
+	int arg5;
+	int arg6;
+	int arg7;
+	int arg8;
 } BulletScriptInstruction;
 
 typedef struct BulletScript
