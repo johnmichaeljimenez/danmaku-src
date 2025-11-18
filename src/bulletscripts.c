@@ -40,6 +40,10 @@ void UpdateBullet(Bullet *b, float dt)
 
         case OP_ADD_DIR:
             b->Angle += ins.arg1;
+
+        case OP_MOVE:
+            Vector2 d = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
+            b->Velocity = Vector2Scale(Vector2Normalize(d), ins.arg5);
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT)
@@ -60,8 +64,6 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
         .ID = "player_basic",
         .Count = 1,
         .Instr = {
-            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024, .arg3 = 0, .arg4 = 0},
-            // [1] = {.OPCODE = OP_WAIT, .arg1 = 15, .arg2 = 0, .arg3 = 0, .arg4 = 0},
-            // [2] = {.OPCODE = OP_DESPAWN, .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 0},
+            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
         }},
-    {.ID = "enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512, .arg3 = 0, .arg4 = 0}}}};
+    {.ID = "enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}}};
