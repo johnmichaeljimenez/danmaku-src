@@ -55,6 +55,10 @@ void UpdateBullet(Bullet *b, float dt)
             b->Velocity = (Vector2){vx, vy};
             break;
 
+        case OP_ROT_VEL:
+            b->Velocity = Vector2Rotate(b->Velocity, ins.arg1 * DEG2RAD);
+            break;
+
         case OP_DESPAWN:
             DespawnBullet(b);
             return;
@@ -86,12 +90,11 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
     // #include "gen_scripts.inc"
     {
         .ID = "player_basic",
-        .Count = 5,
+        .Count = 4,
         .Instr = {
-            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 300, .arg2 = -1024},
+            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
             [1] = {.OPCODE = OP_WAIT, .arg1 = 5},
-            [2] = {.OPCODE = OP_FLIP_VEL, .arg1 = 1, .arg2 = 0, .arg3 = 0},
-            [3] = {.OPCODE = OP_WAIT, .arg1 = 5},
-            [4] = {.OPCODE = OP_JUMP, .arg1 = 1},
+            [2] = {.OPCODE = OP_ROT_VEL, .arg1 = 10},
+            [3] = {.OPCODE = OP_JUMP, .arg1 = 1},
         }},
     {.ID = "enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}}};
