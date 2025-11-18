@@ -10,21 +10,23 @@ static bool doneTween;
 
 void MenuStart()
 {
+    FadeScreen(0, true, NULL);
+
 	gameLogo = GetSprite("ui/game-logo");
 	tweenDelay = 0;
 	doneTween = false;
 
-	TweenManager_AddFloatFrom(&gameLogoTweenMain, 0.1f, 1.0f, 0.5f, EASING_EASEOUTQUAD, "MenuGameLogoMain", NULL);
+	TweenManager_AddFloatFrom(&gameLogoTweenMain, 0.1f, 1.0f, 0.3f, EASING_EASEOUTQUAD, "MenuGameLogoMain", NULL);
 }
 
 void MenuUpdate(float dt)
 {
 	if (!doneTween)
 	{
-		if (tweenDelay >= 0.5f)
+		if (tweenDelay >= 0.3f)
 		{
-			TweenManager_AddFloatFrom(&gameLogoTweenScale, 1.0f, 1.5f, 1.5f, EASING_EASEOUTQUAD, "MenuGameLogoScale", NULL);
-			TweenManager_AddFloatFrom(&gameLogoTweenAlpha, 0.3f, 0.0f, 1.0f, EASING_EASEINOUTQUAD, "MenuGameLogoAlpha", NULL);
+			TweenManager_AddFloatFrom(&gameLogoTweenScale, 1.0f, 1.5f, 1.0f, EASING_EASEOUTQUAD, "MenuGameLogoScale", NULL);
+			TweenManager_AddFloatFrom(&gameLogoTweenAlpha, 0.3f, 0.0f, 0.5f, EASING_EASEINOUTQUAD, "MenuGameLogoAlpha", NULL);
 			doneTween = true;
 		}
 

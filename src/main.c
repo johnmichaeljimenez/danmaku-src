@@ -23,8 +23,6 @@ int main(void)
     LoadAllSprites();
     SetupAnimationClips();
 
-    FadeScreen(0, false, NULL);
-
     MenuStart();
 
     while (!WindowShouldClose())
