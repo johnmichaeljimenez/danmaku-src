@@ -11,8 +11,8 @@ void UpdateBullet(Bullet *b, float dt)
         switch (ins.OPCODE)
         {
         case OP_WAIT:
-            b->WaitCounter += 1;
-            if (b->WaitCounter >= ins.arg1)
+            b->WaitCounter += dt;
+            if (b->WaitCounter >= (float)ins.arg1 / 60.0f) // 60 ticks = 1 second
             {
                 b->WaitCounter = 0;
                 b->OpIndex++;
