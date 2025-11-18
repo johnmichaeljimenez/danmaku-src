@@ -44,8 +44,12 @@ void UpdateBullet(Bullet *b, float dt)
             {
                 vx = abs(vx);
                 vy = abs(vy);
-                vx = b->Position.x >= VIRTUAL_WIDTH * 0.5 ? vx : -vx;
-                vy = b->Position.y >= VIRTUAL_HEIGHT * 0.5 ? vy : -vy;
+
+                if (ins.arg1 > 0)
+                    vx = b->Position.x >= VIRTUAL_WIDTH * 0.5 ? -vx : vx;
+
+                if (ins.arg2 > 0)
+                    vy = b->Position.y >= VIRTUAL_HEIGHT * 0.5 ? -vy : vy;
             }
 
             b->Velocity = (Vector2){vx, vy};
@@ -86,7 +90,7 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
         .Instr = {
             [0] = {.OPCODE = OP_SET_VEL, .arg1 = 300, .arg2 = -1024},
             [1] = {.OPCODE = OP_WAIT, .arg1 = 5},
-            [2] = {.OPCODE = OP_FLIP_VEL, .arg1 = -1, .arg2 = 1, .arg3 = 1},
+            [2] = {.OPCODE = OP_FLIP_VEL, .arg1 = 1, .arg2 = 0, .arg3 = 0},
             [3] = {.OPCODE = OP_WAIT, .arg1 = 5},
             [4] = {.OPCODE = OP_JUMP, .arg1 = 1},
         }},
