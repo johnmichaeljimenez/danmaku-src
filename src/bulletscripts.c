@@ -31,6 +31,26 @@ void UpdateBullet(Bullet *b, float dt)
             b->Velocity = Vector2Add(b->Velocity, Vector2Scale((Vector2){ins.arg1, ins.arg2}, dt));
             break;
 
+        case OP_FLIP_VEL:
+            int vx = b->Velocity.x;
+            int vy = b->Velocity.y;
+
+            if (ins.arg3 == 1)
+            {
+                vx *= ins.arg1;
+                vy *= ins.arg2;
+            }
+            else
+            {
+                vx = abs(vx);
+                vy = abs(vy);
+                vx = b->Position.x >= VIRTUAL_WIDTH * 0.5 ? vx : -vx;
+                vy = b->Position.y >= VIRTUAL_HEIGHT * 0.5 ? vy : -vy;
+            }
+
+            b->Velocity = (Vector2){vx, vy};
+            break;
+
         case OP_DESPAWN:
             DespawnBullet(b);
             return;

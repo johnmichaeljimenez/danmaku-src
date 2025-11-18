@@ -13,6 +13,7 @@ typedef enum OpType
 	OP_MOVE, //1 - x, 2 - y, 3 - speed
 	OP_SET_VEL, //1 - xvel, 2 - yvel
 	OP_ADD_VEL, //1 - xvel, 2 - yvel
+	OP_FLIP_VEL, //1 - x mul, 2 - y mul, 3 - local
 	OP_TRACK_VEL, //1 - speed
 	OP_SET_DIR, //1 - angle
 	OP_ADD_DIR, //1 - angle
