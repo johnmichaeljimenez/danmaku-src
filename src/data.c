@@ -122,11 +122,12 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
 Bullet *RootBullet;
 BulletType bulletTypes[BULLET_TYPE_COUNT] =
     {
-        {.ID = "bullet_root",
+        {.ID = "enemy_boss",
          .ScriptName = "",
          .AnimationName = "PlayerIdle",
          .Size = 16,
          .HP = 300,
+         .IsBoss = true,
          .FixedRotation = true},
         {.ID = "bullet_player_basic",
          .ScriptName = "bullet_player_basic",

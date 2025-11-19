@@ -73,7 +73,7 @@ void SetLevel(int index)
 		// DialogueShow(CurrentLevel->StartDialogue, NULL);
 	}
 
-	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "bullet_root", TextFormat("root_level_%d", index+1));
+	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", TextFormat("level_%d", index+1));
 	RootBullet->IsRoot = true;
 	RootBullet->IgnoreHit = true;
 }
