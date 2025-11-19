@@ -111,10 +111,10 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_MOVE:
-            diff = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
+            diff = Vector2Subtract((Vector2){ins.arg1, ins.arg2}, b->Position);
             d = Vector2Length(diff);
 
-            vel = d / ((float)ins.arg5 / TICK_COUNT);
+            vel = d / ((float)ins.arg3 / TICK_COUNT);
             b->Velocity = Vector2Scale(Vector2Normalize(diff), d);
             break;
 
