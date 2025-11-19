@@ -1,4 +1,5 @@
 #include "bulletscripts.h"
+#include "gen_bulletscripts.h"
 
 void UpdateBullet(Bullet *b, float dt)
 {
@@ -132,39 +133,3 @@ void UpdateBullet(Bullet *b, float dt)
 
     b->Position = Vector2Add(b->Position, Vector2Scale(b->Velocity, dt));
 }
-
-BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
-    // [0 ... BULLET_SCRIPT_COUNT-1] = {
-    //     .ID = "INVALID",
-    //     .Count = 0,
-    // },
-
-    // #include "gen_scripts.inc"
-    {
-        .ID = "bullet_player_basic",
-        .Count = 1,
-        .Instr = {
-            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
-        }},
-
-    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
-
-    {.ID = "root_level_1", .Count = 10, .Instr = {
-        {.OPCODE = OP_WAIT, .arg1 = 120},
-        {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
-        {.OPCODE = OP_WAIT, .arg1 = 120},
-        {.OPCODE = OP_SET_HIT, .arg1 = 1},
-        {.OPCODE = OP_TRACK_VEL, .arg1 = 120},
-        {.OPCODE = OP_WAIT, .arg1 = 120},
-        {.OPCODE = OP_SET_HIT, .arg1 = 0},
-        {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 0},
-        {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
-        {.OPCODE = OP_JUMP, .arg1 = 0}
-    }},
-    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
-
-    {
-        .ID = "enemy_test",
-        .Count = 1,
-        .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 256}},
-    }};
