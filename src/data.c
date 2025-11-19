@@ -66,6 +66,8 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
 
             b->OpIndex = 0;
             b->WaitCounter = 0;
+            b->SpawnCounter = 0;
+            b->SpawnIntervalTimer = 0;
             b->Animation = CreateAnimation(b->Type->AnimationName);
 
             const char *scriptID = scriptOverride == NULL ? b->Type->ScriptName : scriptOverride;

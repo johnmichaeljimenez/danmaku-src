@@ -32,6 +32,8 @@ typedef struct Bullet
 	float Size;
 	float Angle;
 	float WaitCounter;
+	int SpawnCounter;
+	float SpawnIntervalTimer;
 	int OpIndex;
 
 	bool FromPlayer;

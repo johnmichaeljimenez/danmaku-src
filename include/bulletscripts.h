@@ -2,13 +2,15 @@
 
 #include "main.h"
 
+#define TICK_COUNT 60.0f
+
 typedef struct Bullet Bullet;
 
 typedef enum OpType
 {
 	OP_WAIT, //1 - frame (20 frames = 1 second wait)
 	OP_JUMP, //1 - zero-based index to jump
-	OP_SPAWN, //ID1 - bullet id, 1 - x, 2 - y, 3 - vx, 4 - vy, 5 - d, ID2 - scriptid
+	OP_SPAWN, //ID1 - bullet id, 1 - x, 2 - y, 3 - vx, 4 - vy, 5 - d, 6 - amt, 7 - time ID2 - scriptid
 	OP_DESPAWN,
 	OP_MOVE, //1 - x, 2 - y, 3 - speed
 	OP_SET_VEL, //1 - xvel, 2 - yvel

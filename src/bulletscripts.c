@@ -12,7 +12,7 @@ void UpdateBullet(Bullet *b, float dt)
         {
         case OP_WAIT:
             b->WaitCounter += dt;
-            if (b->WaitCounter >= (float)ins.arg1 / 60.0f) // 60 ticks = 1 second
+            if (b->WaitCounter >= (float)ins.arg1 / TICK_COUNT) // 60 ticks = 1 second
             {
                 b->WaitCounter = 0;
                 b->OpIndex++;
@@ -24,9 +24,25 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_SPAWN:
-            Bullet* b2 = SpawnBullet((Vector2) {b->Position.x + ins.arg1, b->Position.y + ins.arg2}, ins.arg5, false, ins.ID1, ins.ID2);
+            if (b->SpawnIntervalTimer > 0)
+            {
+                b->SpawnIntervalTimer -= dt;
+                break;
+            }
+
+            Bullet *b2 = SpawnBullet((Vector2){b->Position.x + ins.arg1, b->Position.y + ins.arg2}, ins.arg5, false, ins.ID1, ins.ID2);
             b2->Velocity.x = ins.arg3;
             b2->Velocity.y = ins.arg4;
+            b->SpawnCounter++;
+            b->SpawnIntervalTimer = (float)ins.arg7 / TICK_COUNT; // 60 ticks = 1 second
+
+            if (b->SpawnCounter >= ins.arg6)
+            {
+                b->SpawnCounter = 0;
+                b->SpawnIntervalTimer = 0;
+                b->OpIndex++;
+            }
+
             break;
 
         case OP_DESPAWN:
@@ -80,7 +96,7 @@ void UpdateBullet(Bullet *b, float dt)
             b->Velocity = Vector2Scale(Vector2Normalize(d), ins.arg5);
         }
 
-        if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT)
+        if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
             b->OpIndex++;
     }
 
@@ -101,11 +117,9 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
             [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
         }},
     {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
-    
-    {.ID = "enemy_test",
-        .Count = 1, 
-        .Instr = 
-        {
-            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}},
-        }
-    };
+
+    {
+        .ID = "enemy_test",
+        .Count = 1,
+        .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}},
+    }};
