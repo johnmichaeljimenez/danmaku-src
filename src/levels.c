@@ -75,6 +75,7 @@ void SetLevel(int index)
 
 	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "bullet_root", TextFormat("root_level_%d", index+1));
 	RootBullet->IsRoot = true;
+	RootBullet->IgnoreHit = true;
 }
 
 void UpdateLevel(float dt)

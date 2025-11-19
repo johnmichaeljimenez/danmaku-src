@@ -126,6 +126,7 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
          .ScriptName = "",
          .AnimationName = "PlayerIdle",
          .Size = 16,
+         .HP = 300,
          .FixedRotation = true},
         {.ID = "bullet_player_basic",
          .ScriptName = "bullet_player_basic",

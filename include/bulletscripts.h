@@ -21,7 +21,8 @@ typedef enum OpType
 	OP_SET_DIR, //1 - angle
 	OP_ADD_DIR, //1 - angle
 	OP_TRACK_DIR,
-	OP_SET_GFX //ID1 - gfx id
+	OP_SET_GFX, //ID1 - gfx id,
+	OP_SET_HIT //1 - hittable
 } OpType;
 
 typedef struct BulletScriptInstruction

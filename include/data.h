@@ -36,6 +36,7 @@ typedef struct Bullet
 	int SpawnCounter;
 	float SpawnIntervalTimer;
 	int OpIndex;
+	bool IgnoreHit;
 
 	bool IsRoot;
 	bool FromPlayer;

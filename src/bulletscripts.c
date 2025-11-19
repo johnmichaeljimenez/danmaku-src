@@ -119,6 +119,11 @@ void UpdateBullet(Bullet *b, float dt)
 
         case OP_SET_GFX:
             ReuseAnimation(b->Animation, ins.ID1);
+            break;
+
+        case OP_SET_HIT:
+            b->IgnoreHit = ins.arg1 == 0;
+            break;
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
@@ -144,12 +149,14 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
 
     {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
 
-    {.ID = "root_level_1", .Count = 8, .Instr = {
+    {.ID = "root_level_1", .Count = 10, .Instr = {
         {.OPCODE = OP_WAIT, .arg1 = 120},
         {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
         {.OPCODE = OP_WAIT, .arg1 = 120},
+        {.OPCODE = OP_SET_HIT, .arg1 = 1},
         {.OPCODE = OP_TRACK_VEL, .arg1 = 120},
         {.OPCODE = OP_WAIT, .arg1 = 120},
+        {.OPCODE = OP_SET_HIT, .arg1 = 0},
         {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 0},
         {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
         {.OPCODE = OP_JUMP, .arg1 = 0}

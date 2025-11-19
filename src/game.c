@@ -223,7 +223,7 @@ void GameUpdate(float dt)
 				for (int i = 0; i < BULLET_COUNT; i++)
 				{
 					Bullet *e = &bullets[i];
-					if (!e->IsAlive || e->Type->HP == 0 || e->HP == 0)
+					if (!e->IsAlive || e->IgnoreHit || e->Type->HP == 0 || e->HP == 0)
 						continue;
 
 					if (CheckCollisionCircles(e->Position, e->Type->Size, b->Position, b->Type->Size))
@@ -312,7 +312,7 @@ void GameRender(float dt)
 		if (!b->IsAlive)
 			continue;
 
-		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Type->FixedRotation? 0 : b->Angle, WHITE);
+		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Type->FixedRotation? 0 : b->Angle, b->IgnoreHit? DARKGRAY : WHITE);
 	}
 
 	// if (player.TweenHitTimer > 0)
