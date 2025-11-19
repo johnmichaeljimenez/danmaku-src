@@ -3,3 +3,4 @@ dist/*.*
 *.zip
 deploy.py
 settings.json
+gen_*.c
