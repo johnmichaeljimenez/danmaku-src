@@ -28,6 +28,7 @@ def parse_tsv_file(path: str) -> Dict[str, Script]:
 
     - Lines starting with '#' start a new script.
     - All following non-empty lines until next '#' or EOF are instructions.
+    - All lines starting with -- will be ignored.
     """
     scripts: Dict[str, Script] = {}
     current: Optional[Script] = None
@@ -37,6 +38,9 @@ def parse_tsv_file(path: str) -> Dict[str, Script]:
         for raw in f:
             line = raw.strip()
             if not line:
+                continue
+
+            if line.startswith("--"):
                 continue
 
             if not skip and not line.startswith("#"):
