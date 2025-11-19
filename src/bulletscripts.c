@@ -107,7 +107,7 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_SET_GFX:
-            ReuseAnimation(b->Animation, ins.arg1);
+            ReuseAnimation(b->Animation, ins.ID1);
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
