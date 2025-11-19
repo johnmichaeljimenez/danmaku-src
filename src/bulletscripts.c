@@ -8,6 +8,9 @@ void UpdateBullet(Bullet *b, float dt)
     if (b->OpIndex < b->Script->Count)
     {
         BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
+        Vector2 diff;
+        float d, vel;
+
         switch (ins.OPCODE)
         {
         case OP_WAIT:
@@ -58,7 +61,12 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_TRACK_VEL:
-            b->Velocity = Vector2Scale(Vector2Normalize(Vector2Subtract(player.Position, b->Position)), ins.arg1);
+            diff = Vector2Subtract(player.Position, b->Position);
+            d = Vector2Length(diff);
+
+            vel = d / ((float)ins.arg1 / TICK_COUNT);
+
+            b->Velocity = Vector2Scale(Vector2Normalize(diff), vel);
             break;
 
         case OP_FLIP_VEL:
@@ -102,8 +110,11 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_MOVE:
-            Vector2 d = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
-            b->Velocity = Vector2Scale(Vector2Normalize(d), ins.arg5);
+            diff = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
+            d = Vector2Length(diff);
+
+            vel = d / ((float)ins.arg5 / TICK_COUNT);
+            b->Velocity = Vector2Scale(Vector2Normalize(diff), d);
             break;
 
         case OP_SET_GFX:
@@ -130,10 +141,23 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
         .Instr = {
             [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
         }},
+
+    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
+
+    {.ID = "root_level_1", .Count = 8, .Instr = {
+        {.OPCODE = OP_WAIT, .arg1 = 120},
+        {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
+        {.OPCODE = OP_WAIT, .arg1 = 120},
+        {.OPCODE = OP_TRACK_VEL, .arg1 = 120},
+        {.OPCODE = OP_WAIT, .arg1 = 120},
+        {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 0},
+        {.OPCODE = OP_SPAWN, .ID1 = "enemy_test", .arg1 = 0, .arg2 = 0, .arg3 = 0, .arg4 = 100, .arg5 = 0, .arg6 = 5, .arg7 = 30, .ID2 = NULL},
+        {.OPCODE = OP_JUMP, .arg1 = 0}
+    }},
     {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
 
     {
         .ID = "enemy_test",
         .Count = 1,
-        .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}},
+        .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 256}},
     }};

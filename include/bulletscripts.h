@@ -12,12 +12,12 @@ typedef enum OpType
 	OP_JUMP, //1 - zero-based index to jump
 	OP_SPAWN, //ID1 - bullet id, 1 - x, 2 - y, 3 - vx, 4 - vy, 5 - d, 6 - amt, 7 - time ID2 - scriptid
 	OP_DESPAWN,
-	OP_MOVE, //1 - x, 2 - y, 3 - speed
+	OP_MOVE, //1 - x, 2 - y, 3 - duration
 	OP_SET_VEL, //1 - xvel, 2 - yvel
 	OP_ADD_VEL, //1 - xvel, 2 - yvel
 	OP_ROT_VEL, //1 - angle
 	OP_FLIP_VEL, //1 - x mul, 2 - y mul, 3 - local
-	OP_TRACK_VEL, //1 - speed
+	OP_TRACK_VEL, //1 - duration
 	OP_SET_DIR, //1 - angle
 	OP_ADD_DIR, //1 - angle
 	OP_TRACK_DIR,
