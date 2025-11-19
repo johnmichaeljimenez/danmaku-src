@@ -20,7 +20,7 @@ typedef enum OpType
 	OP_TRACK_VEL, //1 - speed
 	OP_SET_DIR, //1 - angle
 	OP_ADD_DIR, //1 - angle
-	OP_TRACK_DIR, //1 - speed
+	OP_TRACK_DIR,
 	OP_SET_GFX //ID1 - gfx id
 } OpType;
 

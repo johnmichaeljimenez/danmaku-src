@@ -47,7 +47,7 @@ void UpdateBullet(Bullet *b, float dt)
 
         case OP_DESPAWN:
             DespawnBullet(b);
-            return;
+            break;
 
         case OP_SET_VEL:
             b->Velocity = (Vector2){ins.arg1, ins.arg2};
@@ -55,6 +55,10 @@ void UpdateBullet(Bullet *b, float dt)
 
         case OP_ADD_VEL:
             b->Velocity = Vector2Add(b->Velocity, Vector2Scale((Vector2){ins.arg1, ins.arg2}, dt));
+            break;
+
+        case OP_TRACK_VEL:
+            b->Velocity = Vector2Scale(Vector2Normalize(Vector2Subtract(player.Position, b->Position)), ins.arg1);
             break;
 
         case OP_FLIP_VEL:
@@ -87,13 +91,20 @@ void UpdateBullet(Bullet *b, float dt)
 
         case OP_SET_DIR:
             b->Angle = ins.arg1;
+            break;
 
         case OP_ADD_DIR:
             b->Angle += ins.arg1;
+            break;
+
+        case OP_TRACK_DIR:
+            b->Angle = atan2f(b->Position.y - player.Position.y, player.Position.x - b->Position.x) * RAD2DEG;
+            break;
 
         case OP_MOVE:
             Vector2 d = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
             b->Velocity = Vector2Scale(Vector2Normalize(d), ins.arg5);
+            break;
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
