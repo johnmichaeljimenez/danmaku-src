@@ -144,7 +144,7 @@ void GameUpdate(float dt)
 				Vector2 p = GetVirtualPointer();
 				Vector2 dir = Vector2Subtract(p, lastPointerPos);
 				if (Vector2Length(dir) > 0)
-					inputMovement = Vector2Normalize(dir);
+					inputMovement = Vector2Scale(dir, 0.7f);
 
 				// lastPointerPos = p;
 			}
@@ -212,7 +212,7 @@ void GameUpdate(float dt)
 		// b->Type->Pattern(b, dt);
 		UpdateBullet(b, dt);
 
-		if (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100)
+		if (!b->IsRoot && (b->Position.x < -100 || b->Position.x > VIRTUAL_WIDTH + 100 || b->Position.y < -100 || b->Position.y > VIRTUAL_HEIGHT + 100))
 		{
 			DespawnBullet(b);
 		}
@@ -312,7 +312,7 @@ void GameRender(float dt)
 		if (!b->IsAlive)
 			continue;
 
-		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Angle, WHITE);
+		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Type->FixedRotation? 0 : b->Angle, WHITE);
 	}
 
 	// if (player.TweenHitTimer > 0)

@@ -138,6 +138,7 @@ void EndGame(bool win)
 
     gameState = GAMESTATE_GAME_END;
     IsGamePaused = false;
+    RootBullet = NULL;
     GameEndShow(win);
 }
 

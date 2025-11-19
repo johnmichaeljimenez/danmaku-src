@@ -14,6 +14,7 @@ typedef struct BulletType
 	bool IsBoss;
 	int HP;
 	float Size;
+	bool FixedRotation;
 
 	const char *ID;
 	const char *ScriptName;
@@ -36,6 +37,7 @@ typedef struct Bullet
 	float SpawnIntervalTimer;
 	int OpIndex;
 
+	bool IsRoot;
 	bool FromPlayer;
 	float Timer;
 	bool IsAlive;
@@ -76,6 +78,7 @@ extern Bullet bullets[BULLET_COUNT];
 extern VFX vfxPool[VFX_COUNT];
 extern Player player;
 
+extern Bullet* RootBullet;
 extern BulletType bulletTypes[BULLET_TYPE_COUNT];
 
 bool HitPlayer();

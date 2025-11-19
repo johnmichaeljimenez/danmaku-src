@@ -64,6 +64,7 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
                 }
             }
 
+            b->HP = b->Type->HP;
             b->OpIndex = 0;
             b->WaitCounter = 0;
             b->SpawnCounter = 0;
@@ -118,20 +119,24 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
     return NULL;
 }
 
+Bullet *RootBullet;
 BulletType bulletTypes[BULLET_TYPE_COUNT] =
     {
-        [0] = {
-            .ID = "bullet_player_basic",
-            .ScriptName = "bullet_player_basic",
-            .AnimationName = "PlayerBulletDefault",
-            .Size = 16},
-        [1] = {
-            .ID = "enemy_test", 
-            .ScriptName = "enemy_test", 
-            .AnimationName = "EnemyGeneric",
-            .Size = 48},
-        [2] = {
-            .ID = "bullet_enemy_basic", 
-            .ScriptName = "bullet_enemy_basic", 
-            .AnimationName = "PlayerBulletDefault",
-            .Size = 8}};
+        {.ID = "bullet_root",
+         .ScriptName = "",
+         .AnimationName = "PlayerIdle",
+         .Size = 16,
+         .FixedRotation = true},
+        {.ID = "bullet_player_basic",
+         .ScriptName = "bullet_player_basic",
+         .AnimationName = "PlayerBulletDefault",
+         .Size = 16},
+        {.ID = "enemy_test",
+         .ScriptName = "enemy_test",
+         .HP = 10,
+         .AnimationName = "EnemyGeneric",
+         .Size = 48},
+        {.ID = "bullet_enemy_basic",
+         .ScriptName = "bullet_enemy_basic",
+         .AnimationName = "PlayerBulletDefault",
+         .Size = 8}};
