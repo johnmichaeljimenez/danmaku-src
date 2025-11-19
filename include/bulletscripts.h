@@ -8,7 +8,7 @@ typedef enum OpType
 {
 	OP_WAIT, //1 - frame (20 frames = 1 second wait)
 	OP_JUMP, //1 - zero-based index to jump
-	OP_SPAWN, //1 - bullet id, 2 - x, 3 - y
+	OP_SPAWN, //ID1 - bullet id, 1 - x, 2 - y, 3 - vx, 4 - vy, 5 - d, ID2 - scriptid
 	OP_DESPAWN,
 	OP_MOVE, //1 - x, 2 - y, 3 - speed
 	OP_SET_VEL, //1 - xvel, 2 - yvel
@@ -19,7 +19,7 @@ typedef enum OpType
 	OP_SET_DIR, //1 - angle
 	OP_ADD_DIR, //1 - angle
 	OP_TRACK_DIR, //1 - speed
-	OP_SET_GFX //gfx id
+	OP_SET_GFX //ID1 - gfx id
 } OpType;
 
 typedef struct BulletScriptInstruction
@@ -33,6 +33,8 @@ typedef struct BulletScriptInstruction
 	int arg6;
 	int arg7;
 	int arg8;
+	const char *ID1;
+	const char *ID2;
 } BulletScriptInstruction;
 
 typedef struct BulletScript

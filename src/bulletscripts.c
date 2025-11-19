@@ -23,6 +23,16 @@ void UpdateBullet(Bullet *b, float dt)
             b->OpIndex = ins.arg1;
             break;
 
+        case OP_SPAWN:
+            Bullet* b2 = SpawnBullet((Vector2) {b->Position.x + ins.arg1, b->Position.y + ins.arg2}, ins.arg5, false, ins.ID1, ins.ID2);
+            b2->Velocity.x = ins.arg3;
+            b2->Velocity.y = ins.arg4;
+            break;
+
+        case OP_DESPAWN:
+            DespawnBullet(b);
+            return;
+
         case OP_SET_VEL:
             b->Velocity = (Vector2){ins.arg1, ins.arg2};
             break;
@@ -59,10 +69,6 @@ void UpdateBullet(Bullet *b, float dt)
             b->Velocity = Vector2Rotate(b->Velocity, ins.arg1 * DEG2RAD);
             break;
 
-        case OP_DESPAWN:
-            DespawnBullet(b);
-            return;
-
         case OP_SET_DIR:
             b->Angle = ins.arg1;
 
@@ -94,4 +100,12 @@ BulletScript BulletScripts[BULLET_SCRIPT_COUNT] = {
         .Instr = {
             [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = -1024},
         }},
-    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}}};
+    {.ID = "bullet_enemy_basic", .Count = 1, .Instr = {[0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}}},
+    
+    {.ID = "enemy_test",
+        .Count = 1, 
+        .Instr = 
+        {
+            [0] = {.OPCODE = OP_SET_VEL, .arg1 = 0, .arg2 = 512}},
+        }
+    };
