@@ -105,6 +105,9 @@ void UpdateBullet(Bullet *b, float dt)
             Vector2 d = Vector2Subtract((Vector2){ins.arg3, ins.arg4}, (Vector2){ins.arg1, ins.arg2});
             b->Velocity = Vector2Scale(Vector2Normalize(d), ins.arg5);
             break;
+
+        case OP_SET_GFX:
+            ReuseAnimation(b->Animation, ins.arg1);
         }
 
         if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
