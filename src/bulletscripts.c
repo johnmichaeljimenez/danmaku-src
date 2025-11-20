@@ -20,7 +20,6 @@ Bullet* _spawnBullet(Bullet* from, int x, int y, int d, const char *ID1, const c
         from->OpIndex++;
     }
 
-    TraceLog(LOG_INFO, "SPAWN BULLET %d %.1f", from->SpawnCounter, from->SpawnIntervalTimer);
     return b2;
 }
 
@@ -33,7 +32,10 @@ void UpdateBullet(Bullet *b, float dt)
     {
         BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
         Vector2 diff;
+        Bullet *b2;
+        float n;
         float d, vel;
+        int c = b->OpIndex;
 
         switch (ins.OPCODE)
         {
@@ -50,8 +52,8 @@ void UpdateBullet(Bullet *b, float dt)
             b->OpIndex = ins.arg1;
             break;
 
-        case OP_SPAWN:
-            Bullet *b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, ins.arg6, ins.arg7, dt);
+        case OP_SPAWN: 
+            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, ins.arg6, ins.arg7, dt);
             if (b2 == NULL)
                 break;
 
@@ -136,9 +138,24 @@ void UpdateBullet(Bullet *b, float dt)
         case OP_SET_HIT:
             b->IgnoreHit = ins.arg1 == 0;
             break;
+
+        case OP_PATT_RING:
+        patt_spawn:
+            n = (float)b->SpawnCounter/(float)ins.arg5;
+            float a = Lerp(0.0f, 360.0f, n)+90;
+            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, ins.arg5, ins.arg6, dt);
+            if (b2 == NULL)
+                break;
+
+            b2->Velocity.x = cosf(a * DEG2RAD) * ins.arg3;
+            b2->Velocity.y = sinf(a * DEG2RAD) * ins.arg3;
+            if (ins.arg6 < 0 && c == b->OpIndex)
+                goto patt_spawn;
+
+            break;
         }
 
-        if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN)
+        if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN && ins.OPCODE < OP_MK_SPAWNS)
             b->OpIndex++;
     }
 

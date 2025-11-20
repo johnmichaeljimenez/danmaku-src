@@ -22,7 +22,10 @@ typedef enum OpType
 	OP_ADD_DIR, //1 - angle
 	OP_TRACK_DIR,
 	OP_SET_GFX, //ID1 - gfx id,
-	OP_SET_HIT //1 - hittable
+	OP_SET_HIT, //1 - hittable,
+
+	OP_MK_SPAWNS, //(MARKER ONLY)
+	OP_PATT_RING //1 - x, 2 - y, 3 - rad, 4 - dir, 5 - amt, 6 - time, ID1 - bullet id, ID2 - scriptid
 } OpType;
 
 typedef struct BulletScriptInstruction
