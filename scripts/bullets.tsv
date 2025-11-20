@@ -1,5 +1,7 @@
 ID	ARG1	ARG2	ARG3	ARG4	ARG5	ARG6	ARG7	ARG8	ID1	ID2
 
+#blank
+
 #bullet_player_basic
 OP_SET_VEL	0	-1024
 
