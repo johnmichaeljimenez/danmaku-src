@@ -43,6 +43,9 @@ Animation *CreateAnimation(const char *id)
 	}
 
 	lastAnimationIndex++;
+	if (lastAnimationIndex >= ANIMATION_COUNT)
+		lastAnimationIndex = 0;
+		
 	// TraceLog(LOG_INFO, "CREATED ANIMATION: %s FROM CLIP %s %d %d x %d", id, a->Clip->ID, a->Clip->FrameCount, a->Frames[0].width, a->Frames[0].height);
 	return a;
 }

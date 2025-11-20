@@ -22,7 +22,7 @@ typedef struct Animation
 	bool IsValid;
 } Animation;
 
-#define ANIMATION_COUNT 1024
+#define ANIMATION_COUNT 8192
 #define ANIMATIONCLIP_COUNT 2048
 #define ANIMATION_FPS 1.0f / 16.0f
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "main.h"
-#define BULLET_COUNT 4096
+#define BULLET_COUNT 8192
 #define BULLET_TYPE_COUNT 512
 #define VFX_COUNT 2048
 

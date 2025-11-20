@@ -144,7 +144,7 @@ void UpdateBullet(Bullet *b, float dt)
             n = (float)b->SpawnCounter/(float)ins.arg5;
             float a = (Lerp(ins.arg4 >= 0? 0.0f : 360.0f, ins.arg4 >= 0? 360.0f : 0.0f, n)+90);
             
-            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, ins.arg5, ins.arg6, dt);
+            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, 0, ins.ID1, ins.ID2, ins.arg5, ins.arg6, dt);
             if (b2 == NULL)
                 break;
 

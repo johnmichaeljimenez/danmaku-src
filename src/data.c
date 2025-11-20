@@ -38,6 +38,9 @@ bool HitPlayer()
 
 void DespawnBullet(Bullet *b)
 {
+    if (!b->IsAlive)
+        return;
+
     b->IsAlive = false;
     RemoveAnimation(b->Animation);
 }
@@ -88,6 +91,7 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
         }
     }
 
+        TraceLog(LOG_ERROR, "OUT OF BULLETS");
     return NULL;
 }
 
@@ -116,6 +120,7 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
         }
     }
 
+        TraceLog(LOG_ERROR, "OUT OF VFX");
     return NULL;
 }
 
