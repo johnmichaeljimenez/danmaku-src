@@ -37,9 +37,18 @@ Level Levels[LEVEL_COUNT] = {
 
 Level *CurrentLevel = &Levels[0];
 float levelTimer;
+int currentLevelIndex;
+
+void OnLevelStart()
+{
+	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", TextFormat("level_%d", currentLevelIndex+1));
+	RootBullet->IsRoot = true;
+	RootBullet->IgnoreHit = true;
+}
 
 void SetLevel(int index)
 {
+	currentLevelIndex = index;
 	CurrentLevel = &Levels[index];
 	levelTimer = 0;
 
@@ -65,17 +74,13 @@ void SetLevel(int index)
 				if (RetryCount >= 3)
 					return;
 
-				DialogueShow(TextFormat("tutorial-retry-%d", RetryCount), NULL);
+				DialogueShow(TextFormat("tutorial-retry-%d", RetryCount), OnLevelStart);
 				return;
 			}
 		}
 
-		// DialogueShow(CurrentLevel->StartDialogue, NULL);
+		DialogueShow(CurrentLevel->StartDialogue, OnLevelStart);
 	}
-
-	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", TextFormat("level_%d", index+1));
-	RootBullet->IsRoot = true;
-	RootBullet->IgnoreHit = true;
 }
 
 void UpdateLevel(float dt)
