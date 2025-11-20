@@ -39,6 +39,11 @@ static void UpdateDialogue()
 	TraceLog(LOG_INFO, "%d %f", dialogueMessageLength, dialogueTypeSpeed);
 }
 
+void DialogueSkip()
+{
+	OnDialogueHide();
+}
+
 void DialogueShow(const char *dialogueID, void (*onEnd)(void))
 {
 	endFunction = onEnd;

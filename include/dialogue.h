@@ -32,3 +32,4 @@ extern bool IsDialogueActive;
 void DialogueShow(const char *dialogueID, void(*onEnd)(void));
 void DialogueUpdate(float dt);
 void DialogueRender(float dt);
+void DialogueSkip();

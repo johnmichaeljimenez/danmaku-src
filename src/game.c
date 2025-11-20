@@ -85,6 +85,11 @@ void GameStart(int level)
 
 void GameUpdate(float dt)
 {
+	if (IsKeyPressed(KEY_P))
+	{
+		DialogueSkip();
+	}
+
 	if (IsKeyPressed(KEY_M))
 	{
 		EndLevel();
