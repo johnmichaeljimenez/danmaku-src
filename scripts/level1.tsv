@@ -11,10 +11,35 @@ OP_WAIT	30
 OP_PATT_RING	0	0	500	0	40	-1	0	0	enemy_test	 blank
 OP_WAIT	30
 
+OP_SET_HIT	1
 OP_PATT_RING	0	0	300	1	120	1	0	0	enemy_test	 blank
 OP_PATT_RING	0	0	300	-1	120	1	0	0	enemy_test	 blank
 OP_PATT_RING	0	0	500	1	120	0	0	0	enemy_test	 blank
 OP_PATT_RING	0	0	500	-1	120	0	0	0	enemy_test	 blank
+OP_WAIT	60
+
+OP_PATT_RING	-300	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	300	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	-150	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	150	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_SET_HIT	0
+OP_WAIT	60
+
+OP_PATT_RING	-200	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	200	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	-100	0	200	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_PATT_RING	100	0	200	0	40	-1	0	0	enemy_test	 blank
+OP_WAIT	60
+OP_SET_HIT	0
+OP_WAIT	60
+
 OP_JUMP	1
 
 #level_2:

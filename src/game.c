@@ -286,6 +286,15 @@ void GameUpdate(float dt)
 
 	if (endedLevel)
 	{
+		for (int i = 0; i < BULLET_COUNT; i++)
+		{
+			if (!bullets[i].IsAlive)
+				continue;
+
+			if (!bullets[i].FromPlayer)
+				DespawnBullet(&bullets[i]);
+		}
+
 		if (CurrentLevel->EndDialogue != NULL)
 			DialogueShow(CurrentLevel->EndDialogue, EndLevel);
 		else

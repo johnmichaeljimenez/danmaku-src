@@ -47,7 +47,7 @@ typedef struct BulletScript
 {
 	const char ID[32];
 	int Count;
-	BulletScriptInstruction Instr[32];
+	BulletScriptInstruction Instr[512];
 
 } BulletScript;
 
