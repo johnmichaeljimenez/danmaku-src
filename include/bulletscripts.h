@@ -25,7 +25,8 @@ typedef enum OpType
 	OP_SET_HIT, //1 - hittable,
 
 	OP_MK_SPAWNS, //(MARKER ONLY)
-	OP_PATT_RING //1 - min dir, 2 - max dir, 3 - dist, 4 - vel, 5 - amt, 6 - time, ID1 - bullet id, ID2 - scriptid
+	OP_PATT_RING, //1 - min dir, 2 - max dir, 3 - dist, 4 - vel, 5 - amt, 6 - time, ID1 - bullet id, ID2 - scriptid
+	OP_PATT_RANDOM //1 - x, 2 - y, 3 - min vel, 4 - max vel, 5 - min dir, 6 - max dir, 7 - amt, 8 - time, ID1 - bullet id, ID2 - scriptid
 } OpType;
 
 typedef struct BulletScriptInstruction

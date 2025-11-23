@@ -33,7 +33,8 @@ void UpdateBullet(Bullet *b, float dt)
         BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
         Vector2 diff;
         Bullet *b2;
-        float n;
+        Vector2 offset;
+        float n, minDir, maxDir, targetDir;
         float d, vel;
         int c = b->OpIndex;
 
@@ -140,15 +141,15 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_PATT_RING:
-        patt_spawn:
+        patt_spawn_ring:
             n = (float)b->SpawnCounter/(float)ins.arg5;
-            float minDir = ins.arg1;
-            float maxDir = ins.arg2;
+            minDir = ins.arg1;
+            maxDir = ins.arg2;
 
-            float targetDir = Lerp(minDir, maxDir, n);
+            targetDir = Lerp(minDir, maxDir, n);
             targetDir += 90;
             
-            Vector2 offset = (Vector2){
+            offset = (Vector2){
                 cosf(targetDir * DEG2RAD) * ins.arg3,
                 sinf(targetDir * DEG2RAD) * ins.arg3,
             };
@@ -159,7 +160,31 @@ void UpdateBullet(Bullet *b, float dt)
 
             b2->Velocity = Vector2Scale(Vector2Normalize(offset), ins.arg4);
             if (ins.arg6 < 0 && c == b->OpIndex)
-                goto patt_spawn;
+                goto patt_spawn_ring;
+
+            break;
+
+        case OP_PATT_RANDOM:
+        patt_spawn_random:
+            n = (float)b->SpawnCounter/(float)ins.arg7;
+            minDir = ins.arg5;
+            maxDir = ins.arg6;
+
+            targetDir = GetRandomValue(minDir, maxDir);
+            targetDir += 90;
+            
+            offset = (Vector2){
+                cosf(targetDir * DEG2RAD),
+                sinf(targetDir * DEG2RAD),
+            };
+
+            b2 = _spawnBullet(b, b->Position.x + offset.x + ins.arg1, b->Position.y + offset.y + ins.arg2, 0, ins.ID1, ins.ID2, ins.arg7, ins.arg8, dt);
+            if (b2 == NULL)
+                break;
+
+            b2->Velocity = Vector2Scale(Vector2Normalize(offset), GetRandomValue(ins.arg3, ins.arg4));
+            if (ins.arg8 < 0 && c == b->OpIndex)
+                goto patt_spawn_random;
 
             break;
         }
