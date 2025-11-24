@@ -59,7 +59,7 @@ void ClearGameplayData()
 
 void GameStart(int level)
 {
-	playerDefaultBullet = GetSprite(SPRITE_BULLET_PLAYER_DEFAULT);
+	playerDefaultBullet = GetSprite(SPRITE_BULLET_DEFAULT);
 	ClearGameplayData();
 
 	IsCutscene = true;
