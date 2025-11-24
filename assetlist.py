@@ -28,7 +28,7 @@ def write():
 
 def process_textures(list):
 	global sprite_h, sprite_c
-	sprite_h = f"extern int SPRITE_PATH_COUNT;\n\n"
+	sprite_h = f"#define SPRITE_PATH_COUNT {len(list)}\n\n"
 	for i in list:
 		print(f"{i}: {list[i]}")
 		sprite_h += f"#define SPRITE_{i} \"{list[i]}\" \n"
@@ -39,7 +39,6 @@ def process_textures(list):
 	"""
 
 	sprite_c += f"""
-int SPRITE_PATH_COUNT = {len(list)};
 
 const char* SPRITE_PATHS[] =
 {{
