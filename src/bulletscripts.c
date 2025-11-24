@@ -14,16 +14,7 @@ void UpdateBullet(Bullet *b, float dt)
 
     if (b->OpIndex < b->Script->Count)
     {
-        BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
-        Vector2 diff;
-        Bullet *b2;
-        Vector2 offset;
-        float minDir, maxDir, targetDir;
-        float d, vel;
         int c = b->OpIndex;
-
-        float n = b->TotalCount > 0? 1.0f : (float)b->CurrentCount / (float)b->TotalCount;
-
         if (c == b->RepeatTarget && b->TotalCount > 0 && b->CurrentCount < b->TotalCount && b->IntervalTimer > 0 && b->IntervalDuration > 0)
         {
             b->IntervalTimer -= dt;
@@ -31,6 +22,15 @@ void UpdateBullet(Bullet *b, float dt)
         }
 
 opstart:
+        BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
+        Vector2 diff;
+        Bullet *b2;
+        Vector2 offset;
+        float minDir, maxDir, targetDir;
+        float d, vel;
+
+        float n = b->TotalCount == 0? 1.0f : (float)b->CurrentCount / (float)b->TotalCount;
+
         switch (ins.OPCODE)
         {
         case OP_WAIT:
