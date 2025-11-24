@@ -1,25 +1,9 @@
 #include "bulletscripts.h"
 #include "gen_bulletscripts.h"
 
-Bullet* _spawnBullet(Bullet* from, int x, int y, int d, const char *ID1, const char *ID2, int amt, int t, float dt)
+Bullet* _spawnBullet(Bullet* from, int x, int y, int d, const char *ID1, const char *ID2, float dt)
 {
-    if (from->SpawnIntervalTimer > 0)
-    {
-        from->SpawnIntervalTimer -= dt;
-        return NULL;
-    }
-
     Bullet *b2 = SpawnBullet((Vector2){x, y}, d, false, ID1, ID2);
-    from->SpawnCounter++;
-    from->SpawnIntervalTimer = (float)t / TICK_COUNT; // 60 ticks = 1 second
-
-    if (from->SpawnCounter >= amt)
-    {
-        from->SpawnCounter = 0;
-        from->SpawnIntervalTimer = 0;
-        from->OpIndex++;
-    }
-
     return b2;
 }
 
@@ -34,10 +18,19 @@ void UpdateBullet(Bullet *b, float dt)
         Vector2 diff;
         Bullet *b2;
         Vector2 offset;
-        float n, minDir, maxDir, targetDir;
+        float minDir, maxDir, targetDir;
         float d, vel;
         int c = b->OpIndex;
 
+        float n = b->TotalCount > 0? 1.0f : (float)b->CurrentCount / (float)b->TotalCount;
+
+        if (c == b->RepeatTarget && b->TotalCount > 0 && b->CurrentCount < b->TotalCount && b->IntervalTimer > 0 && b->IntervalDuration > 0)
+        {
+            b->IntervalTimer -= dt;
+            return;
+        }
+
+opstart:
         switch (ins.OPCODE)
         {
         case OP_WAIT:
@@ -54,7 +47,7 @@ void UpdateBullet(Bullet *b, float dt)
             break;
 
         case OP_SPAWN: 
-            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, ins.arg6, ins.arg7, dt);
+            b2 = _spawnBullet(b, b->Position.x + ins.arg1, b->Position.y + ins.arg2, ins.arg5, ins.ID1, ins.ID2, dt);
             if (b2 == NULL)
                 break;
 
@@ -140,9 +133,22 @@ void UpdateBullet(Bullet *b, float dt)
             b->IgnoreHit = ins.arg1 == 0;
             break;
 
+        case OP_REPEAT:
+            if (ins.arg1 > 0)
+            {
+                b->IntervalDuration = (float)ins.arg2 / TICK_COUNT;
+                b->IntervalTimer = b->IntervalDuration;
+                b->RepeatTarget = c + 1;
+
+                b->CurrentCount = 0;
+                b->TotalCount = ins.arg1;
+
+                // TraceLog(LOG_INFO, "REPEAT TO: %d BY %f x %d", c + 1, b->IntervalDuration, b->TotalCount);
+            }
+
+            break;
+
         case OP_PATT_RING:
-        patt_spawn_ring:
-            n = (float)b->SpawnCounter/(float)ins.arg5;
             minDir = ins.arg1;
             maxDir = ins.arg2;
 
@@ -154,19 +160,14 @@ void UpdateBullet(Bullet *b, float dt)
                 sinf(targetDir * DEG2RAD) * ins.arg3,
             };
 
-            b2 = _spawnBullet(b, b->Position.x + offset.x, b->Position.y + offset.y, 0, ins.ID1, ins.ID2, ins.arg5, ins.arg6, dt);
+            b2 = _spawnBullet(b, b->Position.x + offset.x, b->Position.y + offset.y, 0, ins.ID1, ins.ID2, dt);
             if (b2 == NULL)
                 break;
 
             b2->Velocity = Vector2Scale(Vector2Normalize(offset), ins.arg4);
-            if (ins.arg6 < 0 && c == b->OpIndex)
-                goto patt_spawn_ring;
-
             break;
 
         case OP_PATT_RANDOM:
-        patt_spawn_random:
-            n = (float)b->SpawnCounter/(float)ins.arg7;
             minDir = ins.arg5;
             maxDir = ins.arg6;
 
@@ -178,18 +179,40 @@ void UpdateBullet(Bullet *b, float dt)
                 sinf(targetDir * DEG2RAD),
             };
 
-            b2 = _spawnBullet(b, b->Position.x + offset.x + ins.arg1, b->Position.y + offset.y + ins.arg2, 0, ins.ID1, ins.ID2, ins.arg7, ins.arg8, dt);
+            b2 = _spawnBullet(b, b->Position.x + offset.x + ins.arg1, b->Position.y + offset.y + ins.arg2, 0, ins.ID1, ins.ID2, dt);
             if (b2 == NULL)
                 break;
 
             b2->Velocity = Vector2Scale(Vector2Normalize(offset), GetRandomValue(ins.arg3, ins.arg4));
-            if (ins.arg8 < 0 && c == b->OpIndex)
-                goto patt_spawn_random;
-
             break;
         }
 
-        if (ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT && ins.OPCODE != OP_SPAWN && ins.OPCODE < OP_MK_SPAWNS)
+        bool next = true;
+        if (c == b->RepeatTarget)
+        {
+            b->CurrentCount++;
+
+            if (b->CurrentCount < b->TotalCount)
+            {
+                if (b->IntervalDuration == 0)
+                    goto opstart;
+                else
+                    b->IntervalTimer = b->IntervalDuration;
+
+                next = false;
+                return;
+            }
+            else
+            {
+                b->CurrentCount = 0;
+                b->IntervalDuration = 0;
+                b->IntervalTimer = 0;
+                b->TotalCount = 0;
+                b->RepeatTarget = -1;
+            }
+        }
+
+        if (next && ins.OPCODE != OP_JUMP && ins.OPCODE != OP_WAIT)
             b->OpIndex++;
     }
 

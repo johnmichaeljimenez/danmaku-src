@@ -33,8 +33,13 @@ typedef struct Bullet
 	float Size;
 	float Angle;
 	float WaitCounter;
-	int SpawnCounter;
-	float SpawnIntervalTimer;
+	
+	int RepeatTarget;
+	int TotalCount;
+	int CurrentCount;
+	float IntervalTimer;
+	float IntervalDuration;
+
 	int OpIndex;
 	bool IgnoreHit;
 
