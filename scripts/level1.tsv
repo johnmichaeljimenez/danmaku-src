@@ -4,76 +4,19 @@ ID	ARG1	ARG2	ARG3	ARG4	ARG5	ARG6	ARG7	ARG8	ID1	ID2
 OP_MOVE	_W*0.5	200	60
 OP_WAIT	60
 OP_SET_VEL	0	0
-OP_PATT_RING	0	0	500	0	40	-1	0	0	enemy_test	 blank
-OP_WAIT	30
-OP_PATT_RING	0	0	200	0	50	-1	0	0	enemy_test	 blank
-OP_WAIT	30
-OP_PATT_RING	0	0	500	0	40	-1	0	0	enemy_test	 blank
-OP_WAIT	30
-
-OP_SET_HIT	1
-OP_PATT_RING	0	0	300	1	120	1	0	0	enemy_test	 blank
-OP_PATT_RING	0	0	300	-1	120	1	0	0	enemy_test	 blank
-OP_PATT_RING	0	0	500	1	120	0	0	0	enemy_test	 blank
-OP_PATT_RING	0	0	500	-1	120	0	0	0	enemy_test	 blank
 OP_WAIT	60
 
-OP_PATT_RING	-300	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_PATT_RANDOM	0	0	100	400	0	360	24	4	enemy_test	blank
 OP_WAIT	60
-OP_PATT_RING	300	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_PATT_RING	-90	90	40	300	20	1	0	0	enemy_test	 blank
+OP_PATT_RING	90	-90	40	300	20	1	0	0	enemy_test	 blank
 OP_WAIT	60
-OP_PATT_RING	-150	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_PATT_RING	45	-45	10	200	20	-1	0	0	enemy_test	 blank
 OP_WAIT	60
-OP_PATT_RING	150	0	300	0	40	-1	0	0	enemy_test	 blank
+OP_PATT_RING	45	-45	10	350	12	-1	0	0	enemy_test	 blank
 OP_WAIT	60
-OP_SET_HIT	0
+OP_PATT_RING	45	-45	10	500	8	-1	0	0	enemy_test	 blank
 OP_WAIT	60
-
-OP_PATT_RING	-200	0	300	0	40	-1	0	0	enemy_test	 blank
 OP_WAIT	60
-OP_PATT_RING	200	0	300	0	40	-1	0	0	enemy_test	 blank
-OP_WAIT	60
-OP_PATT_RING	-100	0	200	0	40	-1	0	0	enemy_test	 blank
-OP_WAIT	60
-OP_PATT_RING	100	0	200	0	40	-1	0	0	enemy_test	 blank
-OP_WAIT	60
-OP_SET_HIT	0
-OP_WAIT	60
-
-OP_JUMP	1
-
-#level_2:
---intro
-OP_SET_HIT	0
-OP_SET_VEL	0	200
-OP_WAIT	60
-OP_SET_VEL	0	0
-OP_WAIT	60*3
-OP_SPAWN	0	0	0	0	0	4	30	0	enemy_test	NULL
-
---left
-OP_MOVE	_W*0.1	200	60
-OP_WAIT	60
---pause
-OP_SET_VEL	0	0
-OP_WAIT	60
---center
-OP_MOVE	_W*0.5	200
-OP_WAIT	60
---pause
-OP_SET_VEL	0	0
-OP_WAIT	60
---right
-OP_MOVE	_W*0.9	200	60
-OP_WAIT	60
---pause
-OP_SET_VEL	0	0
-OP_WAIT	60
---center
-OP_MOVE	_W*0.5	200
-OP_WAIT	60
---pause
-OP_SET_VEL	0	0
-OP_WAIT	60
---restart
-OP_JUMP	5
+OP_WAIT	120
+OP_JUMP	3
