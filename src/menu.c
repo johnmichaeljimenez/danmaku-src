@@ -12,7 +12,7 @@ void MenuStart()
 {
     FadeScreen(0, true, NULL);
 
-	gameLogo = GetSprite("ui/game-logo");
+	gameLogo = GetSprite(SPRITE_UI_GAME_LOGO);
 	tweenDelay = 0;
 	doneTween = false;
 

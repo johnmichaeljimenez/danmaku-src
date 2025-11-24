@@ -18,9 +18,13 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#include "flags.h"
 #include "textutils.h"
 #include "tween.h"
+
+#include "gen_assets.h"
 #include "assets.h"
+
 #include "screen.h"
 #include "data.h"
 #include "bulletscripts.h"

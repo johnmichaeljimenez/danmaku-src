@@ -1,17 +1,16 @@
 #pragma once
 #include "main.h"
 
+#define SPRITE_MAX_COUNT 512
+
 typedef struct SpriteEntry {
-    char key[512];
+    const char *key;
     Texture2D texture;
 } SpriteEntry;
 
-typedef struct SpriteManager {
-    SpriteEntry *entries;
-    int count;
-} SpriteManager;
-
 extern Font DefaultFont;
+extern SpriteEntry sprites[SPRITE_MAX_COUNT];
+extern const char* SPRITE_PATHS[SPRITE_MAX_COUNT];
 
 void LoadAllSprites();
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint);

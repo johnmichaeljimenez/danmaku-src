@@ -97,44 +97,47 @@ void UpdateAnimations(float dt)
 	}
 }
 static const char *playerBullet[] = {
-	"bullet/player-default",
+	SPRITE_BULLET_PLAYER_DEFAULT
 };
 
 static const char *playerIdle[] = {
-	"character/character-idle (1)",
-	"character/character-idle (2)",
-	"character/character-idle (3)",
-	"character/character-idle (4)",
-	"character/character-idle (5)",
-	"character/character-idle (6)",
-	"character/character-idle (7)",
-	"character/character-idle (8)"};
+	SPRITE_CHARACTER_CHARACTER_IDLE_1,
+	SPRITE_CHARACTER_CHARACTER_IDLE_2,
+	SPRITE_CHARACTER_CHARACTER_IDLE_3,
+	SPRITE_CHARACTER_CHARACTER_IDLE_4,
+	SPRITE_CHARACTER_CHARACTER_IDLE_5,
+	SPRITE_CHARACTER_CHARACTER_IDLE_6,
+	SPRITE_CHARACTER_CHARACTER_IDLE_7,
+	SPRITE_CHARACTER_CHARACTER_IDLE_8,
+};
 
 static const char *playerLeft[] = {
-	"character/character-left (1)",
-	"character/character-left (2)",
-	"character/character-left (3)",
-	"character/character-left (4)",
-	"character/character-left (5)",
-	"character/character-left (6)",
-	"character/character-left (7)",
-	"character/character-left (8)"};
+	SPRITE_CHARACTER_CHARACTER_LEFT_1,
+	SPRITE_CHARACTER_CHARACTER_LEFT_2,
+	SPRITE_CHARACTER_CHARACTER_LEFT_3,
+	SPRITE_CHARACTER_CHARACTER_LEFT_4,
+	SPRITE_CHARACTER_CHARACTER_LEFT_5,
+	SPRITE_CHARACTER_CHARACTER_LEFT_6,
+	SPRITE_CHARACTER_CHARACTER_LEFT_7,
+	SPRITE_CHARACTER_CHARACTER_LEFT_8,
+};
 
 static const char *playerRight[] = {
-	"character/character-right (1)",
-	"character/character-right (2)",
-	"character/character-right (3)",
-	"character/character-right (4)",
-	"character/character-right (5)",
-	"character/character-right (6)",
-	"character/character-right (7)",
-	"character/character-right (8)"};
+	SPRITE_CHARACTER_CHARACTER_RIGHT_1,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_2,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_3,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_4,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_5,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_6,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_7,
+	SPRITE_CHARACTER_CHARACTER_RIGHT_8,
+};
 
 static const char *enemyGeneric[] = {
-	"enemy/enemy-generic (1)",
-	"enemy/enemy-generic (2)",
-	"enemy/enemy-generic (3)",
-	"enemy/enemy-generic (4)",
+	SPRITE_ENEMY_ENEMY_GENERIC_1,
+	SPRITE_ENEMY_ENEMY_GENERIC_2,
+	SPRITE_ENEMY_ENEMY_GENERIC_3,
+	SPRITE_ENEMY_ENEMY_GENERIC_4
 };
 
 void SetupAnimationClips()

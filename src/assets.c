@@ -1,71 +1,24 @@
 #include "assets.h"
 
 Font DefaultFont;
-static SpriteManager spriteManager = {0};
-
-static int EndsWithPNG(const char *filename)
-{
-	const char *ext = strrchr(filename, '.');
-	return ext && (strcasecmp(ext, ".png") == 0);
-}
-
-static void ScanFolderRecursive(const char *basePath, const char *relativePath)
-{
-	char fullPath[1024];
-	snprintf(fullPath, sizeof(fullPath), "%s/%s", basePath, relativePath);
-
-	DIR *dir = opendir(fullPath);
-	if (!dir)
-		return;
-
-	struct dirent *entry;
-
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
-			continue;
-
-		char newRelativePath[1024];
-		if (relativePath[0] != '\0')
-			snprintf(newRelativePath, sizeof(newRelativePath), "%s/%s", relativePath, entry->d_name);
-		else
-			snprintf(newRelativePath, sizeof(newRelativePath), "%s", entry->d_name);
-
-		char newFullPath[1024];
-		snprintf(newFullPath, sizeof(newFullPath), "%s/%s", basePath, newRelativePath);
-
-		struct stat st;
-		stat(newFullPath, &st);
-
-		if (S_ISDIR(st.st_mode))
-		{
-			ScanFolderRecursive(basePath, newRelativePath);
-		}
-		else if (EndsWithPNG(entry->d_name))
-		{
-			spriteManager.count++;
-			spriteManager.entries = realloc(spriteManager.entries,
-											spriteManager.count * sizeof(SpriteEntry));
-
-			SpriteEntry *e = &spriteManager.entries[spriteManager.count - 1];
-
-			snprintf(e->key, sizeof(e->key), "%s", newRelativePath);
-			char *dot = strrchr(e->key, '.');
-			if (dot)
-				*dot = '\0';
-
-			e->texture = LoadTexture(newFullPath);
-
-			TraceLog(LOG_INFO, "Loaded sprite: %s (%s)\n", e->key, newFullPath);
-		}
-	}
-
-	closedir(dir);
-}
+SpriteEntry sprites[SPRITE_MAX_COUNT];
 
 void LoadAllSprites()
 {
-	ScanFolderRecursive("assets", "");
+	memset(sprites, 0, sizeof(sprites));
+	for (int i = 0; i < SPRITE_MAX_COUNT; i++)
+	{
+		if (i >= SPRITE_PATH_COUNT)
+			continue;
+
+		sprites[i] = (SpriteEntry)
+		{
+			.key = SPRITE_PATHS[i],
+			.texture = LoadTexture(SPRITE_PATHS[i])
+		};
+
+		TraceLog(LOG_INFO, "LOADED: %s", SPRITE_PATHS[i]);
+	}
 }
 
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint)
@@ -96,10 +49,13 @@ void DrawSpriteScaled(Texture2D sprite, Vector2 pos, float angle, float scale, C
 
 Texture2D GetSprite(const char *name)
 {
-	for (int i = 0; i < spriteManager.count; i++)
+	for (int i = 0; i < SPRITE_PATHS; i++)
 	{
-		if (strcmp(spriteManager.entries[i].key, name) == 0)
-			return spriteManager.entries[i].texture;
+		if (strcmp(sprites[i].key, name) == 0)
+		{
+			TraceLog(LOG_INFO, sprites[i].key);
+			return sprites[i].texture;
+		}
 	}
 
 	TraceLog(LOG_ERROR, TextFormat("CANNOT FIND SPRITE: %s", name));
@@ -107,11 +63,8 @@ Texture2D GetSprite(const char *name)
 
 void UnloadAllSprites()
 {
-	for (int i = 0; i < spriteManager.count; i++)
+	for (int i = 0; i < SPRITE_PATHS; i++)
 	{
-		UnloadTexture(spriteManager.entries[i].texture);
+		UnloadTexture(sprites[i].texture);
 	}
-	free(spriteManager.entries);
-	spriteManager.entries = NULL;
-	spriteManager.count = 0;
 }
