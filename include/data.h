@@ -47,6 +47,8 @@ typedef struct Bullet
 	bool FromPlayer;
 	float Timer;
 	bool IsAlive;
+
+	const char* SFX_ID;
 } Bullet;
 
 typedef struct Player

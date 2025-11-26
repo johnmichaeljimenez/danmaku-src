@@ -52,6 +52,11 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
         Bullet *b = &bullets[i];
         if (!b->IsAlive)
         {
+            if (b->SFX_ID != NULL)
+                PlaySFXVaried(b->SFX_ID, 0.5f, 1.0f);
+            else
+                PlaySFXVaried(SFX_GENERIC_FIRE, 0.5f, 1.0f);
+
             b->IsAlive = true;
             b->FromPlayer = fromPlayer;
             b->Position = pos;
