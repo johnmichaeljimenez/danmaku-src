@@ -27,6 +27,11 @@ int main(void)
 
     while (!WindowShouldClose())
     {
+        if (IsPointerPressed())
+        {
+            InitAudio();
+        }
+
         float dt = GetFrameTime();
 
         switch (gameState)

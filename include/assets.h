@@ -28,8 +28,14 @@ extern SpriteEntry sprites[SPRITE_MAX_COUNT];
 extern const char* SPRITE_PATHS[SPRITE_MAX_COUNT];
 extern const SFXPath SFX_PATHS[SFX_MAX_COUNT];
 
+extern SFXEntry sounds[SFX_MAX_COUNT];
+extern bool loadedSounds;
+
 void LoadAllSprites();
 void DrawSprite(Texture2D sprite, Vector2 pos, float angle, Color tint);
 void DrawSpriteScaled(Texture2D sprite, Vector2 pos, float angle, float scale, Color tint);
 Texture2D GetSprite(const char *name);
 void UnloadAllSprites();
+
+void InitAudio();
+void LoadAllSounds();
