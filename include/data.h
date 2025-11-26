@@ -19,6 +19,7 @@ typedef struct BulletType
 	const char *ID;
 	const char *ScriptName;
 	const char *AnimationName;
+	const char* SFXName;
 } BulletType;
 
 typedef struct Bullet
@@ -47,8 +48,6 @@ typedef struct Bullet
 	bool FromPlayer;
 	float Timer;
 	bool IsAlive;
-
-	const char* SFX_ID;
 } Bullet;
 
 typedef struct Player

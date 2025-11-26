@@ -52,11 +52,6 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
         Bullet *b = &bullets[i];
         if (!b->IsAlive)
         {
-            if (b->SFX_ID != NULL)
-                PlaySFXVaried(b->SFX_ID, 0.5f, 1.0f);
-            else
-                PlaySFXVaried(SFX_GENERIC_FIRE, 0.5f, 1.0f);
-
             b->IsAlive = true;
             b->FromPlayer = fromPlayer;
             b->Position = pos;
@@ -96,6 +91,9 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
             }
 
             b->Timer = 0;
+
+            if (b->Type->SFXName != NULL)
+                PlaySFXVaried(b->Type->SFXName, 0.5f, 1.0f);
 
             return b;
         }
@@ -137,23 +135,33 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
 Bullet *RootBullet;
 BulletType bulletTypes[BULLET_TYPE_COUNT] =
     {
-        {.ID = "enemy_boss",
-         .ScriptName = "",
-         .AnimationName = "PlayerIdle",
-         .Size = 16,
-         .HP = 500,
-         .IsBoss = true,
-         .FixedRotation = true},
-        {.ID = "bullet_player_basic",
-         .ScriptName = "bullet_player_basic",
-         .AnimationName = "PlayerBulletDefault",
-         .Size = 16},
-        {.ID = "enemy_test",
-         .ScriptName = "enemy_test",
-         .HP = 0,
-         .AnimationName = "EnemyGeneric",
-         .Size = 16},
-        {.ID = "bullet_enemy_basic",
-         .ScriptName = "bullet_enemy_basic",
-         .AnimationName = "PlayerBulletDefault",
-         .Size = 8}};
+        {
+            .ID = "enemy_boss",
+            .ScriptName = "",
+            .AnimationName = "PlayerIdle",
+            .Size = 16,
+            .HP = 500,
+            .IsBoss = true,
+            .FixedRotation = true
+        },
+        {
+            .ID = "bullet_player_basic",
+            .ScriptName = "bullet_player_basic",
+            .AnimationName = "PlayerBulletDefault",
+            .Size = 16
+        },
+        {
+            .ID = "enemy_test",
+            .ScriptName = "enemy_test",
+            .HP = 0,
+            .AnimationName = "EnemyGeneric",
+            .Size = 16,
+            .SFXName = SFX_GENERIC_FIRE
+        },
+        {   .ID = "bullet_enemy_basic",
+            .ScriptName = "bullet_enemy_basic",
+            .AnimationName = "PlayerBulletDefault",
+            .Size = 8,
+            .SFXName = SFX_GENERIC_FIRE
+        }
+    };
