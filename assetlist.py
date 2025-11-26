@@ -1,5 +1,4 @@
 import os
-from collections import defaultdict
 
 sprite_h = ""
 sprite_c = ""
@@ -64,30 +63,50 @@ const char* SPRITE_PATHS[] =
 
 	sprite_c += "};"
 
+
+
+
 def process_sounds(list):
 	global sfx_h, sfx_c
 	sfx_h = f"#define SFX_PATH_COUNT {len(list)}\n\n"
+	for i in list:
+		print(f"{i}: {list[i]}")
+		sfx_h += f"#define SFX_{i} \"{list[i]}\" \n"
+		pass
+
+	sfx_h += f"""
+
+	"""
+
+	sfx_c += f"""
+
+const char* SFX_PATHS[] =
+{{
+"""
 
 	n = 0
-	for id in list:
-		sfx_h += f"#define SFX_{id} {n} \n"
+	for	i in list:
+		sfx_c += f"	SFX_{i}, \n"
 		n += 1
-	pass
+
+	sfx_c += "};"
+
+
+
 
 def main():
 	texture_id = {}
-	sfx_id = defaultdict(list)
+	sfx_id = {}
 
 	for path, subdirs, files in os.walk("assets"):
 		for name in files:
 			fullpath = os.path.join(path, name).replace("\\", "/")
 			id, ext = sanitize(fullpath)
-			id2, ext2 = sanitize(os.path.dirname(fullpath))
 
 			if name.endswith(".png"):
 				texture_id[id] = fullpath
 			elif name.endswith(".wav") or name.endswith(".ogg"):
-				sfx_id[id2].append(fullpath)
+				sfx_id[id.replace("SFX_", "")] = fullpath
 
 	process_textures(texture_id)
 	process_sounds(sfx_id)
