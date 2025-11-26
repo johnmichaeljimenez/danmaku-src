@@ -6,11 +6,8 @@ SpriteEntry sprites[SPRITE_MAX_COUNT];
 void LoadAllSprites()
 {
 	memset(sprites, 0, sizeof(sprites));
-	for (int i = 0; i < SPRITE_MAX_COUNT; i++)
+	for (int i = 0; i < SPRITE_PATH_COUNT; i++)
 	{
-		if (i >= SPRITE_PATH_COUNT)
-			continue;
-
 		sprites[i] = (SpriteEntry)
 		{
 			.key = SPRITE_PATHS[i],
@@ -49,7 +46,7 @@ void DrawSpriteScaled(Texture2D sprite, Vector2 pos, float angle, float scale, C
 
 Texture2D GetSprite(const char *name)
 {
-	for (int i = 0; i < SPRITE_PATHS; i++)
+	for (int i = 0; i < SPRITE_PATH_COUNT; i++)
 	{
 		if (strcmp(sprites[i].key, name) == 0)
 		{
@@ -63,7 +60,7 @@ Texture2D GetSprite(const char *name)
 
 void UnloadAllSprites()
 {
-	for (int i = 0; i < SPRITE_PATHS; i++)
+	for (int i = 0; i < SPRITE_PATH_COUNT; i++)
 	{
 		UnloadTexture(sprites[i].texture);
 	}
