@@ -31,3 +31,4 @@ void UnloadAllSprites();
 
 void InitAudio();
 void LoadAllSounds();
+void UnloadAllSounds();

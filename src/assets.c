@@ -93,3 +93,11 @@ void UnloadAllSprites()
 		UnloadTexture(sprites[i].texture);
 	}
 }
+
+void UnloadAllSounds()
+{
+	for (int i = 0; i < SFX_PATH_COUNT; i++)
+	{
+		UnloadAllSounds(sounds[i].sound);
+	}
+}

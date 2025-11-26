@@ -95,6 +95,8 @@ int main(void)
 
     TweenManager_Clear();
     UnloadAllSprites();
+    UnloadAllSounds();
+    CloseAudioDevice();
     DisposeScreen();
 
     UnloadFont(DefaultFont);
