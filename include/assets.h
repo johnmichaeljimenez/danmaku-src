@@ -3,6 +3,7 @@
 
 #define SPRITE_MAX_COUNT 512
 #define SFX_MAX_COUNT   32
+#define SFX_POOL_SIZE    16
 
 typedef struct SpriteEntry {
     const char *key;
@@ -11,7 +12,9 @@ typedef struct SpriteEntry {
 
 typedef struct SFXEntry {
     const char *ID;
-    Sound sound;
+    Sound baseSound;
+    Sound pool[SFX_POOL_SIZE];
+    int nextAvailable;
 } SFXEntry;
 
 extern Font DefaultFont;
@@ -32,3 +35,6 @@ void UnloadAllSprites();
 void InitAudio();
 void LoadAllSounds();
 void UnloadAllSounds();
+
+void PlaySFX(const char *id);
+void PlaySFXVaried(const char *id, float volume, float pitch);

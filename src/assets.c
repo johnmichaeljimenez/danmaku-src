@@ -18,17 +18,24 @@ void InitAudio()
 void LoadAllSounds()
 {
 	memset(sounds, 0, sizeof(sounds));
-	
-	for (int i = 0; i < SFX_PATH_COUNT; i++)
-	{
-		sounds[i] = (SFXEntry)
-		{
-			.ID = SFX_PATHS[i],
-			.sound = LoadSound(SFX_PATHS[i])
-		};
 
-		TraceLog(LOG_INFO, "Loaded SFX: %s", sounds[i].ID);
-	}
+	for (int i = 0; i < SFX_PATH_COUNT; i++)
+    {
+        Sound base = LoadSound(SFX_PATHS[i]);
+
+        sounds[i] = (SFXEntry){
+            .ID = SFX_PATHS[i],
+            .baseSound = base,
+            .nextAvailable = 0
+        };
+
+        for (int j = 0; j < SFX_POOL_SIZE; j++)
+        {
+            sounds[i].pool[j] = LoadSoundAlias(base);
+        }
+
+        TraceLog(LOG_INFO, "Loaded SFX with pool: %s", SFX_PATHS[i]);
+    }
 }
 
 void LoadAllSprites()
@@ -97,7 +104,59 @@ void UnloadAllSprites()
 void UnloadAllSounds()
 {
 	for (int i = 0; i < SFX_PATH_COUNT; i++)
-	{
-		UnloadAllSounds(sounds[i].sound);
-	}
+    {
+        for (int j = 0; j < SFX_POOL_SIZE; j++)
+        {
+            if (IsSoundValid(sounds[i].pool[j]))
+                UnloadSoundAlias(sounds[i].pool[j]);
+        }
+		
+        if (IsSoundValid(sounds[i].baseSound))
+            UnloadSound(sounds[i].baseSound);
+    }
+	
+    loadedSounds = false;
+}
+
+void PlaySFX(const char *id)
+{
+    for (int i = 0; i < SFX_PATH_COUNT; i++)
+    {
+        if (TextIsEqual(sounds[i].ID, id))
+        {
+            int idx = sounds[i].nextAvailable;
+            Sound alias = sounds[i].pool[idx];
+
+            if (IsSoundPlaying(alias))
+                StopSound(alias);
+
+            PlaySound(alias);
+
+            sounds[i].nextAvailable = (idx + 1) % SFX_POOL_SIZE;
+            return;
+        }
+    }
+
+    TraceLog(LOG_WARNING, "SFX not found: %s", id);
+}
+
+void PlaySFXVaried(const char *id, float volume, float pitch)
+{
+    for (int i = 0; i < SFX_PATH_COUNT; i++)
+    {
+        if (TextIsEqual(sounds[i].ID, id))
+        {
+            int idx = sounds[i].nextAvailable;
+            Sound alias = sounds[i].pool[idx];
+
+            SetSoundVolume(alias, volume);
+            SetSoundPitch(alias, pitch + GetRandomValue(-10, 10) * 0.01f);
+
+            if (IsSoundPlaying(alias)) StopSound(alias);
+            PlaySound(alias);
+
+            sounds[i].nextAvailable = (idx + 1) % SFX_POOL_SIZE;
+            return;
+        }
+    }
 }
