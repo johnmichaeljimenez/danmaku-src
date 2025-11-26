@@ -3,7 +3,6 @@
 
 #define SPRITE_MAX_COUNT 512
 #define SFX_MAX_COUNT   32
-#define SFX_SUB_MAX_COUNT   8
 
 typedef struct SpriteEntry {
     const char *key;
@@ -11,22 +10,15 @@ typedef struct SpriteEntry {
 } SpriteEntry;
 
 typedef struct SFXEntry {
-    const char *key;
-    int count;
-    Sound SoundAssets[SFX_SUB_MAX_COUNT];
+    const char *ID;
+    Sound sound;
 } SFXEntry;
-
-typedef struct SFXPath {
-    int count;
-    char* ID;
-    char* SoundPaths[SFX_SUB_MAX_COUNT];
-} SFXPath;
 
 extern Font DefaultFont;
 extern SpriteEntry sprites[SPRITE_MAX_COUNT];
 
 extern const char* SPRITE_PATHS[SPRITE_MAX_COUNT];
-extern const SFXPath SFX_PATHS[SFX_MAX_COUNT];
+extern const char* SFX_PATHS[SFX_MAX_COUNT];
 
 extern SFXEntry sounds[SFX_MAX_COUNT];
 extern bool loadedSounds;

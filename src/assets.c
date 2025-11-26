@@ -17,16 +17,17 @@ void InitAudio()
 
 void LoadAllSounds()
 {
+	memset(sounds, 0, sizeof(sounds));
+	
 	for (int i = 0; i < SFX_PATH_COUNT; i++)
 	{
-		SFXEntry entry = sounds[i];
-		entry.key = SFX_PATHS[i].ID;
-
-		for (int j = 0; j < entry.count; j++)
+		sounds[i] = (SFXEntry)
 		{
-			entry.SoundAssets[j] = LoadSound(SFX_PATHS[i].SoundPaths[j]);
-			TraceLog(LOG_INFO, "Loaded SFX: %s -> %s", SFX_PATHS[i].ID, SFX_PATHS[i].SoundPaths[j]);
-		}
+			.ID = SFX_PATHS[i],
+			.sound = LoadSound(SFX_PATHS[i])
+		};
+
+		TraceLog(LOG_INFO, "Loaded SFX: %s", sounds[i].ID);
 	}
 }
 
