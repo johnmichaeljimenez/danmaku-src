@@ -14,7 +14,15 @@ int currentLevelIndex;
 
 void OnLevelStart()
 {
-	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", TextFormat("level_%d", currentLevelIndex+1));
+
+	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", 
+	#ifdef TEST_MODE
+		"level_test"
+	#else
+		TextFormat("level_%d", currentLevelIndex+1)
+	#endif
+	);
+	
 	RootBullet->IsRoot = true;
 	RootBullet->IgnoreHit = true;
 }
