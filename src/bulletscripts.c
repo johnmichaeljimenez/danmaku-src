@@ -25,7 +25,7 @@ opstart:
         BulletScriptInstruction ins = b->Script->Instr[b->OpIndex];
         Vector2 diff;
         Bullet *b2;
-        Vector2 offset;
+        Vector2 offset, pos1, pos2, pos3;
         float minDir, maxDir, targetDir;
         float d, vel;
 
@@ -184,6 +184,21 @@ opstart:
                 break;
 
             b2->Velocity = Vector2Scale(Vector2Normalize(offset), GetRandomValue(ins.arg3, ins.arg4));
+            break;
+
+        case OP_PATT_CURTAIN:
+            pos1 = (Vector2){ins.arg1, ins.arg2};
+            pos2 = (Vector2){ins.arg3, ins.arg4};
+
+            pos3 = Vector2Lerp(pos1, pos2, n);
+            Vector2 sweepDir = Vector2Normalize(Vector2Subtract(pos2, pos1));
+            Vector2 norm = { sweepDir.y, sweepDir.x };
+
+            b2 = _spawnBullet(b, pos3.x, pos3.y, 0, ins.ID1, ins.ID2, dt);
+            if (b2 == NULL)
+                break;
+
+            b2->Velocity = Vector2Scale(norm, ins.arg5);
             break;
         }
 
