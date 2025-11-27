@@ -1,11 +1,37 @@
 #include "levels.h"
 
-const Level level0 = {
+const Level levelTutorial = {
 	.StartDialogue = "tutorial-start",
 	.EndDialogue = "tutorial-end"};
 
+const Level level1 = {
+	.StartDialogue = "",
+	.EndDialogue = ""
+};
+
+const Level level2 = {
+	.StartDialogue = "",
+	.EndDialogue = ""
+};
+
+const Level level3 = {
+	.StartDialogue = "",
+	.EndDialogue = ""
+};
+
+const Level level4 = {
+	.StartDialogue = "",
+	.EndDialogue = ""
+};
+
+const Level level5 = {
+	.StartDialogue = "",
+	.EndDialogue = ""
+};
+
 Level Levels[LEVEL_COUNT] = {
-	level0
+	levelTutorial,
+	level1, level2, level3, level4, level5
 };
 
 Level *CurrentLevel = &Levels[0];
@@ -37,7 +63,6 @@ void SetLevel(int index)
 	{
 		if (index == 0)
 		{
-			// TraceLog(LOG_INFO, "%d", RetryCount);
 			if (RetryCount > 0)
 			{
 				if (RetryCount >= 3)

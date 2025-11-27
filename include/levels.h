@@ -7,7 +7,7 @@ typedef struct Level
 	const char* EndDialogue;
 } Level;
 
-#define LEVEL_COUNT 1
+#define LEVEL_COUNT 6
 extern Level Levels[LEVEL_COUNT];
 extern Level *CurrentLevel;
 
