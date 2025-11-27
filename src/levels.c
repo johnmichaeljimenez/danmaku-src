@@ -44,10 +44,10 @@ void OnLevelStart()
 	#ifdef TEST_MODE
 		"level_test"
 	#else
-		TextFormat("level_%d", currentLevelIndex+1)
+		currentLevelIndex == 0? "level_tutorial" : TextFormat("level_%d", currentLevelIndex)
 	#endif
 	);
-	
+
 	RootBullet->IsRoot = true;
 	RootBullet->IgnoreHit = true;
 }
