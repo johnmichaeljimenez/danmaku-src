@@ -40,7 +40,6 @@ int currentLevelIndex;
 
 void OnLevelStart()
 {
-
 	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", 
 	#ifdef TEST_MODE
 		"level_test"
@@ -74,6 +73,10 @@ void SetLevel(int index)
 		}
 
 		DialogueShow(CurrentLevel->StartDialogue, OnLevelStart);
+	}
+	else
+	{
+		OnLevelStart();
 	}
 }
 

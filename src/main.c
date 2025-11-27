@@ -116,6 +116,9 @@ void GoToMenu()
 
 void GoToGame(int level)
 {
+    if (gameState == GAMESTATE_INGAME || gameState == GAMESTATE_GAME_END)
+        GameQuit();
+
     RetryCount = 0;
     currentLevel = level;
     gameState = GAMESTATE_INGAME;

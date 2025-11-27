@@ -90,6 +90,12 @@ void GameUpdate(float dt)
 		DialogueSkip();
 	}
 
+	if (IsKeyPressed(KEY_K))
+	{
+		RestartGame();
+		return;
+	}
+
 	if (IsKeyPressed(KEY_M))
 	{
 		EndLevel();
