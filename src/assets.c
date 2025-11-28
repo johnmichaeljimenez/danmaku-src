@@ -120,6 +120,9 @@ void UnloadAllSounds()
 
 void PlaySFX(const char *id)
 {
+    if (!loadedSounds)
+        return;
+        
     for (int i = 0; i < SFX_PATH_COUNT; i++)
     {
         if (TextIsEqual(sounds[i].ID, id))
@@ -142,6 +145,9 @@ void PlaySFX(const char *id)
 
 void PlaySFXVaried(const char *id, float volume, float pitch)
 {
+    if (!loadedSounds)
+        return;
+
     for (int i = 0; i < SFX_PATH_COUNT; i++)
     {
         if (TextIsEqual(sounds[i].ID, id))
