@@ -24,6 +24,8 @@ typedef enum OpType
 	OP_SET_GFX, //ID1 - gfx id,
 	OP_SET_HIT, //1 - hittable,
 
+	OP_SFX, //ID1 - sfx id
+
 	OP_REPEAT, //1 - count, 2 - interval
 	OP_MK_SPAWNS, //(MARKER ONLY)
 	OP_PATT_RING, //1 - min dir, 2 - max dir, 3 - dist, 4 - vel, ID1 - bullet id, ID2 - scriptid

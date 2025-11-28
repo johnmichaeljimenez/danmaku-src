@@ -133,6 +133,10 @@ opstart:
             b->IgnoreHit = ins.arg1 == 0;
             break;
 
+        case OP_SFX:
+            PlaySFXVaried(ins.ID1, 0.9f, 1.0f);
+            break;
+
         case OP_REPEAT:
             if (ins.arg1 > 0)
             {
