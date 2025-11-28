@@ -24,6 +24,13 @@ bool HitPlayer()
 
         TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", OnEndLevel);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);
+
+        vfx = SpawnVFX(player.Position, GetSprite(SPRITE_VFX_RING_BLUR), 0, 1.0f);
+        vfx->Additive = true;
+        vfx->Tint = (Color){255, 0, 0, 255};
+
+        TweenManager_AddFloatFrom(&vfx->Scale, 1, 5, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath3", NULL);
+        TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath4", NULL);
     }
     else
     {
