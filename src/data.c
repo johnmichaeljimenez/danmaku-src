@@ -31,6 +31,8 @@ bool HitPlayer()
 
         TweenManager_AddFloatFrom(&vfx->Scale, 1, 5, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath3", NULL);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath4", NULL);
+
+        PlaySFX(SFX_PLAYER_DEFEAT);
     }
     else
     {
@@ -38,6 +40,8 @@ bool HitPlayer()
 
         TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, 0.8f, EASING_EASEOUTQUAD, "VFX-PlayerDeath1", NULL);
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);
+
+        PlaySFX(SFX_PLAYER_HIT);
     }
 
     SetHitstop(player.IsAlive? 0.4f : 1.0f);

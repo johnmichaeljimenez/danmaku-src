@@ -286,6 +286,7 @@ void GameUpdate(float dt)
 
 								SetHitstop(1.0f);
 
+						        PlaySFX(SFX_BOSS_DEFEAT);
 								endedLevel = true;
 							}
 							else
