@@ -10,4 +10,6 @@ void GameUpdate(float dt);
 void GameRender(float dt);
 void GameQuit();
 
+void SetHitstop(float duration);
+
 void OnEndLevel(void);

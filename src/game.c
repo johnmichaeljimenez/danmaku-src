@@ -11,6 +11,9 @@ static int playerMovementState;
 
 bool finishedGame;
 
+static float hsDuration;
+static float hsTimer;
+
 Texture2D playerDefaultBullet;
 
 static void OnCutsceneTimerDone(void)
@@ -83,12 +86,27 @@ void GameStart(int level)
 	lastPointerPos = player.Position;
 	SetLevel(level);
 
+	hsDuration = 0;
+	hsTimer = 0;
+
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 1, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
 	TweenManager_AddVector2From(&player.Position, (Vector2){VIRTUAL_WIDTH * 0.5, VIRTUAL_HEIGHT + 100}, (Vector2){VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT - 100}, 1, EASING_EASEINOUTQUAD, "PlayerTweenPosition", NULL);
 }
 
 void GameUpdate(float dt)
 {
+	float udt = dt;
+
+	if (hsTimer > 0)
+	{
+		hsTimer -= dt;
+		if (hsTimer <= 0)
+		{
+			hsTimer = 0;
+			hsDuration = 0;
+		}
+	}
+
 	if (IsKeyPressed(KEY_P))
 	{
 		DialogueSkip();
@@ -124,6 +142,9 @@ void GameUpdate(float dt)
 	{
 		ClearInput();
 	}
+
+	if (hsTimer > 0)
+		dt = 0;
 
 	UpdateLevel(dt);
 
@@ -263,6 +284,8 @@ void GameUpdate(float dt)
 								TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
 								TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-BossDeath2", NULL);
 
+								SetHitstop(1.0f);
+
 								endedLevel = true;
 							}
 							else
@@ -321,7 +344,7 @@ void GameUpdate(float dt)
 		if (!vfx->IsAlive)
 			continue;
 
-		vfx->Timer += dt;
+		vfx->Timer += udt;
 		if (vfx->Timer >= vfx->Lifetime)
 			vfx->IsAlive = false;
 	}
@@ -409,4 +432,13 @@ void GameRender(float dt)
 void GameQuit()
 {
 	ClearGameplayData();
+}
+
+void SetHitstop(float duration)
+{
+	if (hsDuration > duration)
+		return;
+
+	hsDuration = duration;
+	hsTimer = duration;
 }

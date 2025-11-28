@@ -40,6 +40,8 @@ bool HitPlayer()
         TweenManager_AddFloatFrom(&vfx->Alpha, 1, 0, 0.6f, EASING_EASEOUTQUAD, "VFX-PlayerDeath2", NULL);
     }
 
+    SetHitstop(player.IsAlive? 0.4f : 1.0f);
+
     return player.IsAlive;
 }
 
