@@ -140,6 +140,10 @@ static const char *enemyGeneric[] = {
 	SPRITE_ENEMY_GENERIC_4
 };
 
+static const char *enemyBulletDefault[] = {
+	SPRITE_BULLET_CIRCLE_RED
+};
+
 void SetupAnimationClips()
 {
 	AddAnimationClip("PlayerBulletDefault", playerBullet, 1, true, 0);
@@ -147,4 +151,5 @@ void SetupAnimationClips()
 	AddAnimationClip("PlayerLeft", playerLeft, 8, true, 3);
 	AddAnimationClip("PlayerRight", playerRight, 8, true, 3);
 	AddAnimationClip("EnemyGeneric", enemyGeneric, 4, true, 0);
+	AddAnimationClip("EnemyBulletDefault", enemyBulletDefault, 1, true, 0);
 }

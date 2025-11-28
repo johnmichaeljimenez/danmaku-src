@@ -167,8 +167,8 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
         },
         {   .ID = "bullet_enemy_basic",
             .ScriptName = "bullet_enemy_basic",
-            .AnimationName = "PlayerBulletDefault",
-            .Size = 8,
+            .AnimationName = "EnemyBulletDefault",
+            .Size = 14,
             .SFXName = SFX_GENERIC_FIRE
         }
     };
