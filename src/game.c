@@ -9,6 +9,8 @@ bool lastPointerSet;
 static float cutsceneTimer;
 static int playerMovementState;
 
+bool finishedGame;
+
 Texture2D playerDefaultBullet;
 
 static void OnCutsceneTimerDone(void)
@@ -18,6 +20,7 @@ static void OnCutsceneTimerDone(void)
 
 void OnEndLevel(void)
 {
+	finishedGame = LevelIndex >= LEVEL_COUNT;
 	EndGame(player.IsAlive);
 }
 
@@ -59,6 +62,7 @@ void ClearGameplayData()
 
 void GameStart(int level)
 {
+	finishedGame = false;
 	playerDefaultBullet = GetSprite(SPRITE_BULLET_DEFAULT);
 	ClearGameplayData();
 

@@ -36,7 +36,7 @@ Level Levels[LEVEL_COUNT] = {
 
 Level *CurrentLevel = &Levels[0];
 float levelTimer;
-int currentLevelIndex;
+int LevelIndex;
 
 void OnLevelStart()
 {
@@ -44,7 +44,7 @@ void OnLevelStart()
 	#ifdef TEST_MODE
 		"level_test"
 	#else
-		currentLevelIndex == 0? "level_tutorial" : TextFormat("level_%d", currentLevelIndex)
+		LevelIndex == 0? "level_tutorial" : TextFormat("level_%d", LevelIndex)
 	#endif
 	);
 
@@ -54,7 +54,7 @@ void OnLevelStart()
 
 void SetLevel(int index)
 {
-	currentLevelIndex = index;
+	LevelIndex = index;
 	CurrentLevel = &Levels[index];
 	levelTimer = 0;
 

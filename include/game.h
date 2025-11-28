@@ -3,6 +3,7 @@
 
 extern bool IsCutscene;
 extern int RetryCount;
+extern bool finishedGame;
 
 void GameStart(int level);
 void GameUpdate(float dt);

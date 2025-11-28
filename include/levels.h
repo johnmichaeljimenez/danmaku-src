@@ -10,6 +10,7 @@ typedef struct Level
 #define LEVEL_COUNT 6
 extern Level Levels[LEVEL_COUNT];
 extern Level *CurrentLevel;
+extern int LevelIndex;
 
 void SetLevel(int index);
 void UpdateLevel(float dt);
