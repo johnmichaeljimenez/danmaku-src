@@ -27,38 +27,34 @@ int main(void)
 
     while (!WindowShouldClose())
     {
-        if (IsPointerPressed())
-        {
-            InitAudio();
-        }
-
         float dt = GetFrameTime();
 
         if (!started)
         {
             StartUpdate(dt);
-            return;
         }
-
-        switch (gameState)
+        else
         {
-        case GAMESTATE_MENU:
-            MenuUpdate(dt);
-            break;
-        case GAMESTATE_INGAME:
-            GameUpdate(dt);
-            if (IsDialogueActive)
-                DialogueUpdate(dt);
-            break;
-        case GAMESTATE_PAUSE:
-            PauseUpdate(dt);
-            break;
-        case GAMESTATE_GAME_END:
-            GameEndUpdate(dt);
-            break;
+            switch (gameState)
+            {
+            case GAMESTATE_MENU:
+                MenuUpdate(dt);
+                break;
+            case GAMESTATE_INGAME:
+                GameUpdate(dt);
+                if (IsDialogueActive)
+                    DialogueUpdate(dt);
+                break;
+            case GAMESTATE_PAUSE:
+                PauseUpdate(dt);
+                break;
+            case GAMESTATE_GAME_END:
+                GameEndUpdate(dt);
+                break;
 
-        default:
-            break;
+            default:
+                break;
+            }
         }
 
         TweenManager_Update(dt);
@@ -69,29 +65,30 @@ int main(void)
             if (!started)
             {
                 StartRender(dt);
-                return;
             }
-
-            switch (gameState)
+            else
             {
-            case GAMESTATE_MENU:
-                MenuRender(dt);
-                break;
-            case GAMESTATE_INGAME:
-                GameRender(dt);
-                if (IsDialogueActive)
-                    DialogueRender(dt);
-                break;
-            case GAMESTATE_PAUSE:
-                GameRender(dt);
-                PauseRender(dt);
-                break;
-            case GAMESTATE_GAME_END:
-                GameRender(dt);
-                GameEndRender(dt);
-                break;
-            default:
-                break;
+                switch (gameState)
+                {
+                case GAMESTATE_MENU:
+                    MenuRender(dt);
+                    break;
+                case GAMESTATE_INGAME:
+                    GameRender(dt);
+                    if (IsDialogueActive)
+                        DialogueRender(dt);
+                    break;
+                case GAMESTATE_PAUSE:
+                    GameRender(dt);
+                    PauseRender(dt);
+                    break;
+                case GAMESTATE_GAME_END:
+                    GameRender(dt);
+                    GameEndRender(dt);
+                    break;
+                default:
+                    break;
+                }
             }
 
             if (fadeAmount > 0)
