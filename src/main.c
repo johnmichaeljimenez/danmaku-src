@@ -23,7 +23,7 @@ int main(void)
     LoadAllSprites();
     SetupAnimationClips();
 
-    MenuStart();
+    StartInit();
 
     while (!WindowShouldClose())
     {
@@ -33,6 +33,12 @@ int main(void)
         }
 
         float dt = GetFrameTime();
+
+        if (!started)
+        {
+            StartUpdate(dt);
+            return;
+        }
 
         switch (gameState)
         {
@@ -59,6 +65,12 @@ int main(void)
         BeginScreen();
         {
             ClearBackground(DARKGRAY);
+
+            if (!started)
+            {
+                StartRender(dt);
+                return;
+            }
 
             switch (gameState)
             {

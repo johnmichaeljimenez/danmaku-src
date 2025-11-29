@@ -31,6 +31,7 @@
 #include "levels.h"
 #include "animation.h"
 
+#include "start.h"
 #include "menu.h"
 #include "game.h"
 #include "dialogue.h"
