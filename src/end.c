@@ -12,9 +12,14 @@ void GameEndUpdate(float dt)
 	if (IsPointerHold(dt) || IsKeyPressed(KEY_SPACE))
 	{
 		GameEndHide();
-		if (isWinState)
+
+		if (finishedGame)
 		{
 			GoToMenu();
+		}
+		else if (isWinState)
+		{
+			GoToGame(LevelIndex+1);
 		}
 		else
 		{
@@ -26,7 +31,18 @@ void GameEndUpdate(float dt)
 
 void GameEndRender(float dt)
 {
-	DrawText(isWinState ? "You win!\n[Hold] to exit" : "Game Over\n[Hold] to restart", 100, 300, 40, isWinState ? GREEN : RED);
+	if (finishedGame)
+	{
+		DrawText("Congratulations! You win the game!\n[Hold] to exit", 100, 300, 40, GREEN);
+	}
+	else if (isWinState)
+	{
+		DrawText("You win!\n[Hold] to exit", 100, 300, 40, GREEN);
+	}
+	else
+	{
+		DrawText("Game Over\n[Hold] to restart", 100, 300, 40, RED);
+	}
 }
 
 void GameEndHide()
