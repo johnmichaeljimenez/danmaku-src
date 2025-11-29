@@ -25,6 +25,7 @@ typedef enum OpType
 	OP_SET_HIT, //1 - hittable,
 
 	OP_SFX, //ID1 - sfx id
+	OP_VFX, //1 - x, 2 - y, 3 - dir, 4 - time, ID1 - vfx id
 
 	OP_REPEAT, //1 - count, 2 - interval
 	OP_MK_SPAWNS, //(MARKER ONLY)

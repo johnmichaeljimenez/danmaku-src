@@ -137,6 +137,10 @@ opstart:
             PlaySFXVaried(ins.ID1, 0.9f, 1.0f);
             break;
 
+        case OP_VFX:
+            SpawnVFX((Vector2){ins.arg1, ins.arg2}, GetSprite(ins.ID1), ins.arg3, (float)ins.arg4 / TICK_COUNT);
+            break;
+
         case OP_REPEAT:
             if (ins.arg1 > 0)
             {
