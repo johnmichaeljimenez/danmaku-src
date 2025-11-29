@@ -7,6 +7,7 @@ int displayCharacter;
 
 float dialogueTypeProgress;
 float dialogueTypeSpeed = 0.2f;
+float dialogueTypeSFXTime = 0;
 int dialogueMessageLength;
 
 const char *displayMessage;
@@ -15,6 +16,7 @@ static void (*endFunction)(void);
 
 void OnDialogueHide(void)
 {
+	dialogueTypeSFXTime = 0;
 	IsDialogueActive = false;
 	currentDialogue = NULL;
 	dialogueIndex = 0;
@@ -46,6 +48,7 @@ void DialogueSkip()
 
 void DialogueShow(const char *dialogueID, void (*onEnd)(void))
 {
+	dialogueTypeSFXTime = 0;
 	endFunction = onEnd;
 	IsDialogueActive = false;
 	currentDialogue = NULL;
@@ -79,9 +82,19 @@ void DialogueUpdate(float dt)
 
 	if (dialogueTypeProgress < 1.0f)
 	{
+		dialogueTypeSFXTime += dt;
+		if (dialogueTypeSFXTime > 0.08f)
+		{
+			PlaySFXVaried(SFX_UI_DIALOGUE_TYPE, 0.1f, 1.0f);
+			dialogueTypeSFXTime = 0;
+		}
+
 		dialogueTypeProgress += dialogueTypeSpeed * dt;
 		if (dialogueTypeProgress > 1.0f)
+		{
 			dialogueTypeProgress = 1.0f;
+			dialogueTypeSFXTime = 0;
+		}
 	}
 
 	if (IsPointerPressed())
