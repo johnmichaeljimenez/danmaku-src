@@ -331,7 +331,7 @@ void GameUpdate(float dt)
 				DespawnBullet(&bullets[i]);
 		}
 
-		if (CurrentLevel->EndDialogue != NULL)
+		if (CurrentLevel->EndDialogue != NULL && CurrentLevel->EndDialogue != "")
 			DialogueShow(CurrentLevel->EndDialogue, EndLevel);
 		else
 			EndLevel();
