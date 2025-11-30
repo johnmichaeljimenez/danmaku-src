@@ -18,6 +18,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 
+#include "main.h"
 #include "flags.h"
 #include "textutils.h"
 #include "tween.h"
