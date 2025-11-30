@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Web Game (Edge)",
+            "type": "msedge",
+            "request": "launch",
+            "url": "http://127.0.0.1:5500/dist/index.html",
+            "webRoot": "${workspaceFolder}/src",
+            "sourceMaps": true,
+            "sourceMapPathOverrides": {
+                "webpack:///./src/*": "${webRoot}/*",
+                "*": "${webRoot}/*"
+            },
+            "preLaunchTask": "Build Web"
+        }
+    ]
+}
