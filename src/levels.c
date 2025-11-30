@@ -40,13 +40,15 @@ int LevelIndex;
 
 void OnLevelStart()
 {
-	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", 
+	const char* bossScript = 
 	#ifdef TEST_MODE
 		"level_test"
 	#else
-		LevelIndex == 0? "level_tutorial" : TextFormat("level_%d", LevelIndex)
+		LevelIndex == 0? "level_tutorial" : TextFormat("level_%d", LevelIndex);
 	#endif
-	);
+
+	RootBullet = SpawnBullet((Vector2){VIRTUAL_WIDTH * 0.5f, 0}, -90, false, "enemy_boss", bossScript);
+	TraceLog(LOG_INFO, "Spawned boss %s", bossScript);
 
 	RootBullet->IsRoot = true;
 	RootBullet->IgnoreHit = true;
@@ -54,11 +56,12 @@ void OnLevelStart()
 
 void SetLevel(int index)
 {
+	TraceLog(LOG_INFO, "Loaded level %d", index);
 	LevelIndex = index;
 	CurrentLevel = &Levels[index];
 	levelTimer = 0;
 
-	if (CurrentLevel->StartDialogue != NULL)
+	if (CurrentLevel->StartDialogue != NULL && CurrentLevel->StartDialogue != "")
 	{
 		if (index == 0)
 		{
