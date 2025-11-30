@@ -23,7 +23,7 @@ static void OnCutsceneTimerDone(void)
 
 void OnEndLevel(void)
 {
-	finishedGame = LevelIndex >= LEVEL_COUNT;
+	finishedGame = LevelIndex >= LEVEL_COUNT-1;
 	EndGame(player.IsAlive);
 }
 
