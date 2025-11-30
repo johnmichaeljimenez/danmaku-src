@@ -2,7 +2,7 @@
 
 #include "main.h"
 
-#define VIRTUAL_WIDTH 720
+#define VIRTUAL_WIDTH 1080
 #define VIRTUAL_HEIGHT 1280
 
 void InitScreen(void);
