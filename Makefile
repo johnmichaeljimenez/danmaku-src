@@ -27,7 +27,12 @@ LDFLAGS = $(RAYLIB_SRC)/libraylib.web.a \
           --preload-file assets \
           -s INITIAL_MEMORY=67108864 \
           -s MAX_WEBGL_VERSION=2 \
-          --shell-file shell.html
+          --shell-file shell.html \
+          -s ASSERTIONS=2 \
+          -g4 \
+          --source-map-base http://127.0.0.1:5500/dist/ \
+          -s WASM=1 \
+          -s STACK_OVERFLOW_CHECK=2
 
 
 # Default rule
