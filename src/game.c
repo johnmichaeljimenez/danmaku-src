@@ -107,30 +107,30 @@ void GameUpdate(float dt)
 		}
 	}
 
-	if (IsKeyPressed(KEY_P))
+	if (IsInputPressed(KEY_P))
 	{
 		DialogueSkip();
 	}
 
-	if (IsKeyPressed(KEY_K))
+	if (IsInputPressed(KEY_K))
 	{
 		RestartGame();
 		return;
 	}
 
-	if (IsKeyPressed(KEY_M))
+	if (IsInputPressed(KEY_M))
 	{
 		EndLevel();
 		return;
 	}
 
-	if (IsKeyPressed(KEY_N))
+	if (IsInputPressed(KEY_N))
 	{
 		HitPlayer();
 		return;
 	}
 
-	if (IsKeyPressed(KEY_B))
+	if (IsInputPressed(KEY_B))
 	{
 		DialogueShow("tutorial-retry-2", NULL);
 		return;
@@ -159,14 +159,14 @@ void GameUpdate(float dt)
 		{
 			bool isShooting = player.ImmuneTime <= 0; // IsKeyDown(KEY_SPACE);
 
-			if (IsKeyDown(KEY_A))
+			if (IsInputDown(KEY_A))
 				inputMovement.x = -1;
-			else if (IsKeyDown(KEY_D))
+			else if (IsInputDown(KEY_D))
 				inputMovement.x = 1;
 
-			if (IsKeyDown(KEY_W))
+			if (IsInputDown(KEY_W))
 				inputMovement.y = -1;
-			else if (IsKeyDown(KEY_S))
+			else if (IsInputDown(KEY_S))
 				inputMovement.y = 1;
 
 			if (IsPointerDown())

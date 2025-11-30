@@ -33,7 +33,7 @@ void MenuUpdate(float dt)
 		tweenDelay += dt;
 	}
 
-	if (IsKeyPressed(KEY_SPACE) || IsPointerHold(dt))
+	if (IsInputPressed(KEY_SPACE) || IsPointerHold(dt))
 		GoToGame(0);
 }
 
