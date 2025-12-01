@@ -155,7 +155,8 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
             .Size = 16,
             .HP = 500,
             .IsBoss = true,
-            .FixedRotation = true
+            .FixedRotation = true,
+            .Flags = BULLET_FLAGS_NONE
         },
         {
             .ID = "bullet_player_basic",

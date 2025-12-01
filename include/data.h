@@ -9,6 +9,12 @@ typedef struct Bullet Bullet;
 typedef struct BulletScript BulletScript;
 typedef struct Animation Animation;
 
+typedef enum BulletFlags
+{
+	BULLET_FLAGS_NONE = 0,
+	BULLET_FLAGS_FIXED_SPRITE_DIRECTION = 1
+} BulletFlags;
+
 typedef struct BulletType
 {
 	bool IsBoss;
@@ -20,6 +26,8 @@ typedef struct BulletType
 	const char *ScriptName;
 	const char *AnimationName;
 	const char* SFXName;
+	
+	BulletFlags Flags;
 } BulletType;
 
 typedef struct Bullet
