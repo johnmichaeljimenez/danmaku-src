@@ -3,7 +3,7 @@
 #include "main.h"
 #define BULLET_COUNT 8192
 #define BULLET_TYPE_COUNT 512
-#define VFX_COUNT 2048
+#define VFX_COUNT 8192
 
 typedef struct Bullet Bullet;
 typedef struct BulletScript BulletScript;

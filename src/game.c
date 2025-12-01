@@ -38,16 +38,26 @@ void ClearInput()
 	lastPointerSet = false;
 }
 
-static void EndLevel()
+static void ClearBulletsEnd()
 {
 	for (int i = 0; i < BULLET_COUNT; i++)
 	{
 		if (!bullets[i].IsAlive)
 			continue;
-
-		if (!bullets[i].FromPlayer)
-			DespawnBullet(&bullets[i]);
+		
+		VFX *bvfx = SpawnVFX(bullets[i].Position, bullets[i].Animation->Clip->Frames[bullets[i].Animation->FrameIndex], bullets[i].Angle, 1.0f);
+		
+		TweenManager_AddFloatFrom(&bvfx->Scale, 1, 2, 0.4f, EASING_EASEOUTQUAD, TextFormat("VFX-BulletEndS-%d", i), NULL);
+		TweenManager_AddFloatFrom(&bvfx->Alpha, 1, 0, 0.3f, EASING_EASEOUTQUAD, TextFormat("VFX-BulletEndA-%d", i), NULL);
+		
+		// if (!bullets[i].FromPlayer)
+		DespawnBullet(&bullets[i]);
 	}
+}
+
+static void EndLevel()
+{
+	ClearBulletsEnd();
 
 	IsCutscene = true;
 	TweenManager_AddFloatFrom(&cutsceneTimer, 1, 0, 2, EASING_LINEAR, "CutsceneTimer", OnCutsceneTimerDone);
@@ -322,14 +332,7 @@ void GameUpdate(float dt)
 
 	if (endedLevel)
 	{
-		for (int i = 0; i < BULLET_COUNT; i++)
-		{
-			if (!bullets[i].IsAlive)
-				continue;
-
-			if (!bullets[i].FromPlayer)
-				DespawnBullet(&bullets[i]);
-		}
+		ClearBulletsEnd();
 
 		if (CurrentLevel->EndDialogue != NULL && CurrentLevel->EndDialogue != "")
 			DialogueShow(CurrentLevel->EndDialogue, EndLevel);
