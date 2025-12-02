@@ -3,7 +3,7 @@
 
 Bullet* _spawnBullet(Bullet* from, int x, int y, int d, const char *ID1, const char *ID2, float dt)
 {
-    Bullet *b2 = SpawnBullet((Vector2){x, y}, d, false, ID1, ID2);
+    Bullet *b2 = SpawnBullet((Vector2){x, y}, d - 90, false, ID1, ID2);
     return b2;
 }
 

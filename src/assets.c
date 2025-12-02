@@ -83,7 +83,7 @@ Texture2D GetSprite(const char *name)
 {
 	for (int i = 0; i < SPRITE_PATH_COUNT; i++)
 	{
-		if (strcmp(sprites[i].key, name) == 0)
+		if (TextIsEqual(sprites[i].key, name) == 0)
 		{
 			TraceLog(LOG_INFO, sprites[i].key);
 			return sprites[i].texture;
