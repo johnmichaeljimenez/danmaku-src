@@ -168,7 +168,7 @@ opstart:
                 sinf(targetDir * DEG2RAD) * ins.arg3,
             };
 
-            b2 = _spawnBullet(b, b->Position.x + offset.x, b->Position.y + offset.y, 0, ins.ID1, ins.ID2, dt);
+            b2 = _spawnBullet(b, b->Position.x + offset.x, b->Position.y + offset.y, targetDir, ins.ID1, ins.ID2, dt);
             if (b2 == NULL)
                 break;
 
@@ -187,7 +187,7 @@ opstart:
                 sinf(targetDir * DEG2RAD),
             };
 
-            b2 = _spawnBullet(b, b->Position.x + offset.x + ins.arg1, b->Position.y + offset.y + ins.arg2, 0, ins.ID1, ins.ID2, dt);
+            b2 = _spawnBullet(b, b->Position.x + offset.x + ins.arg1, b->Position.y + offset.y + ins.arg2, targetDir, ins.ID1, ins.ID2, dt);
             if (b2 == NULL)
                 break;
 
