@@ -367,7 +367,7 @@ void GameRender(float dt)
 
 		DrawSprite(
 			b->Type->HasAnimation?	b->Animation->Clip->Frames[b->Animation->FrameIndex] : b->Frame,
-			b->Position, b->Type->FixedRotation? 0 : b->Angle, b->IgnoreHit? DARKGRAY : WHITE
+			b->Position, b->Type->FixedRotation? 0 : -b->Angle, b->IgnoreHit? DARKGRAY : WHITE
 		);
 	}
 
