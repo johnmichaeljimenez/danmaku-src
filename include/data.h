@@ -26,6 +26,7 @@ typedef struct BulletType
 	const char *ScriptName;
 	const char *AnimationName;
 	const char* SFXName;
+	bool HasAnimation;
 	
 	BulletFlags Flags;
 } BulletType;
@@ -33,6 +34,7 @@ typedef struct BulletType
 typedef struct Bullet
 {
 	BulletType *Type;
+	Texture2D Frame;
 	Animation *Animation;
 	BulletScript *Script;
 

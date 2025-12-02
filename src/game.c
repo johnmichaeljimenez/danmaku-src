@@ -365,7 +365,10 @@ void GameRender(float dt)
 		if (!b->IsAlive)
 			continue;
 
-		DrawSprite(b->Animation->Clip->Frames[b->Animation->FrameIndex], b->Position, b->Type->FixedRotation? 0 : b->Angle, b->IgnoreHit? DARKGRAY : WHITE);
+		DrawSprite(
+			b->Type->HasAnimation?	b->Animation->Clip->Frames[b->Animation->FrameIndex] : b->Frame,
+			b->Position, b->Type->FixedRotation? 0 : b->Angle, b->IgnoreHit? DARKGRAY : WHITE
+		);
 	}
 
 	// if (player.TweenHitTimer > 0)

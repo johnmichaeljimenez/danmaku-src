@@ -56,6 +56,7 @@ void DespawnBullet(Bullet *b)
 
     b->IsAlive = false;
     RemoveAnimation(b->Animation);
+    b->Animation = NULL;
 }
 
 Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulletType, const char *scriptOverride)
@@ -90,7 +91,10 @@ Bullet *SpawnBullet(Vector2 pos, float angle, bool fromPlayer, const char *bulle
             b->TotalCount = 0;
             b->RepeatTarget = -1;
             
-            b->Animation = CreateAnimation(b->Type->AnimationName);
+            if (b->Type->HasAnimation)
+                b->Animation = CreateAnimation(b->Type->AnimationName);
+            else
+                b->Frame = GetSprite(b->Type->AnimationName); //TODO: optimize
 
             const char *scriptID = scriptOverride == NULL ? b->Type->ScriptName : scriptOverride;
             for (int j = 0; j < BULLET_SCRIPT_COUNT; j++)
@@ -176,6 +180,7 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
             .ScriptName = "bullet_enemy_basic",
             .AnimationName = "EnemyBulletDefault",
             .Size = 14,
-            .SFXName = SFX_GENERIC_FIRE
+            .SFXName = SFX_GENERIC_FIRE,
+            .FixedRotation = true,
         }
     };
