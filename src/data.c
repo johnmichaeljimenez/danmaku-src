@@ -160,12 +160,13 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
             .HP = 500,
             .IsBoss = true,
             .FixedRotation = true,
-            .Flags = BULLET_FLAGS_NONE
+            .Flags = BULLET_FLAGS_NONE,
+            .HasAnimation = true
         },
         {
             .ID = "bullet_player_basic",
             .ScriptName = "bullet_player_basic",
-            .AnimationName = "PlayerBulletDefault",
+            .AnimationName = SPRITE_BULLET_DEFAULT,
             .Size = 16
         },
         {
@@ -178,7 +179,7 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
         },
         {   .ID = "bullet_enemy_basic",
             .ScriptName = "bullet_enemy_basic",
-            .AnimationName = "EnemyBulletDefault",
+            .AnimationName = SPRITE_BULLET_CIRCLE_RED,
             .Size = 14,
             .SFXName = SFX_GENERIC_FIRE,
             .FixedRotation = true,
