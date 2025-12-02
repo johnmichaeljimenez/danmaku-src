@@ -9,7 +9,7 @@ OP_SET_VEL	0	0
 OP_SET_HIT	1
 OP_WAIT	60
 OP_REPEAT	24	4
-OP_PATT_RANDOM	0	0	100	400	0	360	0	0	bullet_enemy_basic	blank
+OP_PATT_RANDOM	0	0	100	400	0	360	0	0	bullet_enemy_pointed	blank
 OP_WAIT	60
 
 OP_REPEAT	8	0

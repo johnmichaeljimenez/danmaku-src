@@ -183,5 +183,12 @@ BulletType bulletTypes[BULLET_TYPE_COUNT] =
             .Size = 14,
             .SFXName = SFX_GENERIC_FIRE,
             .FixedRotation = true,
+        },
+        {   .ID = "bullet_enemy_pointed",
+            .ScriptName = "bullet_enemy_pointed",
+            .AnimationName = SPRITE_BULLET_POINTED_RED,
+            .Size = 14,
+            .SFXName = SFX_GENERIC_FIRE,
+            .FixedRotation = false,
         }
     };
