@@ -205,8 +205,8 @@ void GameUpdate(float dt)
 				if (player.FireTimer >= player.FireRate)
 				{
 					player.FireTimer = 0;
-					SpawnBullet((Vector2){player.Position.x - 24, player.Position.y}, 90, true, "bullet_player_basic", NULL);
-					SpawnBullet((Vector2){player.Position.x + 24, player.Position.y}, 90, true, "bullet_player_basic", NULL);
+					SpawnBullet((Vector2){player.Position.x - 24, player.Position.y}, -90, true, "bullet_player_basic", NULL);
+					SpawnBullet((Vector2){player.Position.x + 24, player.Position.y}, -90, true, "bullet_player_basic", NULL);
 					
 					PlaySFXVaried(SFX_PLAYER_FIRE, 0.05f, 1.0f);
 				}
