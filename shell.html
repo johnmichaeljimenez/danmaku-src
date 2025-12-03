@@ -48,6 +48,7 @@
             left: 50%;
             pointer-events: none;
             transform: translate(-50%, -50%);
+            display: none;
         }
     </style>
 
@@ -115,7 +116,10 @@
         const canvas = document.getElementById("canvas");
         const target = document.getElementById("ui-container");
 
-        setTimeout(() => resizeToAspect(target, canvas, 9, 16), 500);
+        setTimeout(() => {
+            resizeToAspect(target, canvas, 9, 16);
+            target.style.display = "block";
+        }, 500);
     </script>
 
     {{{ SCRIPT }}}
