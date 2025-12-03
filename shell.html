@@ -40,7 +40,7 @@
             background: black;
         }
 
-        
+
         #ui-container {
             /* background: rgba(0, 150, 255, 0.3); */
             position: absolute;
@@ -49,6 +49,10 @@
             pointer-events: none;
             transform: translate(-50%, -50%);
             display: none;
+        }
+
+        .ui {
+            pointer-events: auto;
         }
     </style>
 
@@ -65,7 +69,7 @@
 <body>
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
     <div id="ui-container">
-        
+        <!-- <button class="ui" style="margin: 12px;">Test Button</button> -->
     </div>
     <p id="output"></p>
 
@@ -91,6 +95,14 @@
             element.style.height = `${h}px`;
         }
 
+        function resizeUI() {
+            const canvas = document.getElementById("canvas");
+            const target = document.getElementById("ui-container");
+
+            resizeToAspect(target, canvas, 9, 16);
+            target.style.display = "block";
+        };
+
         var Module = {
             print: (function () {
                 var element = document.getElementById('output');
@@ -112,14 +124,6 @@
                 return canvas;
             })()
         };
-        
-        const canvas = document.getElementById("canvas");
-        const target = document.getElementById("ui-container");
-
-        setTimeout(() => {
-            resizeToAspect(target, canvas, 9, 16);
-            target.style.display = "block";
-        }, 500);
     </script>
 
     {{{ SCRIPT }}}
