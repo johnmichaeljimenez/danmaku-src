@@ -39,6 +39,16 @@
             object-fit: contain;
             background: black;
         }
+
+        
+        #ui-container {
+            /* background: rgba(0, 150, 255, 0.3); */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+        }
     </style>
 
     <script src="https://cdn.jsdelivr.net/gh/eligrey/FileSaver.js/dist/FileSaver.min.js"></script>
@@ -53,9 +63,33 @@
 
 <body>
     <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+    <div id="ui-container">
+        
+    </div>
     <p id="output"></p>
 
     <script>
+        function resizeToAspect(element, canvas, aspectW, aspectH) {
+            const cw = canvas.width;
+            const ch = canvas.height;
+
+            const widthByHeight = ch * (aspectW / aspectH);
+            const heightByWidth = cw * (aspectH / aspectW);
+
+            let w, h;
+
+            if (widthByHeight <= cw) {
+                w = widthByHeight;
+                h = ch;
+            } else {
+                w = cw;
+                h = heightByWidth;
+            }
+
+            element.style.width = `${w}px`;
+            element.style.height = `${h}px`;
+        }
+
         var Module = {
             print: (function () {
                 var element = document.getElementById('output');
@@ -77,6 +111,11 @@
                 return canvas;
             })()
         };
+        
+        const canvas = document.getElementById("canvas");
+        const target = document.getElementById("ui-container");
+
+        setTimeout(() => resizeToAspect(target, canvas, 9, 16), 500);
     </script>
 
     {{{ SCRIPT }}}
