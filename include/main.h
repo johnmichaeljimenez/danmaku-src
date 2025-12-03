@@ -26,6 +26,7 @@
 #include "gen_assets.h"
 #include "assets.h"
 
+#include "ui.h"
 #include "screen.h"
 #include "data.h"
 #include "bulletscripts.h"
