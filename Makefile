@@ -32,8 +32,8 @@ LDFLAGS = $(RAYLIB_SRC)/libraylib.web.a \
           -g4 \
           --source-map-base http://127.0.0.1:5500/dist/ \
           -s WASM=1 \
-          -s STACK_OVERFLOW_CHECK=2
-
+          -s STACK_OVERFLOW_CHECK=2 \
+          -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]'
 
 # Default rule
 all: $(TARGET)
