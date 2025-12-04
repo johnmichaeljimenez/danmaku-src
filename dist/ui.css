@@ -10,9 +10,15 @@
 
 .ui {
 	font-size: 1.2em;
-	pointer-events: auto;
+}
+
+.ui-screen {
+	display: none;
+	position: absolute;
+	width: 100%;
+	height: 100%;
 }
 
 .ui-button {
-	
+	pointer-events: auto;
 }

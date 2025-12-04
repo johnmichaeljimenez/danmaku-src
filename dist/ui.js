@@ -9,3 +9,11 @@ function initUI()
 		}
 	}
 }
+
+function showUIScreen(id)
+{
+	const screens = document.getElementsByClassName("ui-screen");
+	for (let i = 0; i < screens.length; i++) {
+		screens[i].style.display = screens[i].id === id? 'block' : 'none';
+	}
+}
