@@ -75,6 +75,8 @@ void ClearGameplayData()
 
 void GameStart(int level)
 {
+	ShowScreen("screen-game");
+
 	finishedGame = false;
 	playerDefaultBullet = GetSprite(SPRITE_BULLET_DEFAULT);
 	ClearGameplayData();

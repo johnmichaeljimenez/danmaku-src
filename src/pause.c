@@ -6,6 +6,7 @@ static float pauseFadeBG;
 
 void PauseShow()
 {
+	ShowScreen("screen-pause");
 	TweenManager_AddFloat(&pauseFadeBG, 0.8, 0.3, EASING_EASEINQUAD, "PauseBG", NULL);
 }
 

@@ -10,6 +10,7 @@ static bool doneTween;
 
 void MenuStart()
 {
+	ShowScreen("screen-menu");
     FadeScreen(0, true, NULL);
 
 	gameLogo = GetSprite(SPRITE_UI_GAME_LOGO);
@@ -32,15 +33,10 @@ void MenuUpdate(float dt)
 
 		tweenDelay += dt;
 	}
-
-	if (IsInputPressed(KEY_SPACE) || IsPointerHold(dt))
-		GoToGame(0);
 }
 
 void MenuRender(float dt)
 {
-	DrawText("[HOLD] to start", 250, VIRTUAL_HEIGHT * 0.8, 30, WHITE);
-
 	DrawSpriteScaled(gameLogo, (Vector2){VIRTUAL_WIDTH * 0.5f, 400}, 0, Lerp(1, 0.35, gameLogoTweenMain), (Color){255, 255, 255, 255 * gameLogoTweenMain});
 
 	BeginBlendMode(BLEND_ADDITIVE);

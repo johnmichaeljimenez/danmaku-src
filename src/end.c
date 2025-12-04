@@ -4,6 +4,7 @@ static bool isWinState;
 
 void GameEndShow(bool win)
 {
+	ShowScreen("screen-end");
 	isWinState = win;
 }
 
