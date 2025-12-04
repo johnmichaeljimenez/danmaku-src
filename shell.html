@@ -52,6 +52,7 @@
         }
 
         .ui {
+            font-size: 1.1em;
             pointer-events: auto;
         }
     </style>
@@ -72,6 +73,7 @@
     </div>
     <p id="output"></p>
 
+    <script type="text/javascript", src="ui.js"></script>
     <script>
         function resizeToAspect(element, canvas, aspectW, aspectH) {
             const cw = canvas.width;
@@ -128,6 +130,9 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('ui-container').innerHTML = data;
+            }).
+            then(()=>{
+                initUI();
             });
     </script>
 
