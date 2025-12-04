@@ -6,3 +6,4 @@ settings.json
 gen_*.c
 gen_assets.h
 !dist/ui.html
+!dist/ui.js
