@@ -11,7 +11,7 @@ void StartUpdate(float dt)
 {
 	if (IsPointerPressed())
 	{
-   		emscripten_run_script("resizeUI();");
+		InitJSUI();
 		started = true;
 		InitAudio();
 		MenuStart();
