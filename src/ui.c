@@ -8,6 +8,14 @@ EMSCRIPTEN_KEEPALIVE void OnButtonClick(const char* buttonID, int data)
 	{
 		GoToGame(0);
 	}
+	else if (TextIsEqual(buttonID, "btnPauseResume"))
+	{
+		UnpauseGame();
+	}
+	else if (TextIsEqual(buttonID, "btnPauseQuit"))
+	{
+		GoToMenu();
+	}
 }
 
 void InitJSUI()
