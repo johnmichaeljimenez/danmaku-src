@@ -10,23 +10,25 @@ void GameEndShow(bool win)
 
 void GameEndUpdate(float dt)
 {
-	if (IsPointerHold(dt) || IsInputPressed(KEY_SPACE))
-	{
-		GameEndHide();
+	
+}
 
-		if (finishedGame)
-		{
-			GoToMenu();
-		}
-		else if (isWinState)
-		{
-			GoToGame(LevelIndex+1);
-		}
-		else
-		{
-			RetryCount++;
-			RestartGame();
-		}
+void OnEndClick()
+{
+	GameEndHide();
+
+	if (finishedGame)
+	{
+		GoToMenu();
+	}
+	else if (isWinState)
+	{
+		GoToGame(LevelIndex+1);
+	}
+	else
+	{
+		RetryCount++;
+		RestartGame();
 	}
 }
 

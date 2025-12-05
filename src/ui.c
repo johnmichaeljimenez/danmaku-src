@@ -16,6 +16,10 @@ EMSCRIPTEN_KEEPALIVE void OnButtonClick(const char* buttonID, int data)
 	{
 		GoToMenu();
 	}
+	else if (TextIsEqual(buttonID, "btnEndContinue"))
+	{
+		OnEndClick();
+	}
 }
 
 void InitJSUI()
