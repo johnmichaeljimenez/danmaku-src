@@ -281,7 +281,7 @@ void GameUpdate(float dt)
 						e->HP--;
 						DespawnBullet(b);
 
-						VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 0.2f);
+						VFX *vfx = SpawnVFX(e->Position, e->Type->HasAnimation? e->Animation->Clip->Frames[e->Animation->FrameIndex] : e->Frame, 0, 0.2f);
 						vfx->Additive = true;
 
 						if (e->HP == 0)
