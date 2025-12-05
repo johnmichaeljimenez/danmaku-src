@@ -286,11 +286,9 @@ void GameUpdate(float dt)
 
 						if (e->HP == 0)
 						{
-							DespawnBullet(e);
-
 							if (e->Type->IsBoss)
 							{
-								VFX *vfx = SpawnVFX(e->Position, e->Type->HasAnimation? e->Animation->Clip->Frames[e->Animation->FrameIndex] : e->Frame, 0, 1.0);
+								vfx = SpawnVFX(e->Position, e->Type->HasAnimation? e->Animation->Clip->Frames[e->Animation->FrameIndex] : e->Frame, 0, 1.0);
 								vfx->Additive = true;
 
 								TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
@@ -306,6 +304,8 @@ void GameUpdate(float dt)
 								TweenManager_AddFloatFrom(&vfx->Alpha, 0.2, 0, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-1", vfx->ID), NULL);
 								TweenManager_AddFloatFrom(&vfx->Scale, 1, 2, vfx->Lifetime, EASING_EASEINQUAD, TextFormat("VFX-Enemy-%d-2", vfx->ID), NULL);
 							}
+
+							DespawnBullet(e);
 						}
 						else
 						{

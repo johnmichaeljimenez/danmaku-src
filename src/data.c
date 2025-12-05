@@ -55,7 +55,10 @@ void DespawnBullet(Bullet *b)
         return;
 
     b->IsAlive = false;
-    RemoveAnimation(b->Animation);
+
+    if (b->Animation != NULL)
+        RemoveAnimation(b->Animation);
+        
     b->Animation = NULL;
 }
 
@@ -145,7 +148,7 @@ VFX *SpawnVFX(Vector2 pos, Texture2D sprite, float dir, float lifetime)
         }
     }
 
-        TraceLog(LOG_ERROR, "OUT OF VFX");
+    TraceLog(LOG_ERROR, "OUT OF VFX");
     return NULL;
 }
 
