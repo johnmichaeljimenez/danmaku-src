@@ -12,7 +12,7 @@ void PauseShow()
 
 void PauseHide()
 {
-	
+	ShowScreen("screen-game");
 }
 
 void PauseUpdate(float dt)
