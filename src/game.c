@@ -45,7 +45,7 @@ static void ClearBulletsEnd()
 		if (!bullets[i].IsAlive)
 			continue;
 		
-		VFX *bvfx = SpawnVFX(bullets[i].Position, bullets[i].Animation->Clip->Frames[bullets[i].Animation->FrameIndex], bullets[i].Angle, 1.0f);
+		VFX *bvfx = SpawnVFX(bullets[i].Position, bullets[i].Type->HasAnimation? bullets[i].Animation->Clip->Frames[bullets[i].Animation->FrameIndex] : bullets[i].Frame, bullets[i].Angle, 1.0f);
 		
 		TweenManager_AddFloatFrom(&bvfx->Scale, 1, 2, 0.4f, EASING_EASEOUTQUAD, TextFormat("VFX-BulletEndS-%d", i), NULL);
 		TweenManager_AddFloatFrom(&bvfx->Alpha, 1, 0, 0.3f, EASING_EASEOUTQUAD, TextFormat("VFX-BulletEndA-%d", i), NULL);
@@ -290,7 +290,7 @@ void GameUpdate(float dt)
 
 							if (e->Type->IsBoss)
 							{
-								VFX *vfx = SpawnVFX(e->Position, e->Animation->Clip->Frames[e->Animation->FrameIndex], 0, 1.0);
+								VFX *vfx = SpawnVFX(e->Position, e->Type->HasAnimation? e->Animation->Clip->Frames[e->Animation->FrameIndex] : e->Frame, 0, 1.0);
 								vfx->Additive = true;
 
 								TweenManager_AddFloatFrom(&vfx->Scale, 1, 10, 0.8f, EASING_EASEOUTQUAD, "VFX-BossDeath1", NULL);
