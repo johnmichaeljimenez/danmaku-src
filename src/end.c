@@ -4,8 +4,22 @@ static bool isWinState;
 
 void GameEndShow(bool win)
 {
-	ShowScreen("screen-end");
 	isWinState = win;
+	ShowScreen("screen-end");
+
+	// if (finishedGame)
+	// {
+	// 	ShowScreen("screen-end");
+	// }
+	// else if (isWinState)
+	// {
+	// 	ShowScreen("screen-end-win");
+	// }
+	// else
+	// {
+	// 	RetryCount++;
+	// 	ShowScreen("screen-end-lose");
+	// }
 }
 
 void GameEndUpdate(float dt)
@@ -36,15 +50,15 @@ void GameEndRender(float dt)
 {
 	if (finishedGame)
 	{
-		DrawText("Congratulations! You win the game!\n[Hold] to exit", 100, 300, 40, GREEN);
+		
 	}
 	else if (isWinState)
 	{
-		DrawText("You win!\n[Hold] to exit", 100, 300, 40, GREEN);
+		
 	}
 	else
 	{
-		DrawText("Game Over\n[Hold] to restart", 100, 300, 40, RED);
+		
 	}
 }
 
