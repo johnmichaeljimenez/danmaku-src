@@ -22,3 +22,12 @@
 .ui-button {
 	pointer-events: auto;
 }
+
+.bg-blur {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	backdrop-filter: blur(5px) brightness(0.6);
+}

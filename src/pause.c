@@ -2,12 +2,9 @@
 
 bool IsGamePaused;
 
-static float pauseFadeBG;
-
 void PauseShow()
 {
 	ShowScreen("screen-pause");
-	TweenManager_AddFloat(&pauseFadeBG, 0.8, 0.3, EASING_EASEINQUAD, "PauseBG", NULL);
 }
 
 void PauseHide()
@@ -23,6 +20,5 @@ void PauseUpdate(float dt)
 
 void PauseRender(float dt)
 {
-	DrawRectangle(0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT, (Color){0,0,0, 100 * pauseFadeBG});
 	DrawText("GAME PAUSED", 4, 4, 30, WHITE);
 }
