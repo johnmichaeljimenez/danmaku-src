@@ -32,6 +32,9 @@ typedef enum OpType
 	OP_PATT_RING, //1 - min dir, 2 - max dir, 3 - dist, 4 - vel, ID1 - bullet id, ID2 - scriptid
 	OP_PATT_RANDOM, //1 - x, 2 - y, 3 - min vel, 4 - max vel, 5 - min dir, 6 - max dir, ID1 - bullet id, ID2 - scriptid
 	OP_PATT_CURTAIN, //1 - x1, 2 - y1, 3 - x2, 4 - y2, 5 - vel
+
+
+	OP_VEL_STRAIGHT, //1 - speed
 } OpType;
 
 typedef enum BulletScriptFlags

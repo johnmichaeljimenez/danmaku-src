@@ -208,6 +208,13 @@ opstart:
 
             b2->Velocity = Vector2Scale(norm, ins.arg5);
             break;
+
+        case OP_VEL_STRAIGHT:
+            b->Velocity = Vector2Add(b->Velocity, (Vector2){
+                .x = cosf(b->Angle * DEG2RAD) * ins.arg1,
+                .y = sinf(b->Angle * DEG2RAD) * ins.arg1
+            });
+            break;
         }
 
         bool next = true;
